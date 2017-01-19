@@ -1,0 +1,53 @@
+{
+	"extends": ["eslint:all", "plugin:react/recommended", "airbnb"],
+	"parserOptions": {
+		"ecmaVersion": 6,
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"jsx": true
+		}
+	},
+	"globals": {
+		"alert": true,
+		"console": true,
+		"document": true,
+		"fetch": true,
+		"firebase": true,
+		"jQuery": true,
+		"Promise": true,
+		"React": true,
+		"ReactDOM": true
+	},
+	"rules": {
+		"capitalized-comments": 0,
+		"class-methods-use-this": 0,
+		"comma-dangle": 0,
+		"dot-location": 0,
+		"eol-last": 0,
+		"import/extensions": 0,
+		"import/no-extraneous-dependencies": 0,
+		"import/no-unresolved": 0,
+		"indent": [1, "tab"],
+		"jsx-a11y/no-static-element-interactions": 0,
+		"linebreak-style": 0,
+		"max-len": 0,
+		"new-cap": 2,
+		"no-alert": 0,
+		"no-console": 0,
+		"no-extend-native": 0,
+		"no-restricted-syntax": [0, "ForInStatement"],
+		"no-tabs": 0,
+		"padded-blocks": 0,
+		"prefer-destructuring": 0,
+		"quote-props": [2, "as-needed"],
+		"react/jsx-indent": [2, "tab"],
+		"react/prefer-stateless-function": 0,
+		"react/prop-types": 0,
+		"space-before-function-paren": 0,
+		"quotes": [1, "single", {
+			"avoidEscape": true,
+			"allowTemplateLiterals": true
+		}]
+	},
+	"plugins": ["react"]
+}

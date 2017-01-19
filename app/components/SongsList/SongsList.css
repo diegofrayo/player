@@ -1,0 +1,11 @@
+.songs-list-wrapper{
+	overflow: auto;
+}
+
+.songs-list-info{
+	margin-bottom: @base-space/2;
+	text-align: center;
+	color: @light-yellow;
+	font-weight: 700;
+	font-size: @font-size-medium;
+}

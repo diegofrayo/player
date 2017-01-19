@@ -1,0 +1,11 @@
+.search-input-wrapper{
+	height: 50px;
+}
+
+.search-results-react-wrapper{
+	height: 95%;
+}
+
+.search-results-wrapper{
+	height: ~'calc(100% - 50px)';
+}

@@ -1,0 +1,22 @@
+/* Less */
+@import 'variables.less';
+@import 'mixins.less';
+
+/* Util */
+@import 'reset.less';
+@import 'util.less';
+
+/* Components */
+@import '../components/FavoriteSong/FavoriteSong.less';
+@import '../components/Player/Player.less';
+@import '../components/PlaylistSong/PlaylistSong.less';
+@import '../components/SearchSong/SearchSong.less';
+@import '../components/Song/Song.less';
+@import '../components/SongsList/SongsList.less';
+
+/* Views */
+@import '../views/App/App.less';
+@import '../views/Favorites/Favorites.less';
+@import '../views/MainMenu/MainMenu.less';
+@import '../views/Playlist/Playlist.less';
+@import '../views/Searches/Searches.less';
