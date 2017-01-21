@@ -44,7 +44,7 @@ class PlaylistSong extends Song {
 								{song.votes}
 							</span>
 							<button className={songStyles.songButton} onClick={this.removeSongFromTop}>
-								<i className="material-icons">arrow_upward</i>
+								<i className="material-icons">queue_play_next</i>
 							</button>
 							<button className={songStyles.songButton} onClick={this.addVoteToSong}>
 								<i className="material-icons">plus_one</i>

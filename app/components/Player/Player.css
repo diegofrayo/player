@@ -14,7 +14,8 @@
 	&__opened{
 		composes: player;
 		background-color: background-color-dark-2;
-		height: 90%;
+		/* TODO */
+		height: calc(100% - 50px);
 	}
 }
 
@@ -60,7 +61,7 @@
 
 .songTitle{
 	composes: songDetail;
-	composes: cut-text from 'styles/util.css';
+	composes: u-cut-text from 'styles/util.css';
 	margin-top: 10px;
 
 	&__opened{

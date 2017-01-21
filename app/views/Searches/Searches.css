@@ -2,7 +2,7 @@
 @value base-space from colors;
 
 .inputContainer{
-	height: 50px;
-	margin: base-space auto 0;
-	width: 95%;
+	/* TODO */
+	/* margin: base-space-5px auto 0; */
+	margin: 15px 10px 0;
 }

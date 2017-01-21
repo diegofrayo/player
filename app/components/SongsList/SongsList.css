@@ -6,7 +6,6 @@
 	font-size: font-size-medium;
 	font-weight: 700;
 	/* TODO */
-	/* margin: base-space/2 auto; */
-	margin: 10px 0;
-	text-align: center;
+	/* margin: base-space/2 10px; */
+	margin: 10px;
 }

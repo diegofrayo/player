@@ -1,6 +1,6 @@
 {
 	"dev": {
-		"dest_path": "./public/assets/player",
+		"dest_path": "./dist/assets/player",
 		"environment": "dev",
 		"firebase_api_key": "",
 		"firebase_auth_domain": "",

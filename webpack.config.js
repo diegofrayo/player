@@ -8,7 +8,7 @@ module.exports = {
 	},
 	context: __dirname,
 	output: {
-		path: path.resolve(__dirname, 'public/assets/player/js'),
+		path: path.resolve(__dirname, 'dist/assets/player/js'),
 		filename: 'webpack-bundle.js'
 	},
 	eslint: {
@@ -18,7 +18,7 @@ module.exports = {
 		loaders: [{
 			test: /(\.js|.jsx)$/,
 			loader: 'babel',
-			exclude: /(node_modules|bower_components|public)/,
+			exclude: /(node_modules|bower_components|dist)/,
 			query: {
 				presets: ['es2015', 'stage-2', 'react']
 			},
@@ -26,7 +26,7 @@ module.exports = {
 		}, {
 			test: /(\.js|.jsx)$/,
 			loader: 'eslint-loader',
-			exclude: /(node_modules|bower_components|public)/
+			exclude: /(node_modules|bower_components|dist)/
 		}, {
 			test: /\.css$/,
 			loaders: [

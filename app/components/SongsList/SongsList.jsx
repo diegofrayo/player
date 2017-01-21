@@ -58,7 +58,10 @@ class SongsList extends React.Component {
 				return (
 					<div>
 						<p className={styles.songsListInfo}>
-							Número de favoritos: {songs.length}
+							<i className="material-icons">info</i>
+							<span>
+								Número de canciones: {songs.length}
+							</span>
 						</p>
 						{songsOutput}
 					</div>
@@ -71,7 +74,10 @@ class SongsList extends React.Component {
 				return (
 					<div>
 						<p className={styles.songsListInfo}>
-							Número de resultados: {songs.length}
+							<i className="material-icons">info</i>
+							<span>
+								Número de resultados: {songs.length}
+							</span>
 						</p>
 						{songsOutput}
 					</div>

@@ -45,7 +45,7 @@
 		}
 
 		&Title{
-			composes: cut-text from 'styles/util.css';
+			composes: u-cut-text from 'styles/util.css';
 			color: text-color-light-2;
 			font-size: font-size-normal;
 			font-weight: 700;

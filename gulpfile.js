@@ -64,7 +64,7 @@ function replaceEnvironmentVariables() {
 function createLocalServer() {
 
 	gulp.task('run-local-server', g.serve({
-		root: ['./public', './app', './bower_components'],
+		root: ['./dist', './app', './bower_components'],
 		port: 4567,
 		middleware: function(req, res, next) {
 			return historyApiFallback(req, res, next);
@@ -80,7 +80,7 @@ function createLocalServer() {
 //------------------- JS Tasks -----------------------
 gulp.task('build-js', () => {
 
-	let stream = gulp.src('./public/assets/player/js/webpack-bundle.js')
+	let stream = gulp.src('./dist/assets/player/js/webpack-bundle.js')
 		.pipe(g.rename('bundle.js'))
 		.pipe(replaceEnvironmentVariables());
 
@@ -140,7 +140,7 @@ gulp.task('build-html', () => {
 				starttag: '<!-- inject:vendor:{{ext}} -->',
 				transform: transform
 			}))
-			.pipe(gulp.dest('public/'))
+			.pipe(gulp.dest('dist/'))
 			.pipe(livereload());
 
 	} else {
