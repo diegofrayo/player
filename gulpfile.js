@@ -80,29 +80,23 @@ function createLocalServer() {
 //------------------- JS Tasks -----------------------
 gulp.task('build-js', () => {
 
-	return gulp.src(destPath + '/js/webpack-bundle.js')
+	let stream = gulp.src('./public/assets/player/js/webpack-bundle.js')
 		.pipe(g.rename('bundle.js'))
-		.pipe(replaceEnvironmentVariables())
-		.pipe(gulp.dest(destPath + '/js'))
-		.pipe(livereload());
+		.pipe(replaceEnvironmentVariables());
 
-});
+	if (environment === 'live') {
 
+		return stream
+			.pipe(g.uglify())
+			.pipe(gulp.dest(destPath + '/js'));
 
+	} else {
 
-//----------------------------------------------------
-//------------------- CSS Tasks ----------------------
-gulp.task('build-css', () => {
+		return stream
+			.pipe(gulp.dest(destPath + '/js'))
+			.pipe(livereload());
 
-	// return gulp.src('./app/styles/main.less')
-	// .pipe(g.less())
-	// 	.pipe(g.rename('styles.css'))
-	// 	.pipe(g.autoprefixer())
-	// 	.pipe(g.csslint('./config.csslint.json'))
-	// 	.pipe(g.csslint.reporter('csslint-xml'))
-	// 	.pipe(replaceEnvironmentVariables())
-	// 	.pipe(gulp.dest(destPath + '/css'))
-	// 	.pipe(livereload());
+	}
 
 });
 
@@ -113,11 +107,11 @@ gulp.task('build-css', () => {
 gulp.task('build-html', () => {
 
 	const transformJS = (filepath) => {
-		'<script src="' + filepath + '"></script>';
+		return '<script src="' + filepath + '"></script>';
 	};
 
 	const transformCSS = (filepath) => {
-		'<link href="' + filepath + '" rel="stylesheet"/>';
+		return '<link href="' + filepath + '" rel="stylesheet"/>';
 	};
 
 	const transform = (filepath) => {
@@ -133,47 +127,45 @@ gulp.task('build-html', () => {
 		read: false
 	};
 
-	return gulp.src('./app/index.html')
-		.pipe(g.inject(g.bowerFiles(opt), {
-			ignorePath: 'bower_components',
-			starttag: '<!-- inject:vendor:{{ext}} -->',
-			transform: transform
-		}))
-		.pipe(g.embedlr())
+	let stream = gulp.src('./app/index.html')
 		.pipe(g.htmlhint('./config.htmlhint.json'))
-		.pipe(g.htmlhint.reporter())
-		.pipe(replaceEnvironmentVariables())
-		.pipe(gulp.dest('public/'))
-		.pipe(livereload());
+		.pipe(g.htmlhint.reporter());
+
+	if (environment === 'dev') {
+
+		return stream
+			.pipe(g.embedlr())
+			.pipe(g.inject(g.bowerFiles(opt), {
+				ignorePath: 'bower_components',
+				starttag: '<!-- inject:vendor:{{ext}} -->',
+				transform: transform
+			}))
+			.pipe(gulp.dest('public/'))
+			.pipe(livereload());
+
+	} else {
+
+		var cssVendorSources =
+			'<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>';
+
+		var jsVendorSources =
+			`<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+			<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/react-router/4.0.0-0/react-router.min.js"></script>`;
+
+		return stream
+			.pipe(g.replace('<!-- INJECT:css -->', cssVendorSources))
+			.pipe(g.replace('<!-- INJECT:js -->', jsVendorSources))
+			.pipe(g.rename('player.html'))
+			.pipe(g.htmlmin(htmlminOpts))
+			.pipe(gulp.dest(destPath.replace('/assets/player', '') + '/templates'));
+
+	}
 
 });
-
-// gulp.task('build-html-live', function() {
-
-// 	var cssVendorSources =
-// 		'<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>' +
-// 		'<link rel="stylesheet" href="@@root_url/css/styles.min.css?tm=' + timestamp + '"/>';
-
-// 	var jsVendorSources =
-// 		'<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>' +
-// 		'<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>' +
-// 		'<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>' +
-// 		'<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.min.js"></script>' +
-// 		'<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.min.js"></script>' +
-// 		'<script src="https://cdnjs.cloudflare.com/ajax/libs/react-router/4.0.0-0/react-router.min.js"></script>' +
-// 		'<script src="@@root_url/js/bundle.min.js?tm=' + timestamp + '"></script>';
-
-// 	return gulp.src(['./app/index.html'])
-// 		.pipe(g.replace('<!-- INJECT:css -->', cssVendorSources))
-// 		.pipe(g.replace('<!-- INJECT:js -->', jsVendorSources))
-// 		.pipe(g.htmlhint('./config.htmlhint.json'))
-// 		.pipe(g.htmlhint.reporter())
-// 		.pipe(g.rename('player.html'))
-// 		.pipe(g.htmlmin(htmlminOpts))
-// 		.pipe(replaceEnvironmentVariables())
-// 		.pipe(gulp.dest(destLivePath + '/templates/'));
-
-// });
 
 
 
@@ -196,11 +188,9 @@ gulp.task('watch', () => {
 	gulp.start('build-dev');
 
 	gulp.watch('./app/index.html', ['build-html']);
-	gulp.watch(['./app/styles/*.less', './app/components/**/*.less', './app/views/**/*.less'], ['build-css']);
 	gulp.watch(destPath + '/js/webpack-bundle.js', ['build-js']);
 
 	createLocalServer();
-	gulp.start('copy-assets');
 
 });
 
@@ -217,8 +207,8 @@ gulp.task('build-dev', () => {
 
 	g.runSequence(
 		'build-js',
-		'build-css',
-		'build-html'
+		'build-html',
+		'copy-assets'
 	);
 
 });
@@ -227,5 +217,11 @@ gulp.task('build-live', () => {
 
 	environment = 'live';
 	destPath = settings[environment].dest_path;
+
+	g.runSequence(
+		'build-js',
+		'build-html',
+		'copy-assets'
+	);
 
 });

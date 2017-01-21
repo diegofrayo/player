@@ -3,6 +3,9 @@
 import APP from 'utils/app';
 import Song from 'components/Song/Song.jsx';
 
+import songStyles from 'components/Song/Song.css';
+import playlistSongStyles from './PlaylistSong.css';
+
 class PlaylistSong extends Song {
 
 	constructor() {
@@ -24,35 +27,32 @@ class PlaylistSong extends Song {
 		const song = this.props.song;
 
 		return (
-			<div className="item-song row">
-				<div className="item-song-child col-xs-12">
-					<div className="item-song-thumbnail-wrapper">
-						<img src={song.thumbnail} alt="song-thumbnail" className="item-song-thumbnail-img" />
-						<p className="position-right-bottom text-right item-song-thumbnail-duration">
+			<div className={`row ${songStyles.song}`}>
+				<div className={`col-xs-12 ${songStyles.songInner}`}>
+					<div className={songStyles.songThumbnailWrapper}>
+						<img src={song.thumbnail} alt="song-thumbnail" className={songStyles.songThumbnailImg} />
+						<p className={`text-right ${songStyles.songThumbnailDuration}`}>
 							{song.duration}
 						</p>
 					</div>
-					<div className="item-song-details-wrapper">
-						<p className="item-song-details-title cut-text" title={song.title}>
+					<div className={songStyles.songDetailsWrapper}>
+						<p className={songStyles.songDetailsTitle} title={song.title}>
 							{song.title}
 						</p>
-						<div className="item-song-buttons-wrapper text-center">
-							<span className="item-song-votes badge">
+						<div className="text-center">
+							<span className={`badge ${playlistSongStyles.song__playlistVotes}`}>
 								{song.votes}
 							</span>
-							<button onClick={this.removeSongFromTop}>
+							<button className={songStyles.songButton} onClick={this.removeSongFromTop}>
 								<i className="material-icons">arrow_upward</i>
 							</button>
-							{/* <button onClick={this.addSongToTop}>
-								<i className="material-icons">local_activity</i>
-							</button> */}
-							<button onClick={this.addVoteToSong}>
+							<button className={songStyles.songButton} onClick={this.addVoteToSong}>
 								<i className="material-icons">plus_one</i>
 							</button>
-							<button onClick={this.addSongToFavorites}>
+							<button className={songStyles.songButton} onClick={this.addSongToFavorites}>
 								<i className="material-icons">favorite</i>
 							</button>
-							<button onClick={this.removeSongFromPlaylist}>
+							<button className={songStyles.songButton} onClick={this.removeSongFromPlaylist}>
 								<i className="material-icons">clear</i>
 							</button>
 						</div>

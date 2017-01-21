@@ -2,7 +2,7 @@
 @value background-color-dark-2, player-height, text-color-light-1, text-color-light-2, font-size-medium, font-size-large, navbar-height from colors;
 
 .player{
-	composes: position-bottom from 'styles/util.css';
+	composes: u-position-bottom from 'styles/util.css';
 	background-color: background-color-dark-2;
 	height: player-height;
 	margin: 0;
@@ -10,12 +10,12 @@
 	transition-duration: 0.3s;
 	transition-property: height;
 	width: 100%;
-}
 
-.player__opened{
-	composes: player;
-	background-color: background-color-dark-2;
-	height: calc(100% - navbar-height);
+	&__opened{
+		composes: player;
+		background-color: background-color-dark-2;
+		height: 90%;
+	}
 }
 
 .expandButton{
@@ -26,11 +26,11 @@
 
 .contentWrapper{
 	margin: 0;
-}
 
-.contentWrapperOpened{
-	margin: 0 auto;
-	width: 95%;
+	&__opened{
+		margin: 0 auto;
+		width: 95%;
+	}
 }
 
 .songThumbnail{
@@ -38,43 +38,43 @@
 	margin: 5px auto;
 	max-width: 100%;
 	width: 50px;
-}
 
-.songThumbnailOpened{
-	height: 96px;
-	margin: 40px auto;
-	max-width: 100%;
-	width: 96px;
+	&__opened{
+		height: 96px;
+		margin: 40px auto;
+		max-width: 100%;
+		width: 96px;
+	}
 }
 
 .songDetail{
 	color: text-color-light-1;
 	display: block;
 	margin: 0;
-}
 
-.songDetail__opened{
-	composes: songDetail;
-	font-size: font-size-medium;
+	&__opened{
+		composes: songDetail;
+		font-size: font-size-medium;
+	}
 }
 
 .songTitle{
 	composes: songDetail;
 	composes: cut-text from 'styles/util.css';
 	margin-top: 10px;
-}
 
-.songTitle__opened{
-	composes: songTitle;
-	font-size: font-size-large;
+	&__opened{
+		composes: songTitle;
+		font-size: font-size-large;
+	}
 }
 
 .controlButtons{
 	color: text-color-light-2;
 	margin-top: 10px;
-}
 
-.controlButtons__opened{
-	composes: controlButtons;
-	font-size: 50px;
+	&__opened{
+		composes: controlButtons;
+		font-size: 50px;
+	}
 }

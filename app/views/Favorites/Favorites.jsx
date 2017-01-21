@@ -18,7 +18,7 @@ class Favorites extends React.Component {
 	componentDidMount() {
 
 		document.title = 'player | Favoritos';
-		document.getElementById('header-name').innerHTML = 'Favoritos';
+		document.getElementById('header-title').innerHTML = 'Favoritos';
 
 		APP.songs_storage.initFavoritesWatchers();
 
@@ -45,9 +45,7 @@ class Favorites extends React.Component {
 	render() {
 
 		return (
-			<div className="content row">
-				<SongsList songs-list={this.state.favoritesList} type="favorites" />
-			</div>
+			<SongsList songs-list={this.state.favoritesList} type="favorites" />
 		);
 
 	}

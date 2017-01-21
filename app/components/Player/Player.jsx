@@ -34,9 +34,9 @@ class Player extends React.Component {
 							<i className="material-icons">keyboard_arrow_down</i>
 						</button>
 					</div>
-					<div className={`row text-center ${styles.contentWrapperOpened}`}>
+					<div className={`row text-center ${styles.contentWrapper__opened}`}>
 						<div className="col-xs-12">
-							<img src="https://i.ytimg.com/vi/aP_-P_BS6KY/mqdefault.jpg" alt="thumbnail" className={styles.songThumbnailOpened} />
+							<img src="https://i.ytimg.com/vi/aP_-P_BS6KY/mqdefault.jpg" alt="thumbnail" className={styles.songThumbnail__opened} />
 						</div>
 						<div className="col-xs-12">
 							<p className={styles.songTitle__opened}>
@@ -47,8 +47,8 @@ class Player extends React.Component {
 							</p>
 						</div>
 						<div className="col-xs-12">
-							<i className={`material-icons material-icons--36 ${styles.controlButtons__opened}`}>play_arrow</i>
-							<i className={`material-icons material-icons--36 ${styles.controlButtons__opened}`}>skip_next</i>
+							<i className={`material-icons u-material-icons--36 ${styles.controlButtons__opened}`}>play_arrow</i>
+							<i className={`material-icons u-material-icons--36 ${styles.controlButtons__opened}`}>skip_next</i>
 						</div>
 					</div>
 				</div>
@@ -76,8 +76,8 @@ class Player extends React.Component {
 						</p>
 					</div>
 					<div className="col-xs-4 col-sm-3 text-center">
-						<i className={`material-icons material-icons--36 ${styles.controlButtons}`}>play_arrow</i>
-						<i className={`material-icons material-icons--36 ${styles.controlButtons}`}>skip_next</i>
+						<i className={`material-icons u-material-icons--36 ${styles.controlButtons}`}>play_arrow</i>
+						<i className={`material-icons u-material-icons--36 ${styles.controlButtons}`}>skip_next</i>
 					</div>
 				</div>
 			</div>

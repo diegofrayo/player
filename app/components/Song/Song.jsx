@@ -26,7 +26,7 @@ class Song extends React.Component {
 	render() {
 
 		return (
-			<div className="item-song row">{''}</div>
+			<div className="row">{''}</div>
 		);
 
 	}

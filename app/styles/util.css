@@ -1,66 +1,108 @@
-.pos-relative{
+.u-pos-relative{
 	position: relative;
 }
 
-.position-right-bottom{
+.u-position-right-bottom{
 	position: absolute;
 	bottom: 0;
 	right: 0;
 }
 
-.position-left-bottom{
+.u-position-left-bottom{
 	position: absolute;
 	bottom: 0;
 	left: 0;
 }
 
-.position-left-top{
+.u-position-left-top{
 	position: absolute;
 	top: 0;
 	left: 0;
 }
 
-.position-right-top{
+.u-position-right-top{
 	position: absolute;
 	top: 0;
 	right: 0;
 }
 
-.position-bottom{
+.u-position-bottom{
 	position: absolute;
 	bottom: 0;
 }
 
-.cut-text{
+.u-cut-text{
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
 }
 
-.material-icons--18{font-size: 18px;}
-.material-icons--24{font-size: 24px;}
-.material-icons--28{font-size: 28px;}
-.material-icons--36{font-size: 36px;}
-.material-icons--48{font-size: 48px;}
+.u-material-icons--18{
+	font-size: 18px;
+}
 
-.z-depth-0 {
+.u-material-icons--24{
+	font-size: 24px;
+}
+
+.u-material-icons--28{
+	font-size: 28px;
+}
+
+.u-material-icons--36{
+	font-size: 36px;
+}
+
+.u-material-icons--48{
+	font-size: 48px;
+}
+
+.u-z-depth-0 {
 	box-shadow: none !important;
 }
-.z-depth-1{
+
+.u-z-depth-1{
 	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
-.z-depth-1-half{
+
+.u-z-depth-1-half{
 	box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
 }
-.z-depth-2{
+
+.u-z-depth-2{
 	box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-.z-depth-3{
+
+.u-z-depth-3{
 	box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
-.z-depth-4{
+
+.u-z-depth-4{
 	box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22), 0 25px 55px 0 rgba(0, 0, 0, 0.21);
 }
-.z-depth-5{
+
+.u-z-depth-5{
 	box-shadow: 0 27px 24px 0 rgba(0, 0, 0, 0.2), 0 40px 77px 0 rgba(0, 0, 0, 0.22);
+}
+
+.u-gradient{
+
+	$bgColor1: rgba(0,0,0,0);
+	$bgColor2: rgba(0,0,0,0.6);
+	$bgColor3: rgba(0,0,0,0.8);
+	$bgColor4: rgba(0,0,0,0.9);
+
+	$bgPos1: 0%;
+	$bgPos2: 20%;
+	$bgPos3: 42%;
+	$bgPos4: 73%;
+
+	background: -moz-linear-gradient(top, $bgColor1 0%, $bgColor2 $bgPos2, $bgColor3 $bgPos3, $bgColor4 $bgPos4, $bgColor4 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop($bgPos1, $bgColor1), color-stop($bgPos2, $bgColor2), color-stop($bgPos3, $bgColor3), color-stop($bgPos4, $bgColor4), color-stop(100%, $bgColor4)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, $bgColor1 $bgPos1, $bgColor2 $bgPos2, $bgColor3 $bgPos3, $bgColor4 $bgPos4, $bgColor4 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, $bgColor1 $bgPos1, $bgColor2 $bgPos2, $bgColor3 $bgPos3, $bgColor4 $bgPos4, $bgColor4 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, $bgColor1 $bgPos1, $bgColor2 $bgPos2, $bgColor3 $bgPos3, $bgColor4 $bgPos4, $bgColor4 100%); /* IE10+ */
+	background: linear-gradient(to bottom, $bgColor1 $bgPos1, $bgColor2 $bgPos2, $bgColor3 $bgPos3, $bgColor4 $bgPos4, $bgColor4 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#e6000000',GradientType=0 ); /* IE6-9 */
+	-ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000',endColorstr='#e6000000',GradientType=0);
 }

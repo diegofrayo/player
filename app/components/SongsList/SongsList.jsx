@@ -4,6 +4,8 @@ import FavoriteSong from 'components/FavoriteSong/FavoriteSong.jsx';
 import PlaylistSong from 'components/PlaylistSong/PlaylistSong.jsx';
 import SearchSong from 'components/SearchSong/SearchSong.jsx';
 
+import styles from './SongsList.css';
+
 class SongsList extends React.Component {
 
 	render() {
@@ -16,7 +18,7 @@ class SongsList extends React.Component {
 			if (typeList === 'search') {
 
 				return (
-					<div className="search-results-wrapper col-xs-12">
+					<div>
 						<p className="search-results-info">
 							{this.props['error-message']}
 						</p>
@@ -31,10 +33,20 @@ class SongsList extends React.Component {
 
 			if (typeList === 'playlist') {
 
+				if (songs.length === 0) {
+
+					return (
+						<p className={styles.songsListInfo}>
+							No hay canciones agregadas
+						</p>
+					);
+
+				}
+
 				songsOutput = songs.map(song => <PlaylistSong song={song} key={song.source_id} />);
 
 				return (
-					<div className="songs-list-wrapper playlist-wrapper col-xs-12">
+					<div>
 						{songsOutput}
 					</div>
 				);
@@ -44,8 +56,8 @@ class SongsList extends React.Component {
 				songsOutput = songs.map(song => <FavoriteSong song={song} key={song.source_id} />);
 
 				return (
-					<div className="songs-list-wrapper favorites-wrapper col-xs-12">
-						<p className="favorites-info songs-list-info">
+					<div>
+						<p className={styles.songsListInfo}>
 							Número de favoritos: {songs.length}
 						</p>
 						{songsOutput}
@@ -57,8 +69,8 @@ class SongsList extends React.Component {
 				songsOutput = songs.map(song => <SearchSong song={song} key={song.source_id} />);
 
 				return (
-					<div className="songs-list-wrapper search-results-wrapper col-xs-12">
-						<p className="search-results-info songs-list-info">
+					<div>
+						<p className={styles.songsListInfo}>
 							Número de resultados: {songs.length}
 						</p>
 						{songsOutput}

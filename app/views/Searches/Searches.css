@@ -1,11 +1,8 @@
-.search-input-wrapper{
+@value colors: 'styles/variables.css';
+@value base-space from colors;
+
+.inputContainer{
 	height: 50px;
-}
-
-.search-results-react-wrapper{
-	height: 95%;
-}
-
-.search-results-wrapper{
-	height: ~'calc(100% - 50px)';
+	margin: base-space auto 0;
+	width: 95%;
 }

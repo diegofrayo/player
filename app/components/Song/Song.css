@@ -1,52 +1,60 @@
-.item-song{
-	border-bottom: 1px solid darken(@background-color-base, 1%);
-	background-color: lighten(@background-color-dark-2, 3%);
+@value colors: 'styles/variables.css';
+@value background-color-dark-2, background-color-base, text-color-light-2, font-size-small, font-size-normal from colors;
+
+.song{
+	/* TODO */
+	/* background-color: color(background-color-dark-2 lightness(3%)); */
+	/* border-bottom: 1px solid color(background-color-base lightness(-1%)); */
+	background-color: color(#212020 lightness(-8%));
+	border-bottom: 1px solid color(#212020 lightness(-1%));
 	margin: 0 auto;
 
-	&-child{
-		padding: 10px;
+	&Inner{
 		height: 70px;
-	}
-}
-
-.item-song-thumbnail{
-	&-wrapper{
-		width: 50px;
-		height: 50px;
-		position: absolute;
+		padding: 10px;
 	}
 
-	&-img{
-		width: 100%;
-		height: 100%;
+	&Thumbnail{
+		&Wrapper{
+			height: 50px;
+			position: absolute;
+			width: 50px;
+		}
+
+		&Img{
+			height: 100%;
+			width: 100%;
+		}
+
+		&Duration{
+			/* TODO */
+			/* .gradient(); */
+			composes: u-position-right-bottom u-gradient from 'styles/util.css';
+			color: text-color-light-2;
+			font-size: font-size-small;
+			font-weight: 700;
+			margin: 0;
+			padding: 3px 5px;
+			width: 100%;
+		}
 	}
 
-	&-duration{
-		width: 100%;
-		padding: 3px 5px;
-		color: @text-color-light-2;
-		font-weight: 700;
-		font-size: @font-size-small;
-		margin: 0;
-		.gradient();
-	}
-}
+	&Details{
+		&Wrapper{
+			padding-left: 60px;
+		}
 
-.item-song-details{
-	&-wrapper{
-		padding-left: 60px;
+		&Title{
+			composes: cut-text from 'styles/util.css';
+			color: text-color-light-2;
+			font-size: font-size-normal;
+			font-weight: 700;
+			margin-bottom: 0;
+		}
 	}
 
-	&-title{
-		color: @text-color-light-2;
-		font-size: @font-size-normal;
-		margin-bottom: 0;
-	}
-}
-
-.item-song-buttons-wrapper{
-	button{
+	&Button{
+		color: text-color-light-2;
 		margin: 0 7px;
-		color: @text-color-light-2;
 	}
 }

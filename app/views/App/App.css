@@ -1,56 +1,64 @@
-.parent-container{
-	width: 100%;
-	max-width: 500px;
-	margin: 0 auto;
-	height: 100vh;
-	padding: 0;
-	background-color: @background-color-dark-1;
-	position: relative;
+@value colors: 'styles/variables.css';
+@value background-color-dark-2, background-color-dark-1, player-height, light-blue, text-color-light-2, base-space, font-size-large, navbar-height from colors;
 
-	&-child{
+.parentContainer{
+	composes: u-z-depth-1 from 'styles/util.css';
+	/* background-color: background-color-dark-1; */
+	/* TODO */
+	background-color: color(#212020 lightness(-8%));
+	height: 100vh;
+	margin: 0 auto;
+	max-width: 500px;
+	padding: 0;
+	position: relative;
+	width: 100%;
+
+	&Child{
 		height: 100%;
 		position: relative;
 	}
 }
 
 .header{
+	background-color: background-color-dark-2;
+	height: navbar-height;
 	position: absolute;
 	top: 0;
 	width: 100%;
-	height: @navbar-height;
-	background-color: @background-color-dark-2;
-}
 
-.header-name{
-	margin-left: 10px;
-}
-
-.navbar{
-	margin: 0;
-	background-color: inherit;
-	border: 0;
-	border-radius: 0;
-	padding: 15px 0 0 15px;
-
-	.header-h1{
-		color: @light-blue;
+	&Navbar{
+		background-color: inherit;
+		border-radius: 0;
+		border: 0;
 		margin: 0;
-		font-size: @font-size-large;
+		padding: 15px 0 0 15px;
 	}
 
-	.menu-icon{
+	&TitleContainer{
+		color: light-blue;
+		font-size: font-size-large;
+		margin: 0;
+	}
+
+	&Title{
+		margin-left: 10px;
+	}
+
+	&MenuIcon{
 		margin-right: 5px;
 	}
 }
 
 .content{
-	margin: 0;
 	height: 100%;
-	padding-top: @navbar-height + @base-space;
-	padding-bottom: @player-height;
-}
+	margin: 0;
+	padding-bottom: player-height;
+	/* TODO */
+	/* padding-top: calc(navbar-height); */
+	padding-top: 50px;
 
-.view-content{
-	padding: 0 20px;
-	color:  @text-color-light-1;
+	> div{
+		height: 100%;
+		overflow: auto;
+	}
 }

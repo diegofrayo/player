@@ -1,6 +1,9 @@
 import APP from 'utils/app';
 import SongsList from 'components/SongsList/SongsList.jsx';
 
+import baseStyles from 'styles/base.css';
+import searchesStyles from './Searches.css';
+
 class Searches extends React.Component {
 
 	constructor() {
@@ -18,7 +21,7 @@ class Searches extends React.Component {
 
 	componentDidMount() {
 		document.title = 'player | Búsquedas';
-		document.getElementById('header-name').innerHTML = 'Búsquedas';
+		document.getElementById('header-title').innerHTML = 'Búsquedas';
 	}
 
 	inputTextBinding(event) {
@@ -48,13 +51,13 @@ class Searches extends React.Component {
 	render() {
 
 		return (
-			<div className="content row">
-				<div className="search-input-wrapper col-xs-12">
+			<div>
+				<div className={searchesStyles.inputContainer}>
 					<div className="form-group">
-						<input type="text" placeholder="Busca canciones..." className="search-input form-control" onChange={this.inputTextBinding} onKeyPress={this.search} value={this.state.inputText} />
+						<input type="text" placeholder="Busca canciones..." className={`form-control ${baseStyles.formControl}`} onChange={this.inputTextBinding} onKeyPress={this.search} value={this.state.inputText} />
 					</div>
 				</div>
-				<div id="search-results-react-wrapper" className="search-results-react-wrapper">
+				<div id="search-results-react-wrapper">
 					{''}
 				</div>
 			</div>

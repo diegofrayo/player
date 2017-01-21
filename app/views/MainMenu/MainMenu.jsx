@@ -4,6 +4,8 @@ import {
 	Link
 } from 'react-router';
 
+import styles from './MainMenu.css';
+
 class MainMenu extends React.Component {
 
 	constructor() {
@@ -12,26 +14,26 @@ class MainMenu extends React.Component {
 
 		document.addEventListener('DOMContentLoaded', () => {
 
-			const myMenu = document.querySelector('.menu');
+			const myMenu = document.getElementById('menu-container');
 
-			const toggleClassMenu = function toggleClassMenu() {
+			const toggleClassMenu = () => {
 
-				myMenu.classList.add('menu--animatable');
+				myMenu.classList.add(styles.menuContainer__animatable);
 
-				if (!myMenu.classList.contains('menu--visible')) {
-					myMenu.classList.add('menu--visible');
+				if (!myMenu.classList.contains(styles.menuContainer__visible)) {
+					myMenu.classList.add(styles.menuContainer__visible);
 				} else {
-					myMenu.classList.remove('menu--visible');
+					myMenu.classList.remove(styles.menuContainer__visible);
 				}
 			};
 
-			const OnTransitionEnd = function OnTransitionEnd() {
-				myMenu.classList.remove('menu--animatable');
+			const OnTransitionEnd = () => {
+				myMenu.classList.remove(styles.menu__animatable);
 			};
 
 			myMenu.addEventListener('transitionend', OnTransitionEnd, false);
 			myMenu.addEventListener('click', toggleClassMenu, false);
-			document.querySelector('.menu-icon').addEventListener('click', toggleClassMenu, false);
+			document.getElementById('header-menu-icon').addEventListener('click', toggleClassMenu, false);
 
 		}, false);
 
@@ -40,24 +42,24 @@ class MainMenu extends React.Component {
 	render() {
 
 		return (
-			<div className="menu">
-				<div className="app-menu">
-					<ul className="app-menu-ul">
-						<li className="app-menu-li">
-							<Link to="/playlist">
-								<i className="material-icons">library_music</i>
+			<div className={styles.menuContainer} id="menu-container">
+				<div className={styles.menuContainerInner}>
+					<ul className={styles.menu}>
+						<li className={styles.menuItem}>
+							<Link to="/playlist" className={styles.menuItemLink}>
+								<i className={`material-icons ${styles.menuItemIcon}`}>library_music</i>
 								Playlist
 							</Link>
 						</li>
-						<li className="app-menu-li">
-							<Link to="/searches">
-								<i className="material-icons">search</i>
+						<li className={styles.menuItem}>
+							<Link to="/searches" className={styles.menuItemLink}>
+								<i className={`material-icons ${styles.menuItemIcon}`}>search</i>
 								Búsquedas
 							</Link>
 						</li>
-						<li className="app-menu-li">
-							<Link to="/favorites">
-								<i className="material-icons">stars</i>
+						<li className={styles.menuItem}>
+							<Link to="/favorites" className={styles.menuItemLink}>
+								<i className={`material-icons ${styles.menuItemIcon}`}>stars</i>
 								Favoritos
 							</Link>
 						</li>

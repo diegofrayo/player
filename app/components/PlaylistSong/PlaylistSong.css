@@ -1,7 +1,8 @@
-.item-song{
-	&-votes{
-		color: @text-color-dark-1;
-		font-size: @font-size-medium;
-		margin-right: 10px;
-	}
+@value colors: 'styles/variables.css';
+@value text-color-dark-1, font-size-medium from colors;
+
+.song__playlistVotes{
+	color: text-color-dark-1;
+	font-size: font-size-medium;
+	margin-right: 10px;
 }

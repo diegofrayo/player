@@ -18,7 +18,7 @@ class Playlist extends React.Component {
 	componentDidMount() {
 
 		document.title = 'player | Playlist';
-		document.getElementById('header-name').innerHTML = 'Playlist';
+		document.getElementById('header-title').innerHTML = 'Playlist';
 
 		APP.songs_storage.initPlaylistWatchers();
 
@@ -45,9 +45,7 @@ class Playlist extends React.Component {
 	render() {
 
 		return (
-			<div className="content row">
-				<SongsList songs-list={this.state.playlist} type="playlist" />
-			</div>
+			<SongsList songs-list={this.state.playlist} type="playlist" />
 		);
 
 	}

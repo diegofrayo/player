@@ -36,10 +36,14 @@ module.exports = {
 			]
 		}]
 	},
-	postcss: function() {
+	postcss: () => {
 		return [
 			require('postcss-modules-values'),
-			require('postcss-color-function')
+			require('postcss-color-function'),
+			require('postcss-nested'),
+			require('postcss-simple-vars')
+			// require('postcss-import'),
+			// require('postcss-mixins')
 			// require('postcss-custom-properties'),
 			// require('postcss-calc'),
 			// require('postcss-math')

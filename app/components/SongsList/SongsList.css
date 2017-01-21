@@ -1,11 +1,12 @@
-.songs-list-wrapper{
-	overflow: auto;
-}
+@value colors: 'styles/variables.css';
+@value base-space, light-yellow, font-size-medium from colors;
 
-.songs-list-info{
-	margin-bottom: @base-space/2;
-	text-align: center;
-	color: @light-yellow;
+.songsListInfo{
+	color: light-yellow;
+	font-size: font-size-medium;
 	font-weight: 700;
-	font-size: @font-size-medium;
+	/* TODO */
+	/* margin: base-space/2 auto; */
+	margin: 10px 0;
+	text-align: center;
 }
