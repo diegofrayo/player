@@ -1,0 +1,22 @@
+@value colors: 'styles/variables.css';
+@value font-size-medium from colors;
+
+.playlistInfoTitle{
+	color: #f5f5f5;
+	font-size: font-size-medium;
+	margin: 0 10px;
+}
+
+.nextSongContainer{
+	background-color: #1b1b1b;
+	border-radius: 10px;
+	box-shadow: 0px 0px 10px 1px #1d1c1c;
+	margin-bottom: 20px;
+	overflow: hidden;
+	padding: 10px;
+}
+
+.queueSongsContainer{
+	background-color: #080808;
+	padding-top: 10px;
+}

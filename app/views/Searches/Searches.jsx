@@ -34,7 +34,9 @@ class Searches extends React.Component {
 
 	search(event) {
 
-		const inputText = this.state.inputText;
+		const {
+			inputText
+		} = this.state;
 
 		if (event.key === 'Enter' && inputText.length > 2) {
 

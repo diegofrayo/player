@@ -66,7 +66,7 @@ export class FirebaseImplementationClass {
 		if (this.playlistReference === undefined) {
 
 			// TODO: Improve this route
-			this.playlistReference = this.db_reference.child(`${this.routes.playlists}/diegofrayo`);
+			this.playlistReference = this.db_reference.child(this.routes.playlist('diegofrayo'));
 
 			this.playlistReference.on('child_added', (snapshot) => {
 
@@ -132,7 +132,7 @@ export class FirebaseImplementationClass {
 		if (this.favoritesReference === undefined) {
 
 			// TODO: Improve this route
-			this.favoritesReference = this.db_reference.child(`${this.routes.favorites}/diegofrayo`);
+			this.favoritesReference = this.db_reference.child(this.routes.favorites('diegofrayo'));
 
 			this.favoritesReference.on('child_added', (snapshot) => {
 
@@ -199,11 +199,11 @@ export class FirebaseImplementationClass {
 		newSong.votes = 0;
 		newSong.is_playing = false;
 
-		return this.db_reference.child(this.routes.playlists).child(username).child(song.source_id).update(newSong);
+		return this.db_reference.child(this.routes.playlist(username)).child(song.source_id).update(newSong);
 	}
 
 	removeSongFromPlaylist(username, song) {
-		return this.db_reference.child(this.routes.playlists).child(username).child(song.source_id).remove();
+		return this.db_reference.child(this.routes.playlist(username)).child(song.source_id).remove();
 	}
 
 	addSongToFavorites(username, song) {
@@ -214,11 +214,11 @@ export class FirebaseImplementationClass {
 		delete newSong.type;
 		delete newSong.votes;
 
-		return this.db_reference.child(this.routes.favorites).child(username).child(song.source_id).update(newSong);
+		return this.db_reference.child(this.routes.favorites(username)).child(song.source_id).update(newSong);
 	}
 
 	removeSongFromFavorites(username, song) {
-		return this.db_reference.child(this.routes.favorites).child(username).child(song.source_id).remove();
+		return this.db_reference.child(this.routes.favorites(username)).child(song.source_id).remove();
 	}
 
 	addSongToTop(username, song) {
@@ -228,7 +228,7 @@ export class FirebaseImplementationClass {
 
 		newSong.type = 'top';
 
-		return this.db_reference.child(this.routes.playlists).child(username).child(song.source_id).update(newSong);
+		return this.db_reference.child(this.routes.playlist(username)).child(song.source_id).update(newSong);
 	}
 
 	addVoteToSong(username, song) {
@@ -238,7 +238,7 @@ export class FirebaseImplementationClass {
 
 		newSong.votes += 1;
 
-		return this.db_reference.child(this.routes.playlists).child(username).child(song.source_id).update(newSong);
+		return this.db_reference.child(this.routes.playlist(username)).child(song.source_id).update(newSong);
 	}
 
 }
@@ -246,7 +246,8 @@ export class FirebaseImplementationClass {
 export const FIREBASE_CONNECTION = {
 	db_reference: firebase.database().ref(),
 	routes: {
-		playlists: 'playlists',
-		favorites: 'favorites'
+		playlist: username => `player/${username}/playlist`,
+		playlists: username => `player/${username}/playlists`,
+		favorites: username => `player/${username}/favorites`
 	}
 };

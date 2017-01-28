@@ -33,4 +33,13 @@ class Song extends React.Component {
 
 }
 
+Song.propTypes = {
+	song: React.PropTypes.shape({
+		title: React.PropTypes.string.isRequired,
+		votes: React.PropTypes.number,
+		duration: React.PropTypes.string.isRequired,
+		thumbnail: React.PropTypes.string.isRequired
+	}).isRequired
+};
+
 export default Song;

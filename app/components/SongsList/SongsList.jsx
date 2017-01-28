@@ -4,6 +4,7 @@ import FavoriteSong from 'components/FavoriteSong/FavoriteSong.jsx';
 import PlaylistSong from 'components/PlaylistSong/PlaylistSong.jsx';
 import SearchSong from 'components/SearchSong/SearchSong.jsx';
 
+import playlistStyles from 'views/Playlist/Playlist.css';
 import styles from './SongsList.css';
 
 class SongsList extends React.Component {
@@ -43,11 +44,29 @@ class SongsList extends React.Component {
 
 				}
 
-				songsOutput = songs.map(song => <PlaylistSong song={song} key={song.source_id} />);
+				songsOutput = songs.map((song, index) => {
+
+					if (index !== 0) {
+						return <PlaylistSong song={song} key={song.source_id} />;
+					}
+
+					return '';
+				});
 
 				return (
 					<div>
-						{songsOutput}
+						<div className={playlistStyles.nextSongContainer}>
+							<p className={playlistStyles.playlistInfoTitle}>
+								Siguiente en sonar
+							</p>
+							<PlaylistSong song={songs[0]} key={songs[0].source_id} />
+						</div>
+						<div className={playlistStyles.queueSongsContainer}>
+							<p className={playlistStyles.playlistInfoTitle}>
+								En cola
+							</p>
+							{songsOutput}
+						</div>
 					</div>
 				);
 
@@ -92,5 +111,11 @@ class SongsList extends React.Component {
 	}
 
 }
+
+SongsList.propTypes = {
+	'error-message': React.PropTypes.string,
+	'songs-list': React.PropTypes.array,
+	type: React.PropTypes.string.isRequired
+};
 
 export default SongsList;

@@ -60,5 +60,6 @@
 	> div{
 		height: 100%;
 		overflow: auto;
+		padding: 10px;
 	}
 }

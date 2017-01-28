@@ -108,7 +108,9 @@ export default class YoutubeSearcher {
 
 					const sourceId = item.id;
 					const thumbnail = item.snippet.thumbnails.medium.url;
-					const title = item.snippet.title;
+					const {
+						title
+					} = item.snippet;
 
 					const song = new Song(duration, sourceId, thumbnail, title);
 

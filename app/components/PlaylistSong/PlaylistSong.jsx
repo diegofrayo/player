@@ -24,7 +24,9 @@ class PlaylistSong extends Song {
 
 	render() {
 
-		const song = this.props.song;
+		const {
+			song
+		} = this.props;
 
 		return (
 			<div className={`row ${songStyles.song}`}>

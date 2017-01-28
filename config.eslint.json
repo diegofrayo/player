@@ -8,12 +8,12 @@
 		}
 	},
 	"globals": {
-		"alert": true,
 		"console": true,
 		"document": true,
 		"fetch": true,
 		"firebase": true,
 		"jQuery": true,
+		"jwplayer": true,
 		"Promise": true,
 		"React": true,
 		"ReactDOM": true
@@ -31,19 +31,18 @@
 		"jsx-a11y/no-static-element-interactions": 0,
 		"linebreak-style": 0,
 		"max-len": 0,
-		"new-cap": 2,
-		"no-alert": 0,
 		"no-console": 0,
-		"no-extend-native": 0,
-		"no-restricted-syntax": [0, "ForInStatement"],
+		"no-restricted-syntax": 1,
 		"no-tabs": 0,
 		"padded-blocks": 0,
-		"prefer-destructuring": 0,
-		"quote-props": [2, "as-needed"],
-		"react/jsx-indent": [2, "tab"],
-		"react/prefer-stateless-function": 0,
-		"react/prop-types": 0,
-		"space-before-function-paren": 0,
+		"quote-props": [1, "as-needed"],
+		"react/jsx-indent": [1, "tab"],
+		"react/forbid-prop-types": [1, {
+			"forbid": ["any", "object"]
+		}],
+		"react/no-unused-prop-types": [1, {
+			"skipShapeProps": true
+		}],
 		"quotes": [1, "single", {
 			"avoidEscape": true,
 			"allowTemplateLiterals": true

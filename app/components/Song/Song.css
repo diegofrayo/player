@@ -5,7 +5,9 @@
 	/* TODO */
 	/* background-color: color(background-color-dark-2 lightness(3%)); */
 	/* border-bottom: 1px solid color(background-color-base lightness(-1%)); */
-	background-color: color(#212020 lightness(-8%));
+
+	// background-color: color(#212020 lightness(-8%));
+    background-color: inherit;
 	border-bottom: 1px solid color(#212020 lightness(-1%));
 	margin: 0 auto;
 

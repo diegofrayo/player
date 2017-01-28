@@ -1,12 +1,14 @@
 import HttpFactory from 'utils/components/http/HttpFactory';
 import PromiseFactory from 'utils/components/promise/PromiseFactory';
+import PlayerFactory from 'utils/components/player/PlayerFactory';
 import SearcherFactory from 'utils/components/searcher/SearcherFactory';
 import SongsStorageFactory from 'utils/components/songs-storage/SongsStorageFactory';
 
 const APP = {
+	environment: '@@environment',
+	player: new PlayerFactory().createInstance('JWPlayerImplementation'),
 	promise: new PromiseFactory().createInstance('PromiseImplementation', {}),
 	songs_storage: new SongsStorageFactory().createInstance('FirebaseImplementationClass', {}),
-	environment: '@@environment',
 	username: 'diegofrayo'
 };
 

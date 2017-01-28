@@ -16,6 +16,38 @@
 		background-color: background-color-dark-2;
 		/* TODO */
 		height: calc(100% - 50px);
+
+		.contentWrapper{
+			margin: 0 auto;
+			width: 95%;
+		}
+
+		.songThumbnail{
+			display: none;
+		}
+
+		.playerProgressBar{
+			width: 150px !important;
+		}
+
+		.songDetail{
+			font-size: font-size-medium;
+		}
+
+		.songTitle{
+			font-size: font-size-large;
+			margin-top: 60px;
+		}
+
+		.controlButtons{
+			font-size: 50px;
+		}
+
+		#playerPluginContainer{
+			height: 150px !important;
+			margin: 0 auto;
+			width: 150px !important;
+		}
 	}
 }
 
@@ -27,55 +59,47 @@
 
 .contentWrapper{
 	margin: 0;
-
-	&__opened{
-		margin: 0 auto;
-		width: 95%;
-	}
 }
 
 .songThumbnail{
 	height: 50px;
-	margin: 5px auto;
+	margin: 0px auto;
+	max-width: 100%;
+	width: 50px;
+}
+
+.playerProgressBar{
+	height: 3px;
+	margin: 0 auto;
 	max-width: 100%;
 	width: 50px;
 
-	&__opened{
-		height: 96px;
-		margin: 40px auto;
-		max-width: 100%;
-		width: 96px;
+	&Inner{
+		background-color: #ff0000;
+		height: 100%;
 	}
 }
 
 .songDetail{
 	color: text-color-light-1;
 	display: block;
+	font-weight: bold;
 	margin: 0;
-
-	&__opened{
-		composes: songDetail;
-		font-size: font-size-medium;
-	}
 }
 
 .songTitle{
 	composes: songDetail;
 	composes: u-cut-text from 'styles/util.css';
-	margin-top: 10px;
-
-	&__opened{
-		composes: songTitle;
-		font-size: font-size-large;
-	}
+	margin-top: 7px;
 }
 
 .controlButtons{
 	color: text-color-light-2;
-	margin-top: 10px;
+	margin-top: 7px;
+}
 
-	&__opened{
-		composes: controlButtons;
-		font-size: 50px;
-	}
+.playerPluginContainer{
+	height: 1px;
+	width: 1px;
+	z-index: 1;
 }
