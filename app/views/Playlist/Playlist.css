@@ -1,5 +1,5 @@
-@value colors: 'styles/variables.css';
-@value font-size-medium from colors;
+@value CONSTANTS: 'styles/variables.css';
+@value font-size-medium, font-size-large, text-color-light-1 from CONSTANTS;
 
 .playlistInfoTitle{
 	color: #f5f5f5;
@@ -18,5 +18,13 @@
 
 .queueSongsContainer{
 	background-color: #080808;
-	padding-top: 10px;
+	padding: 10px 0;
+}
+
+.noSongsFound{
+	align-items: center;
+	color: text-color-light-1;
+	display: flex;
+	font-size: font-size-large;
+	justify-content: center;
 }

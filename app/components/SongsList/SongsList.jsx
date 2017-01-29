@@ -34,19 +34,19 @@ class SongsList extends React.Component {
 
 			if (typeList === 'playlist') {
 
-				if (songs.length === 0) {
+				if (songs.length <= 1) {
 
 					return (
-						<p className={styles.songsListInfo}>
-							No hay canciones agregadas
-						</p>
+						<div className={playlistStyles.noSongsFound}>
+							No hay canciones en cola
+						</div>
 					);
 
 				}
 
 				songsOutput = songs.map((song, index) => {
 
-					if (index !== 0) {
+					if (index > 1) {
 						return <PlaylistSong song={song} key={song.source_id} />;
 					}
 
@@ -59,7 +59,7 @@ class SongsList extends React.Component {
 							<p className={playlistStyles.playlistInfoTitle}>
 								Siguiente en sonar
 							</p>
-							<PlaylistSong song={songs[0]} key={songs[0].source_id} />
+							<PlaylistSong song={songs[1]} key={songs[1].source_id} />
 						</div>
 						<div className={playlistStyles.queueSongsContainer}>
 							<p className={playlistStyles.playlistInfoTitle}>

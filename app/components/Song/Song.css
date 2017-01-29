@@ -1,15 +1,18 @@
-@value colors: 'styles/variables.css';
-@value background-color-dark-2, background-color-base, text-color-light-2, font-size-small, font-size-normal from colors;
+@value CONSTANTS: 'styles/variables.css';
+@value background-color-dark-2, background-color-base, text-color-light-2, font-size-small, font-size-normal from CONSTANTS;
 
 .song{
 	/* TODO */
 	/* background-color: color(background-color-dark-2 lightness(3%)); */
 	/* border-bottom: 1px solid color(background-color-base lightness(-1%)); */
 
-	// background-color: color(#212020 lightness(-8%));
-    background-color: inherit;
+	background-color: inherit;
 	border-bottom: 1px solid color(#212020 lightness(-1%));
 	margin: 0 auto;
+
+	&:last-child{
+		border: 0;
+	}
 
 	&Inner{
 		height: 70px;

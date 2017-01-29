@@ -23,15 +23,17 @@ PlayButton.propTypes = {
 
 const MuteButton = ({
 	changeMuteState,
-	muteState
+	muteState,
+	isOpened
 }) => (
-	<i className={`material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`} onClick={changeMuteState}>
+	<i className={`material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`} onClick={changeMuteState} style={isOpened === true ? { display: 'inline-block' } : { display: 'none' }}>
 		{muteState === true ? 'volume_off' : 'volume_up'}
 	</i>
 );
 
 MuteButton.propTypes = {
 	changeMuteState: React.PropTypes.func.isRequired,
+	isOpened: React.PropTypes.bool.isRequired,
 	muteState: React.PropTypes.bool.isRequired
 };
 
@@ -56,47 +58,77 @@ class Player extends React.Component {
 		super();
 
 		this.state = {
-			isOpened: false,
+			isOpened: true,
 			muteState: false,
 			playerPosition: 0,
-			playerState: 'PAUSED'
+			playerState: 'PAUSED',
+			playingSong: {}
 		};
 
 		this.changeMuteState = this.changeMuteState.bind(this);
 		this.changePlayerState = this.changePlayerState.bind(this);
 		this.openPlayer = this.openPlayer.bind(this);
+		this.nextSong = this.nextSong.bind(this);
 
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 
-		setTimeout(() => {
+		APP.songs_storage.initPlaylistWatchers();
 
-			APP.player.setup({
-				container_id: playerStyles.playerPluginContainer,
-				source_id: 'aP_-P_BS6KY',
-				key: 'h97SPVY9oEJMHKhqc2vKipwiGipeHUoFkXLNNA',
-				skin: {
-					name: 'custom-skin'
-				}
+		APP.songs_storage.downloadPlaylist()
+			.then((playlist) => {
+
+				this.playlist = playlist;
+
+				APP.player.setup({
+					container_id: playerStyles.playerPluginContainer,
+					source_id: 'aP_-P_BS6KY',
+					key: 'h97SPVY9oEJMHKhqc2vKipwiGipeHUoFkXLNNA',
+					skin: {
+						name: 'custom-skin'
+					}
+				});
+
+				APP.player.setVolume(100);
+
+				APP.player.configureCallbacks({
+					complete: this.nextSong,
+					time: () => {
+
+						const songDuration = APP.player.getDuration();
+						const playerPosition = (100 * APP.player.getPosition()) / songDuration;
+
+						this.setState({
+							playerPosition
+						});
+
+					}
+				});
+
+				this.updatePlayingSong();
+
 			});
 
-			APP.player.setVolume(100);
+	}
 
-			APP.player.configureCallbacks({
-				time: () => {
+	updatePlayingSong() {
 
-					const songDuration = APP.player.getDuration();
-					const playerPosition = (100 * APP.player.getPosition()) / songDuration;
+		if (this.playlist.length > 0) {
 
-					this.setState({
-						playerPosition
-					});
+			const [playingSong] = this.playlist;
+			playingSong.is_playing = true;
 
-				}
+			APP.player.loadSong(playingSong);
+			APP.player.play();
+
+			this.setState({
+				playerPosition: 0,
+				playerState: 'PLAYING',
+				playingSong
 			});
 
-		}, 1000);
+		}
 
 	}
 
@@ -148,33 +180,53 @@ class Player extends React.Component {
 
 	}
 
+	nextSong() {
+
+		const [playingSong] = this.playlist;
+
+		if (this.playlist.length > 1) {
+
+			APP.songs_storage.removeSongFromPlaylist(APP.username, playingSong)
+				.then(() => {
+
+					this.updatePlayingSong();
+
+				});
+
+		}
+
+	}
+
 	render() {
 
 		return (
 			<div id="player" className={this.state.isOpened === true ? playerStyles.player__opened : playerStyles.player}>
+				<div className={`${playerStyles.noPlayingSongContainer} text-center`} style={this.state.playingSong.title ? { display: 'none' } : { display: 'block' }}>
+					Cargando...
+				</div>
 				<div className="text-center">
 					<button onClick={this.openPlayer} className={playerStyles.expandButton}>
 						<i className="material-icons">{this.state.isOpened === true ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}</i>
 					</button>
 				</div>
-				<div className={this.state.isOpened === true ? `row text-center ${playerStyles.contentWrapper__opened}` : `row ${playerStyles.contentWrapper}`}>
+				<div className={this.state.isOpened === true ? `row text-center ${playerStyles.contentWrapper}` : `row ${playerStyles.contentWrapper}`}>
 					<div className={this.state.isOpened === true ? 'col-xs-12' : 'col-xs-3 col-sm-2 text-center'}>
-						<img src="https://i.ytimg.com/vi/aP_-P_BS6KY/mqdefault.jpg" alt="thumbnail" className={playerStyles.songThumbnail} />
+						<img src={this.state.playingSong.thumbnail} alt="thumbnail" className={playerStyles.songThumbnail} />
 						<div id={playerStyles.playerPluginContainer}>{''}</div>
 						<ProgressBar progress={this.state.playerPosition} />
 					</div>
 					<div className={this.state.isOpened === true ? 'col-xs-12' : 'col-xs-5 col-sm-7'}>
 						<p className={playerStyles.songTitle}>
-							Chet Faker - Dead Body
+							{this.state.playingSong.title}
 						</p>
 						<p className={playerStyles.songDetail}>
-							5:03
+							{this.state.playingSong.duration}
 						</p>
 					</div>
 					<div className={this.state.isOpened === true ? 'col-xs-12' : 'col-xs-4 col-sm-3 text-center'}>
 						<PlayButton changePlayerState={this.changePlayerState} playerState={this.state.playerState} />
-						<i className={`material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`}>skip_next</i>
-						<MuteButton changeMuteState={this.changeMuteState} muteState={this.state.muteState} />
+						<i className={`material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`} onClick={this.nextSong}>skip_next</i>
+						<MuteButton changeMuteState={this.changeMuteState} muteState={this.state.muteState} isOpened={this.state.isOpened} />
 					</div>
 				</div>
 			</div>

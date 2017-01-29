@@ -1,5 +1,5 @@
-@value colors: 'styles/variables.css';
-@value background-color-dark-2, player-height, text-color-light-1, text-color-light-2, font-size-medium, font-size-large, navbar-height from colors;
+@value CONSTANTS: 'styles/variables.css';
+@value background-color-dark-2, player-height, text-color-light-1, text-color-light-2, font-size-medium, font-size-large, navbar-height from CONSTANTS;
 
 .player{
 	composes: u-position-bottom from 'styles/util.css';
@@ -69,7 +69,7 @@
 }
 
 .playerProgressBar{
-	height: 3px;
+	height: 5px;
 	margin: 0 auto;
 	max-width: 100%;
 	width: 50px;
@@ -102,4 +102,16 @@
 	height: 1px;
 	width: 1px;
 	z-index: 1;
+}
+
+.noPlayingSongContainer{
+	composes: u-position-left-top from 'styles/util.css';
+	background-color: black;
+	color: text-color-light-1;
+	font-size: font-size-large;
+	font-weight: bold;
+	height: 100%;
+	padding-top: 30px;
+	width: 100%;
+	z-index: 10;
 }

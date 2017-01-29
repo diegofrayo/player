@@ -1,5 +1,6 @@
 // import firebase from 'firebase';
 
+import APP from 'utils/app.js';
 import SongUtilities from 'utils/utilities/SongUtilities';
 
 firebase.initializeApp({
@@ -12,29 +13,78 @@ export class FirebaseImplementationClass {
 
 	constructor(firebaseConfig) {
 		this.db_reference = firebaseConfig.db_reference;
+		this.playlist = [];
 		this.routes = firebaseConfig.routes;
-		this.registeredCallbacks = {};
+		this.registeredCallbacks = {
+			playlist: {
+				child_added: {},
+				child_changed: {},
+				child_removed: {}
+			},
+			favorites: {
+				child_added: {},
+				child_changed: {},
+				child_removed: {}
+			}
+		};
 	}
 
-	registerCallbacks(key, callbacks) {
-		this.registeredCallbacks[key] = callbacks;
+	registerCallback(watcherName, componentName, eventName, callback) {
+		this.registeredCallbacks[watcherName][eventName][componentName] = callback;
 	}
 
-	unregisterCallbacks(key) {
-		delete this.registeredCallbacks[key];
-	}
+	unregisterCallbacks(componentName) {
 
-	executeCallbacks(viewName, eventName) {
+		const callbacks = this.registeredCallbacks;
 
-		for (const key in this.registeredCallbacks) {
+		for (const watcherName in callbacks) {
 
 			// no-prototype-builtins
-			if (Object.hasOwnProperty.call(this.registeredCallbacks, key) && key === viewName) {
+			if (Object.hasOwnProperty.call(callbacks, watcherName)) {
 
-				const viewCallbacks = this.registeredCallbacks[key];
+				const watcherCallbacks = callbacks[watcherName];
 
-				if (viewCallbacks[eventName]) {
-					viewCallbacks[eventName]();
+				for (const eventName in watcherCallbacks) {
+
+					// no-prototype-builtins
+					if (Object.hasOwnProperty.call(watcherCallbacks, eventName)) {
+
+						const eventCallbacks = watcherCallbacks[eventName];
+
+						for (const componentKey in eventCallbacks) {
+
+							// no-prototype-builtins
+							if (Object.hasOwnProperty.call(eventCallbacks, componentKey) && componentName === componentKey) {
+
+								if (eventCallbacks[componentKey]) {
+									delete eventCallbacks[componentKey];
+								}
+
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
+	executeCallbacks(watcherName, eventName) {
+
+		const callbacks = this.registeredCallbacks[watcherName][eventName];
+
+		for (const componentKey in callbacks) {
+
+			// no-prototype-builtins
+			if (Object.hasOwnProperty.call(callbacks, componentKey)) {
+
+				if (callbacks[componentKey]) {
+					callbacks[componentKey]();
 				}
 
 			}
@@ -44,12 +94,26 @@ export class FirebaseImplementationClass {
 	}
 
 	getPlaylist() {
-
-		if (this.playlist === undefined) {
-			this.playlist = [];
-		}
-
 		return this.playlist;
+	}
+
+	downloadPlaylist() {
+
+		const promise = APP.promise.createPromise((resolve) => {
+
+			this.db_reference.child(this.routes.playlist('diegofrayo')).once('value', (snapshot) => {
+
+				if (snapshot.exists()) {
+					this.playlist = SongUtilities.jsonToArray(snapshot.val());
+				}
+
+				this.playlist.sort(SongUtilities.sortPlaylist);
+				resolve(this.playlist);
+			});
+
+		});
+
+		return promise;
 	}
 
 	getFavorites() {
@@ -72,7 +136,8 @@ export class FirebaseImplementationClass {
 
 				let song = snapshot.val();
 
-				if (song) {
+				if (song && SongUtilities.arrayIndexOf(this.playlist, 'source_id', song.source_id) === -1) {
+
 					// TODO: Clone object
 					this.playlist.push(SongUtilities.cloneObject(song));
 					this.playlist.sort(SongUtilities.sortPlaylist);

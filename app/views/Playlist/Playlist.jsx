@@ -1,4 +1,4 @@
-import APP from 'utils/app';
+import APP from 'utils/app.js';
 import SongsList from 'components/SongsList/SongsList.jsx';
 
 class Playlist extends React.Component {
@@ -7,11 +7,11 @@ class Playlist extends React.Component {
 
 		super();
 
-		this.playlist = APP.songs_storage.getPlaylist();
-
 		this.state = {
-			playlist: this.playlist
+			playlist: APP.songs_storage.getPlaylist()
 		};
+
+		this.updatePlaylist = this.updatePlaylist.bind(this);
 
 	}
 
@@ -20,13 +20,9 @@ class Playlist extends React.Component {
 		document.title = 'player | Playlist';
 		document.getElementById('header-title').innerHTML = 'Playlist';
 
-		APP.songs_storage.initPlaylistWatchers();
-
-		APP.songs_storage.registerCallbacks('playlist', {
-			child_added: this.updatePlaylist.bind(this),
-			child_changed: this.updatePlaylist.bind(this),
-			child_removed: this.updatePlaylist.bind(this)
-		});
+		APP.songs_storage.registerCallback('playlist', 'playlist', 'child_added', this.updatePlaylist);
+		APP.songs_storage.registerCallback('playlist', 'playlist', 'child_changed', this.updatePlaylist);
+		APP.songs_storage.registerCallback('playlist', 'playlist', 'child_removed', this.updatePlaylist);
 
 	}
 
@@ -37,7 +33,7 @@ class Playlist extends React.Component {
 	updatePlaylist() {
 
 		this.setState({
-			playlist: this.playlist
+			playlist: APP.songs_storage.getPlaylist()
 		});
 
 	}

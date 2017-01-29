@@ -1,5 +1,5 @@
-@value colors: 'styles/variables.css';
-@value text-color-dark-1, font-size-medium from colors;
+@value CONSTANTS: 'styles/variables.css';
+@value text-color-dark-1, font-size-medium from CONSTANTS;
 
 .menuContainer{
 	height: 100%;

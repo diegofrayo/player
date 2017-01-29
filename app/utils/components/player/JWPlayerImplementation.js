@@ -1,5 +1,3 @@
-// import APP from 'utils/app';
-
 export default class JWPlayerImplementation {
 
 	setup(configuration) {

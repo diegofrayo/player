@@ -1,5 +1,5 @@
-@value colors: 'styles/variables.css';
-@value base-space from colors;
+@value CONSTANTS: 'styles/variables.css';
+@value base-space from CONSTANTS;
 
 .inputContainer{
 	/* TODO */

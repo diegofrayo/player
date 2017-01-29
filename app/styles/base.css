@@ -1,5 +1,5 @@
-@value colors: './variables.css';
-@value background-color-dark-1, text-color-light-2 from colors;
+@value CONSTANTS: './variables.css';
+@value background-color-dark-1, text-color-light-2 from CONSTANTS;
 
 body{
 	background-color: #151515;

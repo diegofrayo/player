@@ -1,5 +1,5 @@
-@value colors: 'styles/variables.css';
-@value background-color-dark-2, background-color-dark-1, player-height, light-blue, text-color-light-2, base-space, font-size-large, navbar-height from colors;
+@value CONSTANTS: 'styles/variables.css';
+@value background-color-dark-2, background-color-dark-1, player-height, light-blue, text-color-light-2, base-space, font-size-large, navbar-height from CONSTANTS;
 
 .parentContainer{
 	composes: u-z-depth-1 from 'styles/util.css';

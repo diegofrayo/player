@@ -22,11 +22,9 @@ class Favorites extends React.Component {
 
 		APP.songs_storage.initFavoritesWatchers();
 
-		APP.songs_storage.registerCallbacks('favorites', {
-			child_added: this.updatePlaylist.bind(this),
-			child_changed: this.updatePlaylist.bind(this),
-			child_removed: this.updatePlaylist.bind(this)
-		});
+		APP.songs_storage.registerCallback('favorites', 'favorites', 'child_added', this.updatePlaylist.bind(this));
+		APP.songs_storage.registerCallback('favorites', 'favorites', 'child_changed', this.updatePlaylist.bind(this));
+		APP.songs_storage.registerCallback('favorites', 'favorites', 'child_removed', this.updatePlaylist.bind(this));
 
 	}
 
