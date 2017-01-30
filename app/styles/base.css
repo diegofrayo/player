@@ -1,5 +1,5 @@
 @value CONSTANTS: './variables.css';
-@value background-color-dark-1, text-color-light-2 from CONSTANTS;
+@value bg-color-1, bg-color-2, bg-color-3, bg-color-4, text-color-light-1, text-color-light-2, text-color-dark-1, light-blue, light-yellow,font-size-small, font-size-normal, font-size-medium, font-size-large, navbar-height, player-height from CONSTANTS;
 
 body{
 	background-color: #151515;
@@ -38,7 +38,7 @@ a{
 }
 
 .formControl{
-	background-color: background-color-dark-1;
-	border: 1px solid background-color-dark-1;
+	background-color: bg-color-4;
+	border: 1px solid bg-color-3;
 	color: text-color-light-2;
 }

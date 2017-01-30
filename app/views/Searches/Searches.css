@@ -1,8 +1,0 @@
-@value CONSTANTS: 'styles/variables.css';
-@value base-space from CONSTANTS;
-
-.inputContainer{
-	/* TODO */
-	/* margin: base-space-5px auto 0; */
-	margin: 15px 10px 0;
-}

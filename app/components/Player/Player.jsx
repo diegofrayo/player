@@ -59,22 +59,30 @@ class Player extends React.Component {
 
 		this.state = {
 			isOpened: true,
+			isLoading: true,
 			muteState: false,
 			playerPosition: 0,
 			playerState: 'PAUSED',
 			playingSong: {}
 		};
 
+		this.isFirstSong = true;
+
 		this.changeMuteState = this.changeMuteState.bind(this);
 		this.changePlayerState = this.changePlayerState.bind(this);
 		this.openPlayer = this.openPlayer.bind(this);
 		this.nextSong = this.nextSong.bind(this);
+		this.onPlaylistUpdate = this.onPlaylistUpdate.bind(this);
 
 	}
 
 	componentDidMount() {
 
 		APP.songs_storage.initPlaylistWatchers();
+
+		APP.songs_storage.registerCallback('playlist', 'player', 'child_added', this.onPlaylistUpdate);
+		APP.songs_storage.registerCallback('playlist', 'player', 'child_changed', this.onPlaylistUpdate);
+		APP.songs_storage.registerCallback('playlist', 'player', 'child_removed', this.onPlaylistUpdate);
 
 		APP.songs_storage.downloadPlaylist()
 			.then((playlist) => {
@@ -94,6 +102,20 @@ class Player extends React.Component {
 
 				APP.player.configureCallbacks({
 					complete: this.nextSong,
+					pause: () => {
+
+						this.setState({
+							playerState: 'PAUSED'
+						});
+
+					},
+					play: () => {
+
+						this.setState({
+							playerState: 'PLAYING'
+						});
+
+					},
 					time: () => {
 
 						const songDuration = APP.player.getDuration();
@@ -108,7 +130,31 @@ class Player extends React.Component {
 
 				this.updatePlayingSong();
 
+				APP.songs_storage.isLoadingPlaylist = false;
+
 			});
+
+	}
+
+	onPlaylistUpdate() {
+
+		this.playlist = APP.songs_storage.getPlaylist();
+
+		if (this.playlist.length === 0) {
+
+			this.setState({
+				playingSong: {}
+			});
+
+			APP.player.stop();
+
+		} else if (this.state.playingSong.source_id !== this.playlist[0].source_id) {
+
+			this.isFirstSong = true;
+			APP.player.stop();
+			this.updatePlayingSong();
+
+		}
 
 	}
 
@@ -120,12 +166,29 @@ class Player extends React.Component {
 			playingSong.is_playing = true;
 
 			APP.player.loadSong(playingSong);
-			APP.player.play();
+
+			let playerState = 'PLAYING';
+
+			if (this.isFirstSong === true) {
+				playerState = 'PAUSED';
+			} else {
+				APP.player.play();
+			}
 
 			this.setState({
 				playerPosition: 0,
-				playerState: 'PLAYING',
+				playerState,
 				playingSong
+			});
+
+			this.isFirstSong = false;
+
+			APP.songs_storage.updatePlaylistSong(APP.username, playingSong);
+
+		} else {
+
+			this.setState({
+				isLoading: false
 			});
 
 		}
@@ -201,32 +264,34 @@ class Player extends React.Component {
 
 		return (
 			<div id="player" className={this.state.isOpened === true ? playerStyles.player__opened : playerStyles.player}>
-				<div className={`${playerStyles.noPlayingSongContainer} text-center`} style={this.state.playingSong.title ? { display: 'none' } : { display: 'block' }}>
-					Cargando...
-				</div>
-				<div className="text-center">
+				<div className={`text-center ${playerStyles.expandButtonContainer}`}>
 					<button onClick={this.openPlayer} className={playerStyles.expandButton}>
-						<i className="material-icons">{this.state.isOpened === true ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}</i>
+						<i className={`material-icons ${utilStyles['u-material-icons--28']}`}>{this.state.isOpened === true ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}</i>
 					</button>
 				</div>
-				<div className={this.state.isOpened === true ? `row text-center ${playerStyles.contentWrapper}` : `row ${playerStyles.contentWrapper}`}>
-					<div className={this.state.isOpened === true ? 'col-xs-12' : 'col-xs-3 col-sm-2 text-center'}>
-						<img src={this.state.playingSong.thumbnail} alt="thumbnail" className={playerStyles.songThumbnail} />
-						<div id={playerStyles.playerPluginContainer}>{''}</div>
-						<ProgressBar progress={this.state.playerPosition} />
+				<div className={`${playerStyles.contentWrapper}`}>
+					<div className={`${playerStyles.noPlayingSongContainer} text-center`} style={this.state.playingSong.title ? { display: 'none' } : { display: 'flex' }}>
+						{this.state.isLoading === true ? 'Cargando...' : 'No hay canciones para reproducir'}
 					</div>
-					<div className={this.state.isOpened === true ? 'col-xs-12' : 'col-xs-5 col-sm-7'}>
-						<p className={playerStyles.songTitle}>
-							{this.state.playingSong.title}
-						</p>
-						<p className={playerStyles.songDetail}>
-							{this.state.playingSong.duration}
-						</p>
-					</div>
-					<div className={this.state.isOpened === true ? 'col-xs-12' : 'col-xs-4 col-sm-3 text-center'}>
-						<PlayButton changePlayerState={this.changePlayerState} playerState={this.state.playerState} />
-						<i className={`material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`} onClick={this.nextSong}>skip_next</i>
-						<MuteButton changeMuteState={this.changeMuteState} muteState={this.state.muteState} isOpened={this.state.isOpened} />
+					<div className={this.state.isOpened === true ? `row text-center ${playerStyles.playingSongContainer}` : `row ${playerStyles.playingSongContainer}`} style={this.state.playingSong.title ? { display: 'block' } : { display: 'none' }}>
+						<div className={this.state.isOpened === true ? 'col-xs-12' : 'col-xs-3 col-sm-2 text-center'}>
+							<img src={this.state.playingSong.thumbnail} alt="thumbnail" className={playerStyles.songThumbnail} />
+							<div id={playerStyles.playerPluginContainer}>{''}</div>
+							<ProgressBar progress={this.state.playerPosition} />
+						</div>
+						<div className={this.state.isOpened === true ? 'col-xs-12' : 'col-xs-5 col-sm-7'}>
+							<p className={playerStyles.songTitle}>
+								{this.state.playingSong.title}
+							</p>
+							<p className={playerStyles.songDetail}>
+								{this.state.playingSong.duration}
+							</p>
+						</div>
+						<div className={this.state.isOpened === true ? 'col-xs-12' : 'col-xs-4 col-sm-3 text-center'}>
+							<PlayButton changePlayerState={this.changePlayerState} playerState={this.state.playerState} />
+							<i className={`material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`} onClick={this.nextSong}>skip_next</i>
+							<MuteButton changeMuteState={this.changeMuteState} muteState={this.state.muteState} isOpened={this.state.isOpened} />
+						</div>
 					</div>
 				</div>
 			</div>

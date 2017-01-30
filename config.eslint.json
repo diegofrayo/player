@@ -32,6 +32,7 @@
 		"linebreak-style": 0,
 		"max-len": 0,
 		"no-console": 0,
+		"no-param-reassign": 1,
 		"no-restricted-syntax": 1,
 		"no-tabs": 0,
 		"padded-blocks": 0,

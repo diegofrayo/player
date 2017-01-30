@@ -1,11 +1,17 @@
 @value CONSTANTS: 'styles/variables.css';
-@value base-space, light-yellow, font-size-medium from CONSTANTS;
+@value bg-color-1, bg-color-2, bg-color-3, bg-color-4, text-color-light-1, text-color-light-2, text-color-dark-1, light-blue, light-yellow,font-size-small, font-size-normal, font-size-medium, font-size-large, navbar-height, player-height from CONSTANTS;
 
 .songsListInfo{
-	color: light-yellow;
+	color: text-color-light-1;
 	font-size: font-size-medium;
 	font-weight: 700;
-	/* TODO */
-	/* margin: base-space/2 10px; */
-	margin: 10px;
+	margin-bottom: 15px;
+}
+
+.infoIcon{
+	margin-right: 5px;
+}
+
+.songsOutputContainer{
+	background-color: bg-color-2;
 }

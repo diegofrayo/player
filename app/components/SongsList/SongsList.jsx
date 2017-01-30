@@ -61,11 +61,13 @@ class SongsList extends React.Component {
 							</p>
 							<PlaylistSong song={songs[1]} key={songs[1].source_id} />
 						</div>
-						<div className={playlistStyles.queueSongsContainer}>
+						<div className={playlistStyles.queueSongsContainer} style={songsOutput.length > 2 ? { display: 'block' } : { display: 'none' }}>
 							<p className={playlistStyles.playlistInfoTitle}>
 								En cola
 							</p>
-							{songsOutput}
+							<div className={styles.songsOutputContainer}>
+								{songsOutput}
+							</div>
 						</div>
 					</div>
 				);
@@ -77,12 +79,14 @@ class SongsList extends React.Component {
 				return (
 					<div>
 						<p className={styles.songsListInfo}>
-							<i className="material-icons">info</i>
+							<i className={`material-icons ${styles.infoIcon}`}>info</i>
 							<span>
 								Número de canciones: {songs.length}
 							</span>
 						</p>
-						{songsOutput}
+						<div className={styles.songsOutputContainer}>
+							{songsOutput}
+						</div>
 					</div>
 				);
 
@@ -93,12 +97,14 @@ class SongsList extends React.Component {
 				return (
 					<div>
 						<p className={styles.songsListInfo}>
-							<i className="material-icons">info</i>
+							<i className={`material-icons ${styles.infoIcon}`}>info</i>
 							<span>
 								Número de resultados: {songs.length}
 							</span>
 						</p>
-						{songsOutput}
+						<div className={styles.songsOutputContainer}>
+							{songsOutput}
+						</div>
 					</div>
 				);
 

@@ -56,7 +56,7 @@ class Searches extends React.Component {
 			<div>
 				<div className={searchesStyles.inputContainer}>
 					<div className="form-group">
-						<input type="text" placeholder="Busca canciones..." className={`form-control ${baseStyles.formControl}`} onChange={this.inputTextBinding} onKeyPress={this.search} value={this.state.inputText} />
+						<input type="text" placeholder="Busca canciones..." className={`form-control ${baseStyles.formControl}`} onChange={this.inputTextBinding} onKeyPress={this.search} value={this.state.inputText} autoFocus />
 					</div>
 				</div>
 				<div id="search-results-react-wrapper">

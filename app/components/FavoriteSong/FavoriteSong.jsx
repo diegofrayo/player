@@ -39,7 +39,7 @@ class SearchSong extends Song {
 							<button className={songStyles.songButton} onClick={this.addSongToPlaylist}>
 								<i className="material-icons">add</i>
 							</button>
-							<button className={songStyles.songButton}>
+							<button className={songStyles.songButton} onClick={this.addSongToTop}>
 								<i className="material-icons">queue_play_next</i>
 							</button>
 							<button className={songStyles.songButton} onClick={this.removeSongFromFavorites}>

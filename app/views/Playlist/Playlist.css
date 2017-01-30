@@ -1,5 +1,5 @@
 @value CONSTANTS: 'styles/variables.css';
-@value font-size-medium, font-size-large, text-color-light-1 from CONSTANTS;
+@value bg-color-1, bg-color-2, bg-color-3, bg-color-4, text-color-light-1, text-color-light-2, text-color-dark-1, light-blue, light-yellow,font-size-small, font-size-normal, font-size-medium, font-size-large, navbar-height, player-height from CONSTANTS;
 
 .playlistInfoTitle{
 	color: #f5f5f5;
@@ -8,17 +8,17 @@
 }
 
 .nextSongContainer{
-	background-color: #1b1b1b;
+	background-color: bg-color-4;
 	border-radius: 10px;
 	box-shadow: 0px 0px 10px 1px #1d1c1c;
 	margin-bottom: 20px;
 	overflow: hidden;
-	padding: 10px;
+	padding: 8px 5px;
 }
 
 .queueSongsContainer{
-	background-color: #080808;
-	padding: 10px 0;
+	background-color: bg-color-2;
+	padding: 8px 5px;
 }
 
 .noSongsFound{

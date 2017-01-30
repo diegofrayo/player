@@ -14,6 +14,7 @@ export class FirebaseImplementationClass {
 	constructor(firebaseConfig) {
 		this.db_reference = firebaseConfig.db_reference;
 		this.playlist = [];
+		this.isLoadingPlaylist = true;
 		this.routes = firebaseConfig.routes;
 		this.registeredCallbacks = {
 			playlist: {
@@ -134,6 +135,10 @@ export class FirebaseImplementationClass {
 
 			this.playlistReference.on('child_added', (snapshot) => {
 
+				if (this.isLoadingPlaylist === true) {
+					return;
+				}
+
 				let song = snapshot.val();
 
 				if (song && SongUtilities.arrayIndexOf(this.playlist, 'source_id', song.source_id) === -1) {
@@ -149,6 +154,10 @@ export class FirebaseImplementationClass {
 
 			this.playlistReference.on('child_changed', (snapshot) => {
 
+				if (this.isLoadingPlaylist === true) {
+					return;
+				}
+
 				let changedSong = snapshot.val();
 
 				if (changedSong) {
@@ -161,15 +170,17 @@ export class FirebaseImplementationClass {
 					}
 
 					this.playlist.sort(SongUtilities.sortPlaylist);
-
 					this.executeCallbacks('playlist', 'child_changed');
-
 				}
 
 				changedSong = null;
 			});
 
 			this.playlistReference.on('child_removed', (snapshot) => {
+
+				if (this.isLoadingPlaylist === true) {
+					return;
+				}
 
 				let removedSong = snapshot.val();
 
@@ -258,13 +269,32 @@ export class FirebaseImplementationClass {
 
 	addSongToPlaylist(username, song) {
 
-		const newSong = SongUtilities.cloneObject(song);
+		const promise = APP.promise.createPromise((resolve) => {
 
-		newSong.type = 'normal';
-		newSong.votes = 0;
-		newSong.is_playing = false;
+			this.db_reference.child(this.routes.playlist(username)).child(song.source_id)
+				.once('value', (snapshot) => {
 
-		return this.db_reference.child(this.routes.playlist(username)).child(song.source_id).update(newSong);
+					if (snapshot.exists()) {
+
+						resolve(this.addVoteToSong(username, snapshot.val()));
+
+					} else {
+
+						const newSong = SongUtilities.cloneObject(song);
+
+						newSong.type = newSong.type || 'normal';
+						newSong.votes = 0;
+						newSong.is_playing = false;
+
+						resolve(this.updatePlaylistSong(username, newSong));
+
+					}
+
+				});
+
+		});
+
+		return promise;
 	}
 
 	removeSongFromPlaylist(username, song) {
@@ -279,7 +309,7 @@ export class FirebaseImplementationClass {
 		delete newSong.type;
 		delete newSong.votes;
 
-		return this.db_reference.child(this.routes.favorites(username)).child(song.source_id).update(newSong);
+		return this.updatePlaylistSong(username, newSong);
 	}
 
 	removeSongFromFavorites(username, song) {
@@ -288,22 +318,57 @@ export class FirebaseImplementationClass {
 
 	addSongToTop(username, song) {
 
-		// TODO: Clone object
-		const newSong = SongUtilities.cloneObject(song);
+		const updateSong = () => {
 
-		newSong.type = 'top';
+			const newSong = SongUtilities.cloneObject(song);
+			newSong.type = 'top';
 
-		return this.db_reference.child(this.routes.playlist(username)).child(song.source_id).update(newSong);
+			this.db_reference.child(this.routes.playlist(username)).child(song.source_id).once('value', (snapshot) => {
+
+				if (snapshot.exists()) {
+					this.updatePlaylistSong(username, newSong);
+				} else {
+					this.addSongToPlaylist(username, newSong);
+				}
+
+			});
+
+		};
+
+		const songTopIndex = SongUtilities.arrayIndexOf(this.playlist, 'type', 'top');
+
+		if (songTopIndex !== -1) {
+
+			const songTop = SongUtilities.cloneObject(this.playlist[songTopIndex]);
+
+			if (songTop.type === 'top') {
+				return;
+			}
+
+			songTop.type = 'normal';
+
+			this.updatePlaylistSong(username, songTop)
+				.then(() => {
+					updateSong();
+				});
+
+		} else {
+			updateSong();
+		}
+
 	}
 
 	addVoteToSong(username, song) {
 
 		// TODO: Clone object
 		const newSong = SongUtilities.cloneObject(song);
-
 		newSong.votes += 1;
 
-		return this.db_reference.child(this.routes.playlist(username)).child(song.source_id).update(newSong);
+		return this.updatePlaylistSong(username, newSong);
+	}
+
+	updatePlaylistSong(username, song) {
+		return this.db_reference.child(this.routes.playlist(username)).child(song.source_id).update(song);
 	}
 
 }

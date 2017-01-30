@@ -1,0 +1,32 @@
+@value CONSTANTS: 'styles/variables.css';
+@value bg-color-1, bg-color-2, bg-color-3, bg-color-4, text-color-light-1, text-color-light-2, text-color-dark-1, light-blue, light-yellow,font-size-small, font-size-normal, font-size-medium, font-size-large, navbar-height, player-height from CONSTANTS;
+
+.header{
+	background-color: bg-color-1;
+	height: navbar-height;
+	position: absolute;
+	top: 0;
+	width: 100%;
+
+	&Navbar{
+		background-color: inherit;
+		border-radius: 0;
+		border: 0;
+		margin: 0;
+		padding: 15px 0 0 15px;
+	}
+
+	&TitleContainer{
+		color: light-blue;
+		font-size: font-size-large;
+		margin: 0;
+	}
+
+	&Title{
+		margin-left: 10px;
+	}
+
+	&MenuIcon{
+		margin-right: 5px;
+	}
+}

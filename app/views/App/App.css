@@ -1,11 +1,9 @@
 @value CONSTANTS: 'styles/variables.css';
-@value background-color-dark-2, background-color-dark-1, player-height, light-blue, text-color-light-2, base-space, font-size-large, navbar-height from CONSTANTS;
+@value bg-color-1, bg-color-2, bg-color-3, bg-color-4, text-color-light-1, text-color-light-2, text-color-dark-1, light-blue, light-yellow,font-size-small, font-size-normal, font-size-medium, font-size-large, navbar-height, player-height from CONSTANTS;
 
 .parentContainer{
 	composes: u-z-depth-1 from 'styles/util.css';
-	/* background-color: background-color-dark-1; */
-	/* TODO */
-	background-color: color(#212020 lightness(-8%));
+	background-color: bg-color-3;
 	height: 100vh;
 	margin: 0 auto;
 	max-width: 500px;
@@ -16,36 +14,6 @@
 	&Child{
 		height: 100%;
 		position: relative;
-	}
-}
-
-.header{
-	background-color: background-color-dark-2;
-	height: navbar-height;
-	position: absolute;
-	top: 0;
-	width: 100%;
-
-	&Navbar{
-		background-color: inherit;
-		border-radius: 0;
-		border: 0;
-		margin: 0;
-		padding: 15px 0 0 15px;
-	}
-
-	&TitleContainer{
-		color: light-blue;
-		font-size: font-size-large;
-		margin: 0;
-	}
-
-	&Title{
-		margin-left: 10px;
-	}
-
-	&MenuIcon{
-		margin-right: 5px;
 	}
 }
 
@@ -60,6 +28,6 @@
 	> div{
 		height: 100%;
 		overflow: auto;
-		padding: 10px;
+		padding: 15px;
 	}
 }
