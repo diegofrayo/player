@@ -4,6 +4,7 @@ import MainMenu from 'components/MainMenu/MainMenu.jsx';
 import Player from 'components/Player/Player.jsx';
 import Header from 'components/Header/Header.jsx';
 
+import 'styles/base.css';
 import styles from './App.css';
 
 const App = ({

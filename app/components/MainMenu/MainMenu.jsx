@@ -48,19 +48,19 @@ class MainMenu extends React.Component {
 						<li className={styles.menuItem}>
 							<Link to="/playlist" className={styles.menuItemLink}>
 								<i className={`material-icons ${styles.menuItemIcon}`}>library_music</i>
-								Playlist
+								<span>Playlist</span>
 							</Link>
 						</li>
 						<li className={styles.menuItem}>
 							<Link to="/searches" className={styles.menuItemLink}>
 								<i className={`material-icons ${styles.menuItemIcon}`}>search</i>
-								Búsquedas
+								<span>Búsquedas</span>
 							</Link>
 						</li>
 						<li className={styles.menuItem}>
 							<Link to="/favorites" className={styles.menuItemLink}>
 								<i className={`material-icons ${styles.menuItemIcon}`}>stars</i>
-								Favoritos
+								<span>Favoritos</span>
 							</Link>
 						</li>
 					</ul>

@@ -73,7 +73,7 @@
 }
 
 .playerProgressBar{
-	background-color: bg-color-3;
+	background-color: bg-color-4;
 	height: 5px;
 	margin: 0 auto;
 	max-width: 100%;
@@ -88,7 +88,6 @@
 .songDetail{
 	color: text-color-light-1;
 	display: block;
-	font-weight: bold;
 	margin: 0;
 }
 
@@ -119,7 +118,6 @@
 	background-color: black;
 	color: text-color-light-1;
 	font-size: font-size-medium;
-	font-weight: bold;
 	height: 100%;
 	display: flex;
 	justify-content: center;

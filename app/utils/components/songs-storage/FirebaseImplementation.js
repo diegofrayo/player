@@ -272,30 +272,37 @@ export class FirebaseImplementationClass {
 
 	}
 
-	addSongToPlaylist(username, song) {
+	addSongToPlaylist(username, song, omitIfExists) {
 
 		const promise = APP.promise.createPromise((resolve) => {
 
-			this.db_reference.child(this.routes.playlist(username)).child(song.source_id)
-				.once('value', (snapshot) => {
+			const addSong = () => {
 
-					if (snapshot.exists()) {
+				const newSong = SongUtilities.cloneObject(song);
 
-						resolve(this.addVoteToSong(username, snapshot.val()));
+				newSong.type = newSong.type || 'normal';
+				newSong.votes = 0;
+				newSong.is_playing = false;
 
-					} else {
+				resolve(this.updatePlaylistSong(username, newSong));
+			};
 
-						const newSong = SongUtilities.cloneObject(song);
+			if (omitIfExists === true) {
+				addSong();
+			} else {
 
-						newSong.type = newSong.type || 'normal';
-						newSong.votes = 0;
-						newSong.is_playing = false;
+				this.db_reference.child(this.routes.playlist(username)).child(song.source_id)
+					.once('value', (snapshot) => {
 
-						resolve(this.updatePlaylistSong(username, newSong));
+						if (snapshot.exists()) {
+							resolve(this.addVoteToSong(username, snapshot.val()));
+						} else {
+							addSong();
+						}
 
-					}
+					});
 
-				});
+			}
 
 		});
 
@@ -314,7 +321,7 @@ export class FirebaseImplementationClass {
 		delete newSong.type;
 		delete newSong.votes;
 
-		return this.updatePlaylistSong(username, newSong);
+		return this.db_reference.child(this.routes.favorites(username)).child(song.source_id).update(newSong);
 	}
 
 	removeSongFromFavorites(username, song) {
@@ -323,41 +330,45 @@ export class FirebaseImplementationClass {
 
 	addSongToTop(username, song) {
 
-		if (song.type === 'top') {
-			return;
-		}
-
-		const updateSong = () => {
+		const updateSong = (type) => {
 
 			const newSong = SongUtilities.cloneObject(song);
-			newSong.type = 'top';
+			newSong.type = type || 'top';
 
 			this.db_reference.child(this.routes.playlist(username)).child(song.source_id).once('value', (snapshot) => {
 
 				if (snapshot.exists()) {
 					this.updatePlaylistSong(username, newSong);
 				} else {
-					this.addSongToPlaylist(username, newSong);
+					this.addSongToPlaylist(username, newSong, true);
 				}
 
 			});
 
 		};
 
-		const songTopIndex = SongUtilities.arrayIndexOf(this.playlist, 'type', 'top');
+		if (song.type === 'top') {
 
-		if (songTopIndex !== -1) {
-
-			const songTop = SongUtilities.cloneObject(this.playlist[songTopIndex]);
-			songTop.type = 'normal';
-
-			this.updatePlaylistSong(username, songTop)
-				.then(() => {
-					updateSong();
-				});
+			updateSong('normal');
 
 		} else {
-			updateSong();
+
+			const songTopIndex = SongUtilities.arrayIndexOf(this.playlist, 'type', 'top');
+
+			if (songTopIndex !== -1) {
+
+				const songTop = SongUtilities.cloneObject(this.playlist[songTopIndex]);
+				songTop.type = 'normal';
+
+				this.updatePlaylistSong(username, songTop)
+					.then(() => {
+						updateSong();
+					});
+
+			} else {
+				updateSong();
+			}
+
 		}
 
 	}

@@ -33,7 +33,6 @@
 			composes: u-position-right-bottom u-gradient from 'styles/util.css';
 			color: text-color-light-2;
 			font-size: font-size-small;
-			font-weight: 700;
 			margin: 0;
 			padding: 3px 5px;
 			width: 100%;
@@ -49,7 +48,6 @@
 			composes: u-cut-text from 'styles/util.css';
 			color: text-color-light-2;
 			font-size: font-size-normal;
-			font-weight: 700;
 			margin-bottom: 0;
 		}
 	}

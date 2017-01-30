@@ -1,15 +1,15 @@
 {
-	"dev": {
+	"DEV": {
 		"dest_path": "./dist/assets/player",
-		"environment": "dev",
+		"environment": "DEV",
 		"firebase_api_key": "",
 		"firebase_auth_domain": "",
 		"firebase_database_url": "",
 		"youtube_api_key": ""
 	},
-	"live": {
-		"dest_path": "./../some-path",
-		"environment": "live",
+	"LIVE": {
+		"dest_path": "./../some-path/assets/player",
+		"environment": "LIVE",
 		"firebase_api_key": "",
 		"firebase_auth_domain": "",
 		"firebase_database_url": "",

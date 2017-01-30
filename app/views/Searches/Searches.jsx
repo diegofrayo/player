@@ -1,7 +1,6 @@
 import APP from 'utils/app';
 import SongsList from 'components/SongsList/SongsList.jsx';
 
-import baseStyles from 'styles/base.css';
 import searchesStyles from './Searches.css';
 
 class Searches extends React.Component {
@@ -56,7 +55,7 @@ class Searches extends React.Component {
 			<div>
 				<div className={searchesStyles.inputContainer}>
 					<div className="form-group">
-						<input type="text" placeholder="Busca canciones..." className={`form-control ${baseStyles.formControl}`} onChange={this.inputTextBinding} onKeyPress={this.search} value={this.state.inputText} autoFocus />
+						<input type="text" placeholder="Busca canciones..." className={`form-control ${searchesStyles.inputSearch}`} onChange={this.inputTextBinding} onKeyPress={this.search} value={this.state.inputText} autoFocus />
 					</div>
 				</div>
 				<div id="search-results-react-wrapper">

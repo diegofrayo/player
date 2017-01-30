@@ -148,7 +148,7 @@ class Player extends React.Component {
 
 			APP.player.stop();
 
-		} else if (this.state.playingSong.source_id !== this.playlist[0].source_id) {
+		} else if (!this.state.playingSong.title) {
 
 			this.isFirstSong = true;
 			APP.player.stop();

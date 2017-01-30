@@ -1,0 +1,8 @@
+@value CONSTANTS: 'styles/variables.css';
+@value bg-color-1, bg-color-2, bg-color-3, bg-color-4, text-color-light-1, text-color-light-2, text-color-dark-1, light-blue, light-yellow,font-size-small, font-size-normal, font-size-medium, font-size-large, navbar-height, player-height from CONSTANTS;
+
+.inputSearch{
+	background-color: bg-color-2;
+	border: 1px solid bg-color-3;
+	color: text-color-light-2;
+}

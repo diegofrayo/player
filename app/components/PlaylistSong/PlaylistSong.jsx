@@ -29,7 +29,7 @@ class PlaylistSong extends Song {
 		} = this.props;
 
 		return (
-			<div className={`row ${songStyles.song}`}>
+			<div className={this.props.song.type === 'top' ? `row ${songStyles.song} ${playlistSongStyles['song--top']}` : `row ${songStyles.song}`}>
 				<div className={`col-xs-12 ${songStyles.songInner}`}>
 					<div className={songStyles.songThumbnailWrapper}>
 						<img src={song.thumbnail} alt="song-thumbnail" className={songStyles.songThumbnailImg} />
@@ -45,8 +45,10 @@ class PlaylistSong extends Song {
 							<span className={`badge ${playlistSongStyles.song__playlistVotes}`}>
 								{song.votes}
 							</span>
-							<button style={this.props.song.type === 'top' ? { display: 'none' } : { display: 'inline-block' }} className={songStyles.songButton} onClick={this.addSongToTop}>
-								<i className="material-icons">queue_play_next</i>
+							<button onClick={this.addSongToTop} className={songStyles.songButton} style={this.props.song.type === 'top' ? { color: '#d2a90b' } : {}}>
+								<i className="material-icons">
+									{this.props.song.type === 'top' ? 'remove_from_queue' : 'queue_play_next'}
+								</i>
 							</button>
 							<button className={songStyles.songButton} onClick={this.addVoteToSong}>
 								<i className="material-icons">plus_one</i>

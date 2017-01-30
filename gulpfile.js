@@ -5,9 +5,7 @@ const gulp = require('gulp'),
 	g = require('gulp-load-plugins')({
 		lazy: false
 	}),
-	lazypipe = require('lazypipe'),
-	historyApiFallback = require('connect-history-api-fallback'),
-	noop = g.util.noop;
+	historyApiFallback = require('connect-history-api-fallback');
 
 const htmlminOpts = {
 	removeComments: true,
@@ -19,9 +17,8 @@ const htmlminOpts = {
 
 var destPath;
 var environment;
-var isWatching = false;
 var settings;
-var timestamp = +new Date();
+const timestamp = +new Date();
 
 try {
 	settings = JSON.parse(fs.readFileSync('./config.gulp.json', 'utf8'));
@@ -34,11 +31,6 @@ try {
 
 //--------------------------------------------------------------
 //------------------------- Util Functions ---------------------
-function livereload() {
-	return lazypipe()
-		.pipe(isWatching ? g.livereload : noop)();
-}
-
 function replaceEnvironmentVariables() {
 
 	return g.replaceTask({
@@ -84,7 +76,7 @@ gulp.task('build-js', () => {
 		.pipe(g.rename('bundle.js'))
 		.pipe(replaceEnvironmentVariables());
 
-	if (environment === 'live') {
+	if (environment === 'LIVE') {
 
 		return stream
 			.pipe(g.uglify())
@@ -94,7 +86,7 @@ gulp.task('build-js', () => {
 
 		return stream
 			.pipe(gulp.dest(destPath + '/js'))
-			.pipe(livereload());
+			.pipe(g.livereload());
 
 	}
 
@@ -131,7 +123,7 @@ gulp.task('build-html', () => {
 		.pipe(g.htmlhint('./config.htmlhint.json'))
 		.pipe(g.htmlhint.reporter());
 
-	if (environment === 'dev') {
+	if (environment === 'DEV') {
 
 		return stream
 			.pipe(g.embedlr())
@@ -141,14 +133,14 @@ gulp.task('build-html', () => {
 				transform: transform
 			}))
 			.pipe(gulp.dest('dist/'))
-			.pipe(livereload());
+			.pipe(g.livereload());
 
 	} else {
 
-		var cssVendorSources =
+		const cssVendorSources =
 			'<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>';
 
-		var jsVendorSources =
+		const jsVendorSources =
 			`<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 			<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
@@ -184,13 +176,16 @@ gulp.task('copy-assets', () => {
 //----------------- Main Tasks --------------------------
 gulp.task('watch', () => {
 
-	isWatching = true;
 	gulp.start('build-dev');
 
 	gulp.watch('./app/index.html', ['build-html']);
 	gulp.watch(destPath + '/js/webpack-bundle.js', ['build-js']);
 
 	createLocalServer();
+
+	g.livereload.listen({
+		start: true
+	});
 
 });
 
@@ -202,7 +197,7 @@ gulp.task('default', ['watch']);
 //----------------- Builds Tasks ------------------------
 gulp.task('build-dev', () => {
 
-	environment = 'dev';
+	environment = 'DEV';
 	destPath = settings[environment].dest_path;
 
 	g.runSequence(
@@ -215,7 +210,7 @@ gulp.task('build-dev', () => {
 
 gulp.task('build-live', () => {
 
-	environment = 'live';
+	environment = 'LIVE';
 	destPath = settings[environment].dest_path;
 
 	g.runSequence(

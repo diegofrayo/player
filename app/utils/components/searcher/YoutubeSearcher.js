@@ -15,7 +15,7 @@ export default class YoutubeSearcher {
 		const promise = APP.promise.createPromise((resolve, reject) => {
 
 			const apiKey = this.configuration.api_key;
-			const urlRequest1 = `https://www.googleapis.com/youtube/v3/search?videoEmbeddable=true&order=relevance&part=id&q=${query}&type=video&maxResults=20&key=${apiKey}`;
+			const urlRequest1 = `https://www.googleapis.com/youtube/v3/search?videoEmbeddable=true&order=relevance&part=id&q=${query}&type=video&maxResults=50&key=${apiKey}`;
 
 			const errorCallback = (response) => {
 
