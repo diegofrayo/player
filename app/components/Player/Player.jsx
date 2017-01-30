@@ -130,7 +130,7 @@ class Player extends React.Component {
 
 				this.updatePlayingSong();
 
-				APP.songs_storage.isLoadingPlaylist = false;
+				APP.songs_storage.setPlaylistState();
 
 			});
 

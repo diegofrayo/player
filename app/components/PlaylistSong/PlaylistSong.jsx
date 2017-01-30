@@ -45,7 +45,7 @@ class PlaylistSong extends Song {
 							<span className={`badge ${playlistSongStyles.song__playlistVotes}`}>
 								{song.votes}
 							</span>
-							<button className={songStyles.songButton} onClick={this.addSongToTop}>
+							<button style={this.props.song.type === 'top' ? { display: 'none' } : { display: 'inline-block' }} className={songStyles.songButton} onClick={this.addSongToTop}>
 								<i className="material-icons">queue_play_next</i>
 							</button>
 							<button className={songStyles.songButton} onClick={this.addVoteToSong}>

@@ -98,6 +98,11 @@ export class FirebaseImplementationClass {
 		return this.playlist;
 	}
 
+	setPlaylistState() {
+		this.isLoadingPlaylist = false;
+		this.executeCallbacks('playlist', 'child_added');
+	}
+
 	downloadPlaylist() {
 
 		const promise = APP.promise.createPromise((resolve) => {
@@ -318,6 +323,10 @@ export class FirebaseImplementationClass {
 
 	addSongToTop(username, song) {
 
+		if (song.type === 'top') {
+			return;
+		}
+
 		const updateSong = () => {
 
 			const newSong = SongUtilities.cloneObject(song);
@@ -340,11 +349,6 @@ export class FirebaseImplementationClass {
 		if (songTopIndex !== -1) {
 
 			const songTop = SongUtilities.cloneObject(this.playlist[songTopIndex]);
-
-			if (songTop.type === 'top') {
-				return;
-			}
-
 			songTop.type = 'normal';
 
 			this.updatePlaylistSong(username, songTop)
