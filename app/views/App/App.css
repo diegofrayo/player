@@ -2,7 +2,7 @@
 @value bg-color-1, bg-color-2, bg-color-3, bg-color-4, text-color-light-1, text-color-light-2, text-color-dark-1, light-blue, light-yellow,font-size-small, font-size-normal, font-size-medium, font-size-large, navbar-height, player-height from CONSTANTS;
 
 .parentContainer{
-	composes: u-z-depth-1 from 'styles/util.css';
+	composes: u-box-shadow from 'styles/util.css';
 	background-color: bg-color-3;
 	height: 100vh;
 	margin: 0 auto;

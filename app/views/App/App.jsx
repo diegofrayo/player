@@ -14,7 +14,7 @@ const App = ({
 		<div className={styles.parentContainerChild}>
 			<MainMenu />
 			<Header />
-			<div className={styles.content}>
+			<div className={styles.content} id="content-wrapper">
 				{children}
 			</div>
 			<Player />

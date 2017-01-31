@@ -12,5 +12,6 @@
 }
 
 .songsOutputContainer{
+	composes: u-box-shadow from 'styles/util.css';
 	background-color: bg-color-2;
 }

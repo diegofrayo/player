@@ -17,8 +17,8 @@ class Playlist extends React.Component {
 
 	componentDidMount() {
 
-		document.title = 'player | Playlist';
-		document.getElementById('header-title').innerHTML = 'Playlist';
+		document.title = 'player | playlist';
+		document.getElementById('header-title').innerHTML = 'playlist';
 
 		APP.songs_storage.registerCallback('playlist', 'playlist', 'child_added', this.updatePlaylist);
 		APP.songs_storage.registerCallback('playlist', 'playlist', 'child_changed', this.updatePlaylist);
@@ -41,7 +41,7 @@ class Playlist extends React.Component {
 	render() {
 
 		return (
-			<SongsList songs-list={this.state.playlist} type="playlist" />
+			<SongsList songsList={this.state.playlist} type="playlist" />
 		);
 
 	}

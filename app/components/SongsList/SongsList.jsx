@@ -12,16 +12,16 @@ class SongsList extends React.Component {
 	render() {
 
 		const typeList = this.props.type;
-		const songs = this.props['songs-list'];
+		const songs = this.props.songsList;
 
-		if (this.props['error-message']) {
+		if (this.props.errorMessage) {
 
 			if (typeList === 'search') {
 
 				return (
 					<div>
 						<p className="search-results-info">
-							{this.props['error-message']}
+							{this.props.errorMessage}
 						</p>
 					</div>
 				);
@@ -38,7 +38,7 @@ class SongsList extends React.Component {
 
 					return (
 						<div className={playlistStyles.noSongsFound}>
-							No hay canciones en cola
+							There are not songs in queue
 						</div>
 					);
 
@@ -57,15 +57,15 @@ class SongsList extends React.Component {
 					<div>
 						<div className={playlistStyles.nextSongContainer}>
 							<p className={playlistStyles.playlistInfoTitle}>
-								Siguiente en sonar
+								Next to play
 							</p>
 							<PlaylistSong song={songs[1]} key={songs[1].source_id} />
 						</div>
 						<div className={playlistStyles.queueSongsContainer} style={songsOutput.length > 2 ? { display: 'block' } : { display: 'none' }}>
 							<p className={playlistStyles.playlistInfoTitle}>
-								En cola
+								Queue
 							</p>
-							<div className={styles.songsOutputContainer}>
+							<div className={styles.songsOutputContainer} style={{ boxShadow: 'none' }}>
 								{songsOutput}
 							</div>
 						</div>
@@ -81,7 +81,7 @@ class SongsList extends React.Component {
 						<p className={styles.songsListInfo}>
 							<i className={`material-icons ${styles.infoIcon}`}>info</i>
 							<span>
-								Número de canciones: {songs.length}
+								Total number of songs: {songs.length}
 							</span>
 						</p>
 						<div className={styles.songsOutputContainer}>
@@ -99,7 +99,7 @@ class SongsList extends React.Component {
 						<p className={styles.songsListInfo}>
 							<i className={`material-icons ${styles.infoIcon}`}>info</i>
 							<span>
-								Número de resultados: {songs.length}
+								Results: {songs.length}
 							</span>
 						</p>
 						<div className={styles.songsOutputContainer}>
@@ -119,8 +119,8 @@ class SongsList extends React.Component {
 }
 
 SongsList.propTypes = {
-	'error-message': React.PropTypes.string,
-	'songs-list': React.PropTypes.array,
+	errorMessage: React.PropTypes.string,
+	songsList: React.PropTypes.array,
 	type: React.PropTypes.string.isRequired
 };
 

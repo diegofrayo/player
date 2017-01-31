@@ -271,7 +271,7 @@ class Player extends React.Component {
 				</div>
 				<div className={`${playerStyles.contentWrapper}`}>
 					<div className={`${playerStyles.noPlayingSongContainer} text-center`} style={this.state.playingSong.title ? { display: 'none' } : { display: 'flex' }}>
-						{this.state.isLoading === true ? 'Cargando...' : 'No hay canciones para reproducir'}
+						{this.state.isLoading === true ? 'Loading...' : 'There are not songs to play'}
 					</div>
 					<div className={this.state.isOpened === true ? `row text-center ${playerStyles.playingSongContainer}` : `row ${playerStyles.playingSongContainer}`} style={this.state.playingSong.title ? { display: 'block' } : { display: 'none' }}>
 						<div className={this.state.isOpened === true ? 'col-xs-12' : 'col-xs-3 col-sm-2 text-center'}>

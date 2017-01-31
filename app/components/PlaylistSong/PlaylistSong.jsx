@@ -22,6 +22,11 @@ class PlaylistSong extends Song {
 		APP.songs_storage.addVoteToSong(APP.username, this.props.song);
 	}
 
+	addSongToTop() {
+		document.querySelector('#content-wrapper > div').scrollTop = 0;
+		super.addSongToTop();
+	}
+
 	render() {
 
 		const {

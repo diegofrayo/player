@@ -8,7 +8,7 @@ const Header = () => (
 			<h1 className={styles.headerTitleContainer}>
 				<i id="header-menu-icon" className={`material-icons ${styles.headerMenuIcon}`}>menu</i>
 				<span className={styles.headerTitle} id="header-title">
-					Player
+					playlist
 				</span>
 			</h1>
 		</nav>

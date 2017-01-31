@@ -8,14 +8,15 @@
 }
 
 .nextSongContainer{
+	composes: u-box-shadow from 'styles/util.css';
 	background-color: bg-color-4;
-	box-shadow: 0px 0px 10px 1px bg-color-1;
 	margin-bottom: 20px;
 	overflow: hidden;
 	padding: 8px 5px;
 }
 
 .queueSongsContainer{
+	composes: u-box-shadow from 'styles/util.css';
 	background-color: bg-color-2;
 	padding: 8px 5px;
 }

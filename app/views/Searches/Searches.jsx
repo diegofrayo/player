@@ -19,8 +19,8 @@ class Searches extends React.Component {
 	}
 
 	componentDidMount() {
-		document.title = 'player | Búsquedas';
-		document.getElementById('header-title').innerHTML = 'Búsquedas';
+		document.title = 'player | search';
+		document.getElementById('header-title').innerHTML = 'search';
 	}
 
 	inputTextBinding(event) {
@@ -41,7 +41,7 @@ class Searches extends React.Component {
 
 			APP.searcher.searchSongs(inputText).then((response) => {
 
-				ReactDOM.render(<SongsList type="search" songs-list={response.data.songs.items} error-message={response.type === 'error' ? response.message : ''} />, document.getElementById('search-results-react-wrapper'));
+				ReactDOM.render(<SongsList type="search" songsList={response.data.songs.items} errorMessage={response.type === 'error' ? response.message : ''} />, document.getElementById('search-results-react-wrapper'));
 
 			});
 
@@ -55,7 +55,7 @@ class Searches extends React.Component {
 			<div>
 				<div className={searchesStyles.inputContainer}>
 					<div className="form-group">
-						<input type="text" placeholder="Busca canciones..." className={`form-control ${searchesStyles.inputSearch}`} onChange={this.inputTextBinding} onKeyPress={this.search} value={this.state.inputText} autoFocus />
+						<input type="text" placeholder="Search songs..." className={`form-control ${searchesStyles.inputSearch}`} onChange={this.inputTextBinding} onKeyPress={this.search} value={this.state.inputText} autoFocus />
 					</div>
 				</div>
 				<div id="search-results-react-wrapper">
