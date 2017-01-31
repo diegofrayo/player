@@ -172,7 +172,7 @@ const SongUtilities = {
 		return 0;
 	},
 
-	// Order by timestamp asc
+	// Order by timestamp desc
 	sortByTimestamp(a, b) {
 
 		const aTimestamp = a.timestamp;
@@ -183,6 +183,19 @@ const SongUtilities = {
 		}
 
 		return 1;
+	},
+
+	// Order by timestamp asc
+	sortByTitle(a, b) {
+
+		const aTitle = a.title;
+		const bTitle = b.title;
+
+		if (aTitle > bTitle) {
+			return 1;
+		}
+
+		return -1;
 	},
 
 	jsonToArray(json) {

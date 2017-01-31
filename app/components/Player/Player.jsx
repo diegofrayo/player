@@ -68,11 +68,12 @@ class Player extends React.Component {
 
 		this.isFirstSong = true;
 
+		this.addSongToFavorites = this.addSongToFavorites.bind(this);
 		this.changeMuteState = this.changeMuteState.bind(this);
 		this.changePlayerState = this.changePlayerState.bind(this);
-		this.openPlayer = this.openPlayer.bind(this);
 		this.nextSong = this.nextSong.bind(this);
 		this.onPlaylistUpdate = this.onPlaylistUpdate.bind(this);
+		this.openPlayer = this.openPlayer.bind(this);
 
 	}
 
@@ -260,6 +261,10 @@ class Player extends React.Component {
 
 	}
 
+	addSongToFavorites() {
+		APP.songs_storage.addSongToFavorites(APP.username, this.state.playingSong);
+	}
+
 	render() {
 
 		return (
@@ -290,6 +295,7 @@ class Player extends React.Component {
 						<div className={this.state.isOpened === true ? 'col-xs-12' : 'col-xs-4 col-sm-3 text-center'}>
 							<PlayButton changePlayerState={this.changePlayerState} playerState={this.state.playerState} />
 							<i className={`material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`} onClick={this.nextSong}>skip_next</i>
+							<i className={`material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`} style={this.state.isOpened === true ? { display: 'inline-block' } : { display: 'none' }} onClick={this.addSongToFavorites}>favorite</i>
 							<MuteButton changeMuteState={this.changeMuteState} muteState={this.state.muteState} isOpened={this.state.isOpened} />
 						</div>
 					</div>

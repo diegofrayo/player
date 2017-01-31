@@ -18,7 +18,6 @@ const htmlminOpts = {
 var destPath;
 var environment;
 var settings;
-const timestamp = +new Date();
 
 try {
 	settings = JSON.parse(fs.readFileSync('./config.gulp.json', 'utf8'));

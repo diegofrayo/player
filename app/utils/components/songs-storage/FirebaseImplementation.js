@@ -222,7 +222,7 @@ export class FirebaseImplementationClass {
 				if (song) {
 					// TODO: Clone object
 					this.favorites.push(SongUtilities.cloneObject(song));
-					this.favorites.sort(SongUtilities.sortByTimestamp);
+					this.favorites.sort(SongUtilities.sortByTitle);
 					this.executeCallbacks('favorites', 'child_added');
 				}
 
@@ -242,7 +242,7 @@ export class FirebaseImplementationClass {
 						this.favorites[index] = SongUtilities.cloneObject(changedSong);
 					}
 
-					this.favorites.sort(SongUtilities.sortByTimestamp);
+					this.favorites.sort(SongUtilities.sortByTitle);
 					this.executeCallbacks('favorites', 'child_changed');
 				}
 
@@ -261,7 +261,7 @@ export class FirebaseImplementationClass {
 						this.favorites.splice(index, 1);
 					}
 
-					this.favorites.sort(SongUtilities.sortByTimestamp);
+					this.favorites.sort(SongUtilities.sortByTitle);
 					this.executeCallbacks('favorites', 'child_removed');
 				}
 
