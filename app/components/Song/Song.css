@@ -28,8 +28,6 @@
 		}
 
 		&Duration{
-			/* TODO */
-			/* .gradient(); */
 			composes: u-position-right-bottom u-gradient from 'styles/util.css';
 			color: text-color-light-2;
 			font-size: font-size-small;

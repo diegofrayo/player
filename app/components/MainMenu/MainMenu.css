@@ -72,14 +72,13 @@
 	padding: 0;
 
 	&Item{
-		/* TODO */
-		border-bottom: 1px solid color(#c7c7c7 lightness(-5%));
+		--common-color: #c7c7c7;
+		border-bottom: 1px solid color(var(--common-color) lightness(-5%));
 		cursor: pointer;
 		font-size: font-size-medium;
 
 		&:hover{
-			/* TODO */
-			background-color: color(#c7c7c7 lightness(-10%));
+			background-color: color(var(--common-color) lightness(-10%));
 		}
 
 		&Link{

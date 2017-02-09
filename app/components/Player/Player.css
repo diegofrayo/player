@@ -13,8 +13,7 @@
 
 	&__opened{
 		composes: player;
-		/* TODO */
-		height: calc(100% - 50px);
+		height: calc(100% - navbar-height);
 
 		.contentWrapper{
 			margin: 0 auto;

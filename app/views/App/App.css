@@ -21,9 +21,7 @@
 	height: 100%;
 	margin: 0;
 	padding-bottom: player-height;
-	/* TODO */
-	/* padding-top: calc(navbar-height); */
-	padding-top: 50px;
+	padding-top: navbar-height;
 
 	> div{
 		height: 100%;

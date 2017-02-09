@@ -39,9 +39,10 @@ module.exports = {
 	postcss: () => {
 		return [
 			require('postcss-modules-values'),
-			require('postcss-color-function'),
 			require('postcss-nested'),
-			require('postcss-simple-vars')
+			require('postcss-simple-vars'),
+			require('postcss-css-variables'),
+			require('postcss-color-function')
 			// require('postcss-import'),
 			// require('postcss-mixins')
 			// require('postcss-custom-properties'),
