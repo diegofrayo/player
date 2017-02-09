@@ -1,5 +1,6 @@
 import APP from 'utils/app.js';
 import SongsList from 'components/SongsList/SongsList.jsx';
+import Utilities from 'utils/utilities/Utilities';
 
 class Playlist extends React.Component {
 
@@ -17,8 +18,7 @@ class Playlist extends React.Component {
 
 	componentDidMount() {
 
-		document.title = 'player | playlist';
-		document.getElementById('header-title').innerHTML = 'playlist';
+		Utilities.updatePageTitle('playlist');
 
 		APP.songs_storage.registerCallback('playlist', 'playlist', 'child_added', this.updatePlaylist);
 		APP.songs_storage.registerCallback('playlist', 'playlist', 'child_changed', this.updatePlaylist);

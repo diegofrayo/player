@@ -2,7 +2,7 @@ import APP from 'utils/app';
 import List from 'utils/classes/List';
 import RequestResponse from 'utils/classes/RequestResponse';
 import Song from 'utils/classes/Song';
-import SongUtilities from 'utils/utilities/SongUtilities';
+import Utilities from 'utils/utilities/Utilities';
 
 export default class LocalSearcher {
 
@@ -65,7 +65,7 @@ export default class LocalSearcher {
 
 			if (item.snippet.categoryId === '10') {
 
-				const duration = SongUtilities.normalizeDuration(item.contentDetails.duration);
+				const duration = Utilities.normalizeDuration(item.contentDetails.duration);
 
 				if (duration !== null) {
 

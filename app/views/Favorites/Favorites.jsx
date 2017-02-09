@@ -1,5 +1,6 @@
 import APP from 'utils/app';
 import SongsList from 'components/SongsList/SongsList.jsx';
+import Utilities from 'utils/utilities/Utilities';
 
 class Favorites extends React.Component {
 
@@ -17,10 +18,9 @@ class Favorites extends React.Component {
 
 	componentDidMount() {
 
-		document.title = 'player | favorites';
-		document.getElementById('header-title').innerHTML = 'favorites';
+		Utilities.updatePageTitle('favorites');
 
-		APP.songs_storage.initFavoritesWatchers();
+		APP.songs_storage.initFavoritesWatchers(APP.username);
 
 		APP.songs_storage.registerCallback('favorites', 'favorites', 'child_added', this.updatePlaylist.bind(this));
 		APP.songs_storage.registerCallback('favorites', 'favorites', 'child_changed', this.updatePlaylist.bind(this));

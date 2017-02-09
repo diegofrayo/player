@@ -79,13 +79,13 @@ class Player extends React.Component {
 
 	componentDidMount() {
 
-		APP.songs_storage.initPlaylistWatchers();
+		APP.songs_storage.initPlaylistWatchers(APP.username);
 
 		APP.songs_storage.registerCallback('playlist', 'player', 'child_added', this.onPlaylistUpdate);
 		APP.songs_storage.registerCallback('playlist', 'player', 'child_changed', this.onPlaylistUpdate);
 		APP.songs_storage.registerCallback('playlist', 'player', 'child_removed', this.onPlaylistUpdate);
 
-		APP.songs_storage.downloadPlaylist()
+		APP.songs_storage.downloadPlaylist(APP.username)
 			.then((playlist) => {
 
 				this.playlist = playlist;

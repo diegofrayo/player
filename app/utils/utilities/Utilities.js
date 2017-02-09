@@ -62,7 +62,7 @@
 
 // return `${hours}${minutes}:${seconds}`;
 
-const SongUtilities = {
+const Utilities = {
 
 	getDurationInSeconds(duration) {
 
@@ -230,8 +230,45 @@ const SongUtilities = {
 		}
 
 		return -1;
+	},
+
+	isGuestUser(environment) {
+
+		const auth = this.getCookie('auth');
+
+		if (auth || environment === 'DEV') {
+			return false;
+		}
+
+		return true;
+	},
+
+	getCookie(cname) {
+
+		const cookieData = document.cookie.split(';');
+		const name = `${cname}=`;
+
+		for (let index = 0; index < cookieData.length; index += 1) {
+
+			let cookieChunk = cookieData[index];
+
+			while (cookieChunk.charAt(0) === ' ') {
+				cookieChunk = cookieChunk.substring(1);
+			}
+
+			if (cookieChunk.indexOf(name) === 0) {
+				return cookieChunk.substring(name.length, cookieChunk.length);
+			}
+		}
+
+		return false;
+	},
+
+	updatePageTitle(page) {
+		document.title = `player | ${page}`;
+		document.getElementById('header-title').innerHTML = page;
 	}
 
 };
 
-export default SongUtilities;
+export default Utilities;

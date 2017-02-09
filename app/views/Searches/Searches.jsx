@@ -1,5 +1,6 @@
 import APP from 'utils/app';
 import SongsList from 'components/SongsList/SongsList.jsx';
+import Utilities from 'utils/utilities/Utilities';
 
 import searchesStyles from './Searches.css';
 
@@ -19,8 +20,7 @@ class Searches extends React.Component {
 	}
 
 	componentDidMount() {
-		document.title = 'player | search';
-		document.getElementById('header-title').innerHTML = 'search';
+		Utilities.updatePageTitle('search');
 	}
 
 	inputTextBinding(event) {

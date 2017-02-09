@@ -1,7 +1,7 @@
 // import firebase from 'firebase';
 
 import APP from 'utils/app.js';
-import SongUtilities from 'utils/utilities/SongUtilities';
+import Utilities from 'utils/utilities/Utilities';
 
 firebase.initializeApp({
 	databaseURL: '@@firebase_database_url',
@@ -103,17 +103,17 @@ export class FirebaseImplementationClass {
 		this.executeCallbacks('playlist', 'child_added');
 	}
 
-	downloadPlaylist() {
+	downloadPlaylist(username) {
 
 		const promise = APP.promise.createPromise((resolve) => {
 
-			this.db_reference.child(this.routes.playlist('diegofrayo')).once('value', (snapshot) => {
+			this.db_reference.child(this.routes.playlist(username)).once('value', (snapshot) => {
 
 				if (snapshot.exists()) {
-					this.playlist = SongUtilities.jsonToArray(snapshot.val());
+					this.playlist = Utilities.jsonToArray(snapshot.val());
 				}
 
-				this.playlist.sort(SongUtilities.sortPlaylist);
+				this.playlist.sort(Utilities.sortPlaylist);
 				resolve(this.playlist);
 			});
 
@@ -131,12 +131,12 @@ export class FirebaseImplementationClass {
 		return this.favorites;
 	}
 
-	initPlaylistWatchers() {
+	initPlaylistWatchers(username) {
 
 		if (this.playlistReference === undefined) {
 
 			// TODO: Improve this route
-			this.playlistReference = this.db_reference.child(this.routes.playlist('diegofrayo'));
+			this.playlistReference = this.db_reference.child(this.routes.playlist(username));
 
 			this.playlistReference.on('child_added', (snapshot) => {
 
@@ -146,11 +146,11 @@ export class FirebaseImplementationClass {
 
 				let song = snapshot.val();
 
-				if (song && SongUtilities.arrayIndexOf(this.playlist, 'source_id', song.source_id) === -1) {
+				if (song && Utilities.arrayIndexOf(this.playlist, 'source_id', song.source_id) === -1) {
 
 					// TODO: Clone object
-					this.playlist.push(SongUtilities.cloneObject(song));
-					this.playlist.sort(SongUtilities.sortPlaylist);
+					this.playlist.push(Utilities.cloneObject(song));
+					this.playlist.sort(Utilities.sortPlaylist);
 					this.executeCallbacks('playlist', 'child_added');
 				}
 
@@ -167,14 +167,14 @@ export class FirebaseImplementationClass {
 
 				if (changedSong) {
 
-					const index = SongUtilities.arrayIndexOf(this.playlist, 'source_id', changedSong.source_id);
+					const index = Utilities.arrayIndexOf(this.playlist, 'source_id', changedSong.source_id);
 
 					if (index !== -1) {
 						// TODO: Clone object
-						this.playlist[index] = SongUtilities.cloneObject(changedSong);
+						this.playlist[index] = Utilities.cloneObject(changedSong);
 					}
 
-					this.playlist.sort(SongUtilities.sortPlaylist);
+					this.playlist.sort(Utilities.sortPlaylist);
 					this.executeCallbacks('playlist', 'child_changed');
 				}
 
@@ -191,13 +191,13 @@ export class FirebaseImplementationClass {
 
 				if (removedSong) {
 
-					const index = SongUtilities.arrayIndexOf(this.playlist, 'source_id', removedSong.source_id);
+					const index = Utilities.arrayIndexOf(this.playlist, 'source_id', removedSong.source_id);
 
 					if (index !== -1) {
 						this.playlist.splice(index, 1);
 					}
 
-					this.playlist.sort(SongUtilities.sortPlaylist);
+					this.playlist.sort(Utilities.sortPlaylist);
 					this.executeCallbacks('playlist', 'child_removed');
 				}
 
@@ -208,12 +208,12 @@ export class FirebaseImplementationClass {
 
 	}
 
-	initFavoritesWatchers() {
+	initFavoritesWatchers(username) {
 
 		if (this.favoritesReference === undefined) {
 
 			// TODO: Improve this route
-			this.favoritesReference = this.db_reference.child(this.routes.favorites('diegofrayo'));
+			this.favoritesReference = this.db_reference.child(this.routes.favorites(username));
 
 			this.favoritesReference.on('child_added', (snapshot) => {
 
@@ -221,8 +221,8 @@ export class FirebaseImplementationClass {
 
 				if (song) {
 					// TODO: Clone object
-					this.favorites.push(SongUtilities.cloneObject(song));
-					this.favorites.sort(SongUtilities.sortByTitle);
+					this.favorites.push(Utilities.cloneObject(song));
+					this.favorites.sort(Utilities.sortByTitle);
 					this.executeCallbacks('favorites', 'child_added');
 				}
 
@@ -235,14 +235,14 @@ export class FirebaseImplementationClass {
 
 				if (changedSong) {
 
-					const index = SongUtilities.arrayIndexOf(this.favorites, 'source_id', changedSong.source_id);
+					const index = Utilities.arrayIndexOf(this.favorites, 'source_id', changedSong.source_id);
 
 					if (index !== -1) {
 						// TODO: Clone object
-						this.favorites[index] = SongUtilities.cloneObject(changedSong);
+						this.favorites[index] = Utilities.cloneObject(changedSong);
 					}
 
-					this.favorites.sort(SongUtilities.sortByTitle);
+					this.favorites.sort(Utilities.sortByTitle);
 					this.executeCallbacks('favorites', 'child_changed');
 				}
 
@@ -255,13 +255,13 @@ export class FirebaseImplementationClass {
 
 				if (removedSong) {
 
-					const index = SongUtilities.arrayIndexOf(this.favorites, 'source_id', removedSong.source_id);
+					const index = Utilities.arrayIndexOf(this.favorites, 'source_id', removedSong.source_id);
 
 					if (index !== -1) {
 						this.favorites.splice(index, 1);
 					}
 
-					this.favorites.sort(SongUtilities.sortByTitle);
+					this.favorites.sort(Utilities.sortByTitle);
 					this.executeCallbacks('favorites', 'child_removed');
 				}
 
@@ -278,7 +278,7 @@ export class FirebaseImplementationClass {
 
 			const addSong = () => {
 
-				const newSong = SongUtilities.cloneObject(song);
+				const newSong = Utilities.cloneObject(song);
 
 				newSong.is_playing = false;
 				newSong.timestamp = new Date().getTime();
@@ -316,7 +316,7 @@ export class FirebaseImplementationClass {
 
 	addSongToFavorites(username, song) {
 
-		const newSong = SongUtilities.cloneObject(song);
+		const newSong = Utilities.cloneObject(song);
 
 		newSong.timestamp = new Date().getTime();
 
@@ -335,7 +335,7 @@ export class FirebaseImplementationClass {
 
 		const updateSong = (type) => {
 
-			const newSong = SongUtilities.cloneObject(song);
+			const newSong = Utilities.cloneObject(song);
 			newSong.type = type || 'top';
 
 			this.db_reference.child(this.routes.playlist(username)).child(song.source_id).once('value', (snapshot) => {
@@ -356,11 +356,11 @@ export class FirebaseImplementationClass {
 
 		} else {
 
-			const songTopIndex = SongUtilities.arrayIndexOf(this.playlist, 'type', 'top');
+			const songTopIndex = Utilities.arrayIndexOf(this.playlist, 'type', 'top');
 
 			if (songTopIndex !== -1) {
 
-				const songTop = SongUtilities.cloneObject(this.playlist[songTopIndex]);
+				const songTop = Utilities.cloneObject(this.playlist[songTopIndex]);
 				songTop.type = 'normal';
 
 				this.updatePlaylistSong(username, songTop)
@@ -379,7 +379,7 @@ export class FirebaseImplementationClass {
 	addVoteToSong(username, song) {
 
 		// TODO: Clone object
-		const newSong = SongUtilities.cloneObject(song);
+		const newSong = Utilities.cloneObject(song);
 		newSong.votes += 1;
 
 		return this.updatePlaylistSong(username, newSong);
