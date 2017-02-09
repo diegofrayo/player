@@ -155,6 +155,10 @@ class Player extends React.Component {
 			APP.player.stop();
 			this.updatePlayingSong();
 
+		} else if (this.waitingForSongs === true && APP.player.getState() !== 'PLAYING') {
+
+			this.nextSong();
+
 		}
 
 	}
@@ -185,6 +189,10 @@ class Player extends React.Component {
 			this.isFirstSong = false;
 
 			APP.songs_storage.updatePlaylistSong(APP.username, playingSong);
+
+			if (this.state.muteState === true) {
+				APP.player.setVolume(0);
+			}
 
 		} else {
 
@@ -250,12 +258,18 @@ class Player extends React.Component {
 
 		if (this.playlist.length > 1) {
 
+			this.waitingForSongs = false;
+
 			APP.songs_storage.removeSongFromPlaylist(APP.username, playingSong)
 				.then(() => {
 
 					this.updatePlayingSong();
 
 				});
+
+		} else {
+
+			this.waitingForSongs = true;
 
 		}
 
