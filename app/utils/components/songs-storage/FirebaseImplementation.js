@@ -280,9 +280,10 @@ export class FirebaseImplementationClass {
 
 				const newSong = SongUtilities.cloneObject(song);
 
+				newSong.is_playing = false;
+				newSong.timestamp = new Date().getTime();
 				newSong.type = newSong.type || 'normal';
 				newSong.votes = 0;
-				newSong.is_playing = false;
 
 				resolve(this.updatePlaylistSong(username, newSong));
 			};
@@ -316,6 +317,8 @@ export class FirebaseImplementationClass {
 	addSongToFavorites(username, song) {
 
 		const newSong = SongUtilities.cloneObject(song);
+
+		newSong.timestamp = new Date().getTime();
 
 		delete newSong.is_playing;
 		delete newSong.type;

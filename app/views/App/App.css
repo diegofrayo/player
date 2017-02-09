@@ -4,6 +4,7 @@
 .parentContainer{
 	composes: u-box-shadow from 'styles/util.css';
 	background-color: bg-color-3;
+	height: 100%;
 	height: 100vh;
 	margin: 0 auto;
 	max-width: 500px;

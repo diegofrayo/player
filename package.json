@@ -60,7 +60,6 @@
 		"webpack-dev-server": "^1.16.2"
 	},
 	"dependencies": {
-		"clean-css": "^4.0.3",
 		"firebase": "^3.6.0",
 		"react": "^15.3.2",
 		"react-dom": "^15.3.2",
