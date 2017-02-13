@@ -4,6 +4,8 @@ import {
 	Link
 } from 'react-router';
 
+import APP from 'utils/app';
+
 import styles from './MainMenu.css';
 
 class MainMenu extends React.Component {
@@ -44,6 +46,9 @@ class MainMenu extends React.Component {
 		return (
 			<div className={styles.menuContainer} id="menu-container">
 				<div className={styles.menuContainerInner}>
+					<div className={styles.username}>
+						@{APP.username}
+					</div>
 					<ul className={styles.menu}>
 						<li className={styles.menuItem}>
 							<Link to="/player/playlist" className={styles.menuItemLink}>
