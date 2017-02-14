@@ -1,0 +1,105 @@
+@import '../../styles/variables.less';
+
+@base-color: #FFFFFF;
+
+.menuContainer{
+	height: 100%;
+	left: 0;
+	overflow: hidden;
+	pointer-events: none;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 150;
+
+	&:after{
+		content: '';
+		display: block;
+		height: 100%;
+		left: 0;
+		opacity: 0;
+		pointer-events: none;
+		position: absolute;
+		top: 0;
+		transition: opacity 0.3s cubic-bezier(0,0,0.3,1);
+		width: 100%;
+		will-change: opacity;
+	}
+
+	&__visible{
+		pointer-events: auto;
+
+		&:after{
+			opacity: 1;
+			pointer-events: auto;
+		}
+
+		.menuContainerInner{
+			-webkit-transform: none;
+			transform: none;
+		}
+	}
+
+	&__animatable{
+		.menuContainerInner{
+			transition: all 200ms ease-in;
+		}
+	}
+
+	&__visible&__animatable{
+		.menuContainerInner{
+			transition: all 330ms ease-out;
+		}
+	}
+
+	&Inner{
+		background-color: @base-color;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		max-width: 400px;
+		pointer-events: auto;
+		position: relative;
+		transform: translateX(-103%);
+		-webkit-transform: translateX(-103%);
+		width: 90%;
+		will-change: transform;
+		z-index: 160;
+	}
+}
+
+.menu{
+	margin: 0;
+	padding: 0;
+
+	&Item{
+		border-bottom: 1px solid lighten(@base-color, -5%);
+		cursor: pointer;
+		font-size: font-size-medium;
+
+		&:hover{
+			background-color: lighten(@base-color, -5%);
+		}
+
+		&Link{
+			color: @text-color-dark-1;
+			display: block;
+			padding: 10px 20px;
+		}
+
+		&Icon{
+			margin-right: 5px;
+		}
+	}
+}
+
+.username{
+	align-items: center;
+	background-color: lighten(@base-color, -5%);
+	color: black;
+	cursor: default;
+	display: flex;
+	font-size: @font-size-large;
+	height: 150px;
+	justify-content: center;
+}

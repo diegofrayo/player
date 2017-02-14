@@ -28,26 +28,27 @@ module.exports = {
 			loader: 'eslint-loader',
 			exclude: /(node_modules|bower_components|dist)/
 		}, {
-			test: /\.css$/,
+			test: /(\.css|.less)$/,
 			loaders: [
 				'style-loader',
 				'css-loader?modules&importLoaders=1&localIdentName=[name]_[local]_[hash:base64:5]',
-				'postcss-loader'
+				'less-loader'
+				// 'postcss-loader'
 			]
 		}]
-	},
-	postcss: () => {
-		return [
-			require('postcss-modules-values'),
-			require('postcss-nested'),
-			require('postcss-simple-vars'),
-			require('postcss-css-variables'),
-			require('postcss-color-function')
-			// require('postcss-import'),
-			// require('postcss-mixins')
-			// require('postcss-custom-properties'),
-			// require('postcss-calc'),
-			// require('postcss-math')
-		];
 	}
+	// postcss: () => {
+	// 	return [
+	// 		require('postcss-modules-values'),
+	// 		require('postcss-nested'),
+	// 		require('postcss-simple-vars'),
+	// 		require('postcss-css-variables'),
+	// 		require('postcss-color-function')
+	// 		require('postcss-import'),
+	// 		require('postcss-mixins')
+	// 		require('postcss-custom-properties'),
+	// 		require('postcss-calc'),
+	// 		require('postcss-math')
+	// 	];
+	// }
 }

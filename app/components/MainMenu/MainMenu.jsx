@@ -6,7 +6,7 @@ import {
 
 import APP from 'utils/app';
 
-import styles from './MainMenu.css';
+import styles from './MainMenu.less';
 
 class MainMenu extends React.Component {
 

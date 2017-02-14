@@ -3,8 +3,8 @@
 import APP from 'utils/app';
 import Song from 'components/Song/Song.jsx';
 
-import songStyles from 'components/Song/Song.css';
-import playlistSongStyles from './PlaylistSong.css';
+import songStyles from 'components/Song/Song.less';
+import playlistSongStyles from './PlaylistSong.less';
 
 class PlaylistSong extends Song {
 
@@ -73,5 +73,8 @@ class PlaylistSong extends Song {
 	}
 
 }
+
+PlaylistSong.propTypes.song.type = React.PropTypes.string.isRequired;
+PlaylistSong.propTypes.song.votes = React.PropTypes.number.isRequired;
 
 export default PlaylistSong;

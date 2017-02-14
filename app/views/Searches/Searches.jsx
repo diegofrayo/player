@@ -2,46 +2,28 @@ import APP from 'utils/app';
 import SongsList from 'components/SongsList/SongsList.jsx';
 import Utilities from 'utils/utilities/Utilities';
 
-import searchesStyles from './Searches.css';
+import searchesStyles from './Searches.less';
 
 class Searches extends React.Component {
 
-	constructor() {
-
-		super();
-
+	constructor(props) {
+		super(props);
 		this.search = this.search.bind(this);
-		this.inputTextBinding = this.inputTextBinding.bind(this);
-
-		this.state = {
-			inputText: ''
-		};
-
 	}
 
 	componentDidMount() {
 		Utilities.updatePageTitle('search');
 	}
 
-	inputTextBinding(event) {
-
-		this.setState({
-			inputText: event.target.value
-		});
-
-	}
-
 	search(event) {
 
-		const {
-			inputText
-		} = this.state;
+		const inputText = this.input.value;
 
 		if (event.key === 'Enter' && inputText.length > 2) {
 
 			APP.searcher.searchSongs(inputText).then((response) => {
 
-				ReactDOM.render(<SongsList type="search" songsList={response.data.songs.items} errorMessage={response.type === 'error' ? response.message : ''} />, document.getElementById('search-results-react-wrapper'));
+				ReactDOM.render(<SongsList type="search" songsList={response.data.songs.items} errorMessage={response.type === 'error' ? response.message : ''} />, this.searchesResultsWrapper);
 
 			});
 
@@ -55,12 +37,10 @@ class Searches extends React.Component {
 			<div>
 				<div className={searchesStyles.inputContainer}>
 					<div className="form-group">
-						<input type="text" placeholder="Search songs..." className={`form-control ${searchesStyles.inputSearch}`} onChange={this.inputTextBinding} onKeyPress={this.search} value={this.state.inputText} autoFocus />
+						<input type="text" placeholder="Search songs, artists, albums..." className={`form-control ${searchesStyles.inputSearch}`} onKeyPress={this.search} ref={(input) => { this.input = input; }} autoFocus />
 					</div>
 				</div>
-				<div id="search-results-react-wrapper">
-					{''}
-				</div>
+				<div id="search-results-react-wrapper" ref={(container) => { this.searchesResultsWrapper = container; }}>{''}</div>
 			</div>
 		);
 

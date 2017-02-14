@@ -7,7 +7,7 @@ import {
 	browserHistory
 } from 'react-router';
 
-import 'styles/base.css';
+import 'styles/base.less';
 
 import APP from 'utils/app.js';
 import Utilities from 'utils/utilities/Utilities.js';

@@ -1,0 +1,31 @@
+@import '../../styles/variables.less';
+
+.parentContainer{
+	composes: u-box-shadow from 'styles/util.less';
+	background-color: @bg-color-3;
+	height: 100%;
+	height: 100vh;
+	margin: 0 auto;
+	max-width: 500px;
+	padding: 0;
+	position: relative;
+	width: 100%;
+
+	&Child{
+		height: 100%;
+		position: relative;
+	}
+}
+
+.content{
+	height: 100%;
+	margin: 0;
+	padding-bottom: @player-height;
+	padding-top: @navbar-height;
+
+	> div{
+		height: 100%;
+		overflow: auto;
+		padding: 15px;
+	}
+}

@@ -2,8 +2,8 @@
 
 import APP from 'utils/app.js';
 
-import utilStyles from 'styles/util.css';
-import playerStyles from './Player.css';
+import utilStyles from 'styles/util.less';
+import playerStyles from './Player.less';
 
 
 const PlayButton = ({

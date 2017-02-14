@@ -2,7 +2,7 @@
 
 import Song from 'components/Song/Song.jsx';
 
-import songStyles from 'components/Song/Song.css';
+import songStyles from 'components/Song/Song.less';
 
 class SearchSong extends Song {
 

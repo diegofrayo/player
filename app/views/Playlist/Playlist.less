@@ -1,0 +1,29 @@
+@import '../../styles/variables.less';
+
+.playlistInfoTitle{
+	color: #f5f5f5;
+	font-size: @font-size-medium;
+	margin: 0 10px;
+}
+
+.nextSongContainer{
+	composes: u-box-shadow from 'styles/util.less';
+	background-color: @bg-color-4;
+	margin-bottom: 20px;
+	overflow: hidden;
+	padding: 8px 5px;
+}
+
+.queueSongsContainer{
+	composes: u-box-shadow from 'styles/util.less';
+	background-color: @bg-color-2;
+	padding: 8px 5px;
+}
+
+.noSongsFound{
+	align-items: center;
+	color: @text-color-light-1;
+	display: flex;
+	font-size: @font-size-large;
+	justify-content: center;
+}

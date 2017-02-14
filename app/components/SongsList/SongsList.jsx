@@ -4,8 +4,8 @@ import FavoriteSong from 'components/FavoriteSong/FavoriteSong.jsx';
 import PlaylistSong from 'components/PlaylistSong/PlaylistSong.jsx';
 import SearchSong from 'components/SearchSong/SearchSong.jsx';
 
-import playlistStyles from 'views/Playlist/Playlist.css';
-import styles from './SongsList.css';
+import playlistStyles from 'views/Playlist/Playlist.less';
+import styles from './SongsList.less';
 
 class SongsList extends React.Component {
 
