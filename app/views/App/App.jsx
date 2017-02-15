@@ -1,4 +1,4 @@
-// import React from 'react';
+import React from 'react';
 
 import MainMenu from 'components/MainMenu/MainMenu.jsx';
 import Player from 'components/Player/Player.jsx';

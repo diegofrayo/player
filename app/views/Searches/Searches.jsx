@@ -1,3 +1,6 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 import APP from 'utils/app';
 import SongsList from 'components/SongsList/SongsList.jsx';
 import Utilities from 'utils/utilities/Utilities';

@@ -55,7 +55,7 @@ function replaceEnvironmentVariables() {
 function createLocalServer() {
 
 	gulp.task('run-local-server', g.serve({
-		root: ['./dist', './app', './bower_components'],
+		root: ['./dist', './app'],
 		port: 4567,
 		middleware: function(req, res, next) {
 			return historyApiFallback(req, res, next);
@@ -97,27 +97,6 @@ gulp.task('build-js', () => {
 //------------------- HTML Tasks ---------------------
 gulp.task('build-html', () => {
 
-	const transformJS = (filepath) => {
-		return '<script src="' + filepath + '"></script>';
-	};
-
-	const transformCSS = (filepath) => {
-		return '<link href="' + filepath + '" rel="stylesheet"/>';
-	};
-
-	const transform = (filepath) => {
-
-		if (filepath.indexOf('.css') !== -1) {
-			return transformCSS(filepath);
-		}
-
-		return transformJS(filepath);
-	};
-
-	const opt = {
-		read: false
-	};
-
 	let stream = gulp.src('./app/index.html')
 		.pipe(g.htmlhint('./config.htmlhint.json'))
 		.pipe(g.htmlhint.reporter());
@@ -126,30 +105,12 @@ gulp.task('build-html', () => {
 
 		return stream
 			.pipe(g.embedlr())
-			.pipe(g.inject(g.bowerFiles(opt), {
-				ignorePath: 'bower_components',
-				starttag: '<!-- inject:vendor:{{ext}} -->',
-				transform: transform
-			}))
 			.pipe(gulp.dest('dist/'))
 			.pipe(g.livereload());
 
 	} else {
 
-		const cssVendorSources =
-			'<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>';
-
-		const jsVendorSources =
-			`<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-			<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/react-router/4.0.0-0/react-router.min.js"></script>`;
-
 		return stream
-			.pipe(g.replace('<!-- INJECT:css -->', cssVendorSources))
-			.pipe(g.replace('<!-- INJECT:js -->', jsVendorSources))
 			.pipe(g.rename('player.html'))
 			.pipe(g.htmlmin(htmlminOpts))
 			.pipe(gulp.dest(destPath.replace('/assets/player', '') + '/templates'));

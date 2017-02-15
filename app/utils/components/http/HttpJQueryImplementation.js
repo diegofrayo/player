@@ -1,3 +1,5 @@
+import jQuery from 'jquery';
+
 import APP from 'utils/app';
 
 export default class HttpJQueryImplementation {

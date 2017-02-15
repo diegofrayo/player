@@ -1,7 +1,12 @@
-// import firebase from 'firebase';
+import firebase from 'firebase';
 
 import APP from 'utils/app.js';
 import Utilities from 'utils/utilities/Utilities';
+
+import store from 'redux/store';
+import {
+	addSong
+} from 'redux/actions';
 
 firebase.initializeApp({
 	databaseURL: '@@firebase_database_url',
@@ -115,6 +120,7 @@ export class FirebaseImplementationClass {
 
 				this.playlist.sort(Utilities.sortPlaylist);
 				resolve(this.playlist);
+
 			});
 
 		});
@@ -152,6 +158,8 @@ export class FirebaseImplementationClass {
 					this.playlist.push(Utilities.cloneObject(song));
 					this.playlist.sort(Utilities.sortPlaylist);
 					this.executeCallbacks('playlist', 'child_added');
+
+					store.dispatch(addSong(song));
 				}
 
 				song = null;

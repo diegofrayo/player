@@ -1,4 +1,4 @@
-// import React from 'react';
+import React from 'react';
 
 import Song from 'components/Song/Song.jsx';
 

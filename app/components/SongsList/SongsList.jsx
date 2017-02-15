@@ -1,4 +1,4 @@
-// import React from 'react';
+import React from 'react';
 
 import FavoriteSong from 'components/FavoriteSong/FavoriteSong.jsx';
 import PlaylistSong from 'components/PlaylistSong/PlaylistSong.jsx';
