@@ -2,12 +2,12 @@ import {
 	createStore
 } from 'redux';
 
-import reduxApp from 'redux/reducers';
+import reduxApp from 'reducers/index';
 
 const initialState = {
 	favorites: [],
 	playlist: [],
-	search_results: []
+	searchResults: []
 };
 
 const store = createStore(reduxApp, initialState);

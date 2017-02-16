@@ -22,9 +22,9 @@ class Playlist extends React.Component {
 
 		Utilities.updatePageTitle('playlist');
 
-		APP.songs_storage.registerCallback('playlist', 'playlist', 'child_added', this.updatePlaylist);
-		APP.songs_storage.registerCallback('playlist', 'playlist', 'child_changed', this.updatePlaylist);
-		APP.songs_storage.registerCallback('playlist', 'playlist', 'child_removed', this.updatePlaylist);
+		// APP.songs_storage.registerCallback('playlist', 'playlist', 'child_added', this.updatePlaylist);
+		// APP.songs_storage.registerCallback('playlist', 'playlist', 'child_changed', this.updatePlaylist);
+		// APP.songs_storage.registerCallback('playlist', 'playlist', 'child_removed', this.updatePlaylist);
 
 	}
 
