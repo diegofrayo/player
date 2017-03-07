@@ -78,7 +78,6 @@ gulp.task('build-js', () => {
 	if (environment === 'LIVE') {
 
 		return stream
-			.pipe(g.uglify())
 			.pipe(gulp.dest(destPath + '/js'));
 
 	} else {

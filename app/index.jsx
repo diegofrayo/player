@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
-	Router,
-	Route,
+	browserHistory,
 	IndexRoute,
-	browserHistory
+	Route,
+	Router
 } from 'react-router';
 
 import 'styles/base.less';
@@ -27,9 +27,9 @@ ReactDOM.render((
 	<Router history={browserHistory}>
 		<Route path="/player" component={AppView}>
 			<IndexRoute component={PlaylistView} />
+			<Route path="/player/favorites" component={FavoritesView} />
 			<Route path="/player/playlist" component={PlaylistView} />
 			<Route path="/player/search" component={SearchesView} />
-			<Route path="/player/favorites" component={FavoritesView} />
 		</Route>
 	</Router>
 ), document.getElementById('parent-container'));

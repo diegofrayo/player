@@ -24,7 +24,6 @@
 		"eslint-plugin-react": "^6.4.1",
 		"gulp": "^3.9.0",
 		"gulp-embedlr": "~0.5.2",
-		"gulp-eslint": "^3.0.1",
 		"gulp-htmlhint": "^0.3.0",
 		"gulp-htmlmin": "~0.1.2",
 		"gulp-livereload": "~3.8.1",
@@ -38,8 +37,7 @@
 		"less": "^2.7.2",
 		"less-loader": "^2.2.3",
 		"style-loader": "^0.13.1",
-		"webpack": "^1.13.2",
-		"webpack-dev-server": "^1.16.2"
+		"webpack": "^1.13.2"
 	},
 	"dependencies": {
 		"firebase": "^3.6.0",

@@ -1,14 +1,27 @@
 import {
+	combineReducers,
 	createStore
 } from 'redux';
 
-import reduxApp from 'reducers/index';
+import favorites from 'reducers/favorites';
+import playlist from 'reducers/playlist';
+import searches from 'reducers/searches';
 
 const initialState = {
 	favorites: [],
 	playlist: [],
-	searchResults: []
+	searches: {
+		errorMessage: '',
+		songs: [],
+		status: 'success'
+	}
 };
+
+const reduxApp = combineReducers({
+	favorites,
+	playlist,
+	searches
+});
 
 const store = createStore(reduxApp, initialState);
 
