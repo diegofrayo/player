@@ -14,12 +14,12 @@ class PlaylistSong extends Song {
 		this.removeSongFromPlaylist = this.removeSongFromPlaylist.bind(this);
 	}
 
-	removeSongFromPlaylist() {
-		APP.songs_storage.removeSongFromPlaylist(APP.username, this.props.song);
-	}
-
 	addVoteToSong() {
 		APP.songs_storage.addVoteToSong(APP.username, this.props.song);
+	}
+
+	removeSongFromPlaylist() {
+		APP.songs_storage.removeSongFromPlaylist(APP.username, this.props.song);
 	}
 
 	addSongToTop() {

@@ -1,5 +1,7 @@
 // npm libs
-import React from 'react';
+import React, {
+	PropTypes
+} from 'react';
 import {
 	connect
 } from 'react-redux';
@@ -23,16 +25,16 @@ const PlayButton = ({
 );
 
 PlayButton.propTypes = {
-	changePlayerState: React.PropTypes.func.isRequired,
-	playerState: React.PropTypes.string.isRequired
+	changePlayerState: PropTypes.func.isRequired,
+	playerState: PropTypes.string.isRequired
 };
 
 // -------------------------------------------
 
 const MuteButton = ({
 	changeMuteState,
-	muteState,
-	isOpened
+	isOpened,
+	muteState
 }) => (
 	<i className={`material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`} onClick={changeMuteState} style={isOpened === true ? { display: 'inline-block' } : { display: 'none' }}>
 		{muteState === true ? 'volume_off' : 'volume_up'}
@@ -40,9 +42,9 @@ const MuteButton = ({
 );
 
 MuteButton.propTypes = {
-	changeMuteState: React.PropTypes.func.isRequired,
-	isOpened: React.PropTypes.bool.isRequired,
-	muteState: React.PropTypes.bool.isRequired
+	changeMuteState: PropTypes.func.isRequired,
+	isOpened: PropTypes.bool.isRequired,
+	muteState: PropTypes.bool.isRequired
 };
 
 // -------------------------------------------
@@ -56,7 +58,7 @@ const ProgressBar = ({
 );
 
 ProgressBar.propTypes = {
-	progress: React.PropTypes.number.isRequired
+	progress: PropTypes.number.isRequired
 };
 
 // -------------------------------------------
@@ -68,8 +70,9 @@ class Player extends React.Component {
 		super();
 
 		this.state = {
-			isOpened: true,
 			isLoading: true,
+			isOpened: false,
+			isReady: false,
 			muteState: false,
 			playerPosition: 0,
 			playerState: 'PAUSED',
@@ -89,8 +92,8 @@ class Player extends React.Component {
 
 	componentDidMount() {
 
-		APP.songs_storage.initPlaylistWatchers('playlist', APP.username);
 		APP.songs_storage.fetchSongsList('playlist', APP.username);
+		APP.songs_storage.initPlaylistWatchers(APP.username);
 
 		APP.player.setup({
 			container_id: playerStyles.playerPluginContainer,
@@ -119,6 +122,13 @@ class Player extends React.Component {
 				});
 
 			},
+			ready: () => {
+
+				this.setState({
+					isReady: true
+				});
+
+			},
 			time: () => {
 
 				const songDuration = APP.player.getDuration();
@@ -132,15 +142,13 @@ class Player extends React.Component {
 		});
 
 		this.updatePlayingSong();
-
-		APP.songs_storage.setPlaylistState();
 	}
 
 	onPlaylistUpdate() {
 
-		this.playlist = APP.songs_storage.getPlaylist();
+		console.log('handleSubscribeChanges Player');
 
-		if (this.playlist.length === 0) {
+		if (this.props.playlistReducer.songs.length === 0) {
 
 			this.setState({
 				playingSong: {}
@@ -164,9 +172,9 @@ class Player extends React.Component {
 
 	updatePlayingSong() {
 
-		if (this.playlist.length > 0) {
+		if (this.props.playlistReducer.songs.length > 0) {
 
-			const [playingSong] = this.playlist;
+			const [playingSong] = this.props.playlistReducer.songs;
 			playingSong.is_playing = true;
 
 			APP.player.loadSong(playingSong);
@@ -255,7 +263,7 @@ class Player extends React.Component {
 
 		const [playingSong] = this.playlist;
 
-		if (this.playlist.length > 1) {
+		if (this.props.playlistReducer.songs.length > 1) {
 
 			this.waitingForSongs = false;
 
@@ -320,10 +328,12 @@ class Player extends React.Component {
 
 }
 
-const mapStateToProps = state => {
-	{
-		playlistReducer: state.playlist
-	}
+const mapStateToProps = state => ({
+	playlistReducer: state.playlist
+});
+
+Player.propTypes = {
+	playlistReducer: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps)(Player);

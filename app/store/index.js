@@ -21,7 +21,7 @@ const initialState = {
 	searches: {
 		errorMessage: '',
 		songs: [],
-		status: 'SUCCESS'
+		status: 'BLANK'
 	}
 };
 
@@ -31,6 +31,7 @@ const reduxApp = combineReducers({
 	searches
 });
 
-const store = createStore(reduxApp, initialState);
+/* eslint no-underscore-dangle: "off" */
+const store = createStore(reduxApp, initialState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 export default store;

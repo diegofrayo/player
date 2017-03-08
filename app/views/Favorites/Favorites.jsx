@@ -16,14 +16,18 @@ class Favorites extends React.Component {
 
 	constructor() {
 		super();
-		store.subscribe(this.handleSubscribeChanges.bind(this));
 		this.state = store.getState().favorites;
+		this.unsubscribe = store.subscribe(this.handleSubscribeChanges.bind(this));
 	}
 
 	componentDidMount() {
 		Utilities.updatePageTitle('favorites');
-		APP.songs_storage.initFavoritesWatchers('favorites', APP.username);
 		APP.songs_storage.fetchSongsList('favorites', APP.username);
+		APP.songs_storage.initFavoritesWatchers(APP.username);
+	}
+
+	componentWillUnmount() {
+		this.unsubscribe();
 	}
 
 	handleSubscribeChanges() {

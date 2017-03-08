@@ -1,3 +1,6 @@
+/* eslint indent: "off" */
+
+// redux
 import {
 	SEARCH_SONGS_FAILURE,
 	SEARCH_SONGS_FETCHING,

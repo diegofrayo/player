@@ -7,29 +7,17 @@ import {
 // js utils
 import Utilities from 'utils/utilities/Utilities';
 
-// redux
-import store from 'store/index';
-
 // react components
 import SongsList from 'components/SongsList/SongsList.jsx';
 import Spinner from 'components/Spinner/Spinner.jsx';
 
 class Playlist extends React.Component {
 
-	constructor() {
-		super();
-		store.subscribe(this.handleSubscribeChanges.bind(this));
-	}
-
 	componentDidMount() {
 		Utilities.updatePageTitle('playlist');
 	}
 
 	componentWillUnmount() {}
-
-	handleSubscribeChanges() {
-		this.setState(store.getState().playlist);
-	}
 
 	render() {
 		return (
@@ -54,10 +42,12 @@ class Playlist extends React.Component {
 
 }
 
-const mapStateToProps = state => {
-	return {
-		playlistReducer: state.playlist
-	};
+const mapStateToProps = state => ({
+	playlistReducer: state.playlist
+});
+
+Playlist.propTypes = {
+	playlistReducer: React.PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps)(Playlist);

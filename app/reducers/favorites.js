@@ -1,3 +1,6 @@
+/* eslint consistent-return: "off" */
+/* eslint indent: "off" */
+
 // redux
 import {
 	ADD_SONG_TO_FAVORITES,
@@ -30,12 +33,11 @@ export default function favorites(state = {}, action = {}) {
 		case REMOVE_SONG_FROM_FAVORITES:
 			return Object.assign({}, state, {
 				errorMessage: '',
-				songs: state.songs.map((song) => {
+				songs: state.songs.filter((song) => {
 					if (song.source_id !== action.song.source_id) {
 						return song;
 					}
-					return null;
-				}).sort(Utilities.sortPlaylist),
+				}).sort(Utilities.sortByTitle),
 				status: 'SUCCESS'
 			});
 
@@ -44,10 +46,11 @@ export default function favorites(state = {}, action = {}) {
 				errorMessage: '',
 				songs: state.songs.map((song) => {
 					if (song.source_id === action.song.source_id) {
-						return Utilities.cloneObject({}, action.song);
+						// return Utilities.cloneObject({}, action.song);
+						return action.song;
 					}
 					return song;
-				}).sort(Utilities.sortPlaylist),
+				}).sort(Utilities.sortByTitle),
 				status: 'SUCCESS'
 			});
 

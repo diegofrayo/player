@@ -18,19 +18,23 @@ import {
 } from 'actions/searches';
 
 // styles
-import searchesStyles from './Searches.less';
+import styles from './Searches.less';
 
 class Searches extends React.Component {
 
 	constructor(props) {
 		super(props);
-		store.subscribe(this.handleSubscribeChanges.bind(this));
 		this.search = this.search.bind(this);
 		this.state = store.getState().searches;
+		this.unsubscribe = store.subscribe(this.handleSubscribeChanges.bind(this));
 	}
 
 	componentDidMount() {
 		Utilities.updatePageTitle('search');
+	}
+
+	componentWillUnmount() {
+		this.unsubscribe();
 	}
 
 	handleSubscribeChanges() {
@@ -41,7 +45,7 @@ class Searches extends React.Component {
 
 		const inputText = this.input.value;
 
-		if (event.key === 'Enter' && inputText.length > 2) {
+		if (event.key === 'Enter' && inputText.length > 2 && this.state.status !== 'FETCHING') {
 
 			store.dispatch(searchSongsFetching());
 
@@ -50,7 +54,7 @@ class Searches extends React.Component {
 				if (response.type === 'error') {
 					store.dispatch(searchSongsFailure(response.message));
 				} else {
-					store.dispatch(searchSongsSuccess(response.data.songs));
+					store.dispatch(searchSongsSuccess(response.data.songs.toArray()));
 				}
 
 			});
@@ -63,14 +67,24 @@ class Searches extends React.Component {
 
 		return (
 			<div>
-				<div className={searchesStyles.inputContainer}>
+				<div className={styles.inputContainer}>
 					<div className="form-group">
-						<input type="text" placeholder="Search songs, artists, albums..." className={`form-control ${searchesStyles.inputSearch}`} onKeyPress={this.search} ref={(input) => { this.input = input; }} autoFocus />
+						<input type="text" placeholder="Search songs, artists, albums..." className={`form-control ${styles.inputSearch}`} onKeyPress={this.search} ref={(input) => { this.input = input; }} autoFocus />
 					</div>
 				</div>
 				{
 					this.state.status === 'SUCCESS' &&
-					<SongsList type="search" songsList={this.state.songs.toArray()} />
+					(
+						<div>
+							<p className={styles.searchInfo}>
+								<i className={`material-icons ${styles.infoIcon}`}>info</i>
+								<span>
+									Results for <strong>{this.state.query}</strong>: {this.state.songs.length}
+								</span>
+							</p>
+							<SongsList type="search" songsList={this.state.songs} />
+						</div>
+					)
 				}
 				{
 					this.state.status === 'FETCHING' &&

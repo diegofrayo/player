@@ -1,11 +1,15 @@
+// js utils
 import HttpFactory from 'utils/components/http/HttpFactory';
-import PromiseFactory from 'utils/components/promise/PromiseFactory';
 import PlayerFactory from 'utils/components/player/PlayerFactory';
+import PromiseFactory from 'utils/components/promise/PromiseFactory';
 import SearcherFactory from 'utils/components/searcher/SearcherFactory';
 import SongsStorageFactory from 'utils/components/songs-storage/SongsStorageFactory';
+import Utilities from 'utils/utilities/Utilities.js';
+
+const environment = '@@environment';
 
 const APP = {
-	environment: '@@environment',
+	environment,
 	http: new HttpFactory().createInstance('HttpJQueryImplementation', {}),
 	player: new PlayerFactory().createInstance('JWPlayerImplementation'),
 	promise: new PromiseFactory().createInstance('PromiseImplementation', {}),
@@ -13,7 +17,7 @@ const APP = {
 		api_key: '@@youtube_api_key'
 	}),
 	songs_storage: new SongsStorageFactory().createInstance('FirebaseImplementationClass', {}),
-	username: 'diegofrayo'
+	username: Utilities.isGuestUser(environment) === true ? 'guest' : 'diegofrayo'
 };
 
 if (APP.environment === 'DEV') {

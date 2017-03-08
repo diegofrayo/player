@@ -39,8 +39,14 @@ export class FirebaseImplementationClass {
 		let action;
 
 		if (listName === 'favorites') {
+
 			action = fetchFavorites;
 			route = this.routes.favorites(username);
+
+			if (store.getState().favorites.status === 'SUCCESS') {
+				return;
+			}
+
 		} else {
 			action = fetchPlaylist;
 			route = this.routes.playlist(username);
@@ -63,28 +69,30 @@ export class FirebaseImplementationClass {
 	createSongsListWatcher(listName, username) {
 
 		let actions;
-		let currentStore;
+		let isFavorite;
 		let reference;
 
 		if (listName === 'favorites') {
-			currentStore = store.getState().favorites;
-			reference = this.reference.child(this.routes.favorites(username));
 			actions = {
 				addSong: addSongToFavorites,
 				removeSong: removeSongFromFavorites,
 				updateSong: updateFavorite
 			};
+			isFavorite = true;
+			reference = this.reference.child(this.routes.favorites(username));
 		} else {
-			currentStore = store.getState().playlist;
-			reference = this.reference.child(this.routes.playlist(username));
 			actions = {
 				addSong: addSongToPlaylist,
 				removeSong: removeSongFromPlaylist,
 				updateSong: updatePlaylistSong
 			};
+			isFavorite = false;
+			reference = this.reference.child(this.routes.playlist(username));
 		}
 
 		reference.on('child_added', (snapshot) => {
+
+			const currentStore = isFavorite ? store.getState().favorites : store.getState().playlist;
 
 			if (currentStore.status === 'FETCHING') {
 				return;
@@ -101,6 +109,8 @@ export class FirebaseImplementationClass {
 
 		reference.on('child_changed', (snapshot) => {
 
+			const currentStore = isFavorite ? store.getState().favorites : store.getState().playlist;
+
 			if (currentStore.status === 'FETCHING') {
 				return;
 			}
@@ -115,6 +125,8 @@ export class FirebaseImplementationClass {
 		});
 
 		reference.on('child_removed', (snapshot) => {
+
+			const currentStore = isFavorite ? store.getState().favorites : store.getState().playlist;
 
 			if (currentStore.status === 'FETCHING') {
 				return;
@@ -136,7 +148,9 @@ export class FirebaseImplementationClass {
 	}
 
 	initFavoritesWatchers(username) {
-		this.createSongsListWatcher('favorites', username);
+		if (store.getState().favorites.status === 'FETCHING') {
+			this.createSongsListWatcher('favorites', username);
+		}
 	}
 
 	addSongToPlaylist(username, song, omitIfExists) {

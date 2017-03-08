@@ -79,19 +79,15 @@ class SongsList extends React.Component {
 
 		} else if (typeList === 'search') {
 
+			if (songs.length === 0) {
+				return null;
+			}
+
 			songsOutput = songs.map(song => <SearchSong song={song} key={song.source_id} />);
 
 			return (
-				<div>
-					<p className={styles.songsListInfo}>
-						<i className={`material-icons ${styles.infoIcon}`}>info</i>
-						<span>
-							Results: {songs.length}
-						</span>
-					</p>
-					<div className={styles.songsOutputContainer}>
-						{songsOutput}
-					</div>
+				<div className={styles.songsOutputContainer}>
+					{songsOutput}
 				</div>
 			);
 

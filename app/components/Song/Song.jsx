@@ -6,17 +6,17 @@ class Song extends React.Component {
 
 	constructor() {
 		super();
-		this.addSongToPlaylist = this.addSongToPlaylist.bind(this);
 		this.addSongToFavorites = this.addSongToFavorites.bind(this);
+		this.addSongToPlaylist = this.addSongToPlaylist.bind(this);
 		this.addSongToTop = this.addSongToTop.bind(this);
-	}
-
-	addSongToPlaylist() {
-		APP.songs_storage.addSongToPlaylist(APP.username, this.props.song);
 	}
 
 	addSongToFavorites() {
 		APP.songs_storage.addSongToFavorites(APP.username, this.props.song);
+	}
+
+	addSongToPlaylist() {
+		APP.songs_storage.addSongToPlaylist(APP.username, this.props.song);
 	}
 
 	addSongToTop() {
@@ -24,11 +24,9 @@ class Song extends React.Component {
 	}
 
 	render() {
-
 		return (
 			<div className="row">{''}</div>
 		);
-
 	}
 
 }

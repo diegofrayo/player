@@ -11,14 +11,12 @@
 		"console": true,
 		"document": true,
 		"fetch": true,
-		"firebase": true,
-		"jQuery": true,
 		"jwplayer": true,
 		"Promise": true,
-		"React": true,
-		"ReactDOM": true
+		"window": true
 	},
 	"rules": {
+		"array-callback-return": 0,
 		"capitalized-comments": 0,
 		"class-methods-use-this": 0,
 		"comma-dangle": 0,
