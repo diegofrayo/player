@@ -16,46 +16,46 @@ export default function playlist(state = [], action = {}) {
 
 	switch (action.type) {
 
-	case ADD_SONG_TO_PLAYLIST:
-		return Object.assign({}, state, {
-			errorMessage: '',
-			songs: Utilities.arrayIndexOf(state.songs, 'source_id', action.song.source_id) === -1 ? [action.song].concat(state.songs).sort(Utilities.sortPlaylist) : state.songs,
-			status: 'SUCCESS'
-		});
+		case ADD_SONG_TO_PLAYLIST:
+			return Object.assign({}, state, {
+				errorMessage: '',
+				songs: Utilities.arrayIndexOf(state.songs, 'source_id', action.song.source_id) === -1 ? [...state.songs, action.song].sort(Utilities.sortPlaylist) : state.songs,
+				status: 'SUCCESS'
+			});
 
-	case FETCH_PLAYLIST:
-		return Object.assign({}, state, {
-			errorMessage: '',
-			songs: action.songs.sort(Utilities.sortPlaylist),
-			status: 'SUCCESS'
-		});
+		case FETCH_PLAYLIST:
+			return Object.assign({}, state, {
+				errorMessage: '',
+				songs: [...action.songs].sort(Utilities.sortPlaylist),
+				status: 'SUCCESS'
+			});
 
-	case REMOVE_SONG_FROM_PLAYLIST:
-		return Object.assign({}, state, {
-			errorMessage: '',
-			songs: state.songs.filter((song) => {
-				if (song.source_id !== action.song.source_id) {
+		case REMOVE_SONG_FROM_PLAYLIST:
+			return Object.assign({}, state, {
+				errorMessage: '',
+				songs: state.songs.filter((song) => {
+					if (song.source_id !== action.song.source_id) {
+						return song;
+					}
+				}).sort(Utilities.sortPlaylist),
+				status: 'SUCCESS'
+			});
+
+		case UPDATE_PLAYLIST_SONG:
+			return Object.assign({}, state, {
+				errorMessage: '',
+				songs: state.songs.map((song) => {
+					if (song.source_id === action.song.source_id) {
+						// return Utilities.cloneObject({}, action.song);
+						return action.song;
+					}
 					return song;
-				}
-			}).sort(Utilities.sortPlaylist),
-			status: 'SUCCESS'
-		});
+				}).sort(Utilities.sortPlaylist),
+				status: 'SUCCESS'
+			});
 
-	case UPDATE_PLAYLIST_SONG:
-		return Object.assign({}, state, {
-			errorMessage: '',
-			songs: state.songs.map((song) => {
-				if (song.source_id === action.song.source_id) {
-					// return Utilities.cloneObject({}, action.song);
-					return action.song;
-				}
-				return song;
-			}).sort(Utilities.sortPlaylist),
-			status: 'SUCCESS'
-		});
-
-	default:
-		return state;
+		default:
+			return state;
 
 	}
 

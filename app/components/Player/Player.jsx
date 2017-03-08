@@ -9,6 +9,9 @@ import {
 // js utils
 import APP from 'utils/app.js';
 
+// react components
+import Spinner from 'components/Spinner/Spinner.jsx';
+
 // styles
 import utilStyles from 'styles/util.less';
 import playerStyles from './Player.less';
@@ -70,9 +73,7 @@ class Player extends React.Component {
 		super();
 
 		this.state = {
-			isLoading: true,
 			isOpened: false,
-			isReady: false,
 			muteState: false,
 			playerPosition: 0,
 			playerState: 'PAUSED',
@@ -87,7 +88,6 @@ class Player extends React.Component {
 		this.nextSong = this.nextSong.bind(this);
 		this.onPlaylistUpdate = this.onPlaylistUpdate.bind(this);
 		this.openPlayer = this.openPlayer.bind(this);
-
 	}
 
 	componentDidMount() {
@@ -97,58 +97,48 @@ class Player extends React.Component {
 
 		APP.player.setup({
 			container_id: playerStyles.playerPluginContainer,
-			source_id: 'aP_-P_BS6KY',
 			key: 'h97SPVY9oEJMHKhqc2vKipwiGipeHUoFkXLNNA',
+			source_id: 'aP_-P_BS6KY',
 			skin: {
 				name: 'custom-skin'
 			}
 		});
 
-		APP.player.setVolume(100);
-
 		APP.player.configureCallbacks({
-			complete: this.nextSong,
+			complete: () => this.nextSong(),
 			pause: () => {
-
 				this.setState({
 					playerState: 'PAUSED'
 				});
-
 			},
 			play: () => {
-
 				this.setState({
 					playerState: 'PLAYING'
 				});
-
 			},
-			ready: () => {
-
-				this.setState({
-					isReady: true
-				});
-
-			},
+			ready: () => {},
 			time: () => {
-
 				const songDuration = APP.player.getDuration();
 				const playerPosition = (100 * APP.player.getPosition()) / songDuration;
-
 				this.setState({
 					playerPosition
 				});
-
 			}
 		});
 
-		this.updatePlayingSong();
+		APP.player.setVolume(100);
 	}
 
-	onPlaylistUpdate() {
+	componentWillReceiveProps(nextProps) {
+		this.onPlaylistUpdate(nextProps.playlistReducer);
+	}
 
-		console.log('handleSubscribeChanges Player');
+	/*
+	 * This function is executed when an change happens in Playlist Store
+	 */
+	onPlaylistUpdate(playlistReducer) {
 
-		if (this.props.playlistReducer.songs.length === 0) {
+		if (playlistReducer.songs.length === 0) {
 
 			this.setState({
 				playingSong: {}
@@ -160,21 +150,20 @@ class Player extends React.Component {
 
 			this.isFirstSong = true;
 			APP.player.stop();
-			this.updatePlayingSong();
+			this.updatePlayingSong(playlistReducer);
 
 		} else if (this.waitingForSongs === true && APP.player.getState() !== 'PLAYING') {
 
-			this.nextSong();
+			this.nextSong(playlistReducer);
 
 		}
-
 	}
 
-	updatePlayingSong() {
+	updatePlayingSong(playlistReducer) {
 
-		if (this.props.playlistReducer.songs.length > 0) {
+		if (playlistReducer.songs.length > 0) {
 
-			const [playingSong] = this.props.playlistReducer.songs;
+			const [playingSong] = playlistReducer.songs;
 			playingSong.is_playing = true;
 
 			APP.player.loadSong(playingSong);
@@ -200,23 +189,13 @@ class Player extends React.Component {
 			if (this.state.muteState === true) {
 				APP.player.setVolume(0);
 			}
-
-		} else {
-
-			this.setState({
-				isLoading: false
-			});
-
 		}
-
 	}
 
 	openPlayer() {
-
 		this.setState({
 			isOpened: !this.state.isOpened
 		});
-
 	}
 
 	changePlayerState() {
@@ -238,7 +217,6 @@ class Player extends React.Component {
 		if (this.state.muteState === true) {
 			APP.player.setVolume(0);
 		}
-
 	}
 
 	changeMuteState() {
@@ -256,30 +234,25 @@ class Player extends React.Component {
 		this.setState({
 			muteState
 		});
-
 	}
 
-	nextSong() {
+	nextSong(reducer) {
 
-		const [playingSong] = this.playlist;
+		const playlistReducer = reducer || this.props.playlistReducer;
+		const [playingSong] = playlistReducer.songs;
 
-		if (this.props.playlistReducer.songs.length > 1) {
+		if (playlistReducer.songs.length > 1) {
 
 			this.waitingForSongs = false;
 
 			APP.songs_storage.removeSongFromPlaylist(APP.username, playingSong)
 				.then(() => {
-
-					this.updatePlayingSong();
-
+					this.updatePlayingSong(this.props.playlistReducer);
 				});
 
 		} else {
-
 			this.waitingForSongs = true;
-
 		}
-
 	}
 
 	addSongToFavorites() {
@@ -287,7 +260,6 @@ class Player extends React.Component {
 	}
 
 	render() {
-
 		return (
 			<div id="player" className={this.state.isOpened === true ? playerStyles.player__opened : playerStyles.player}>
 				<div className={`text-center ${playerStyles.expandButtonContainer}`}>
@@ -296,10 +268,13 @@ class Player extends React.Component {
 					</button>
 				</div>
 				<div className={`${playerStyles.contentWrapper}`}>
-					<div className={`${playerStyles.noPlayingSongContainer} text-center`} style={this.state.playingSong.title ? { display: 'none' } : { display: 'flex' }}>
-						{this.state.isLoading === true ? 'Loading...' : 'There are not songs to play'}
+					<div className={`${playerStyles.noPlayingSongContainer} text-center`} style={this.props.playlistReducer.status === 'FETCHING' ? { display: 'flex' } : { display: 'none' }}>
+						<Spinner />
 					</div>
-					<div className={this.state.isOpened === true ? `row text-center ${playerStyles.playingSongContainer}` : `row ${playerStyles.playingSongContainer}`} style={this.state.playingSong.title ? { display: 'block' } : { display: 'none' }}>
+					<div className={`${playerStyles.noPlayingSongContainer} text-center`} style={this.props.playlistReducer.status === 'SUCCESS' && this.props.playlistReducer.songs.length === 0 ? { display: 'flex' } : { display: 'none' }}>
+						There are not songs to play
+					</div>
+					<div className={this.state.isOpened === true ? `row text-center ${playerStyles.playingSongContainer}` : `row ${playerStyles.playingSongContainer}`} style={this.props.playlistReducer.songs.length > 0 ? { display: 'block' } : { display: 'none' }}>
 						<div className={this.state.isOpened === true ? 'col-xs-12' : 'col-xs-3 col-sm-2 text-center'}>
 							<img src={this.state.playingSong.thumbnail} alt="thumbnail" className={playerStyles.songThumbnail} />
 							<div id={playerStyles.playerPluginContainer}>{''}</div>
@@ -315,7 +290,7 @@ class Player extends React.Component {
 						</div>
 						<div className={this.state.isOpened === true ? 'col-xs-12' : 'col-xs-4 col-sm-3 text-center'}>
 							<PlayButton changePlayerState={this.changePlayerState} playerState={this.state.playerState} />
-							<i className={`material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`} onClick={this.nextSong}>skip_next</i>
+							<i className={`material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`} onClick={() => this.nextSong()}>skip_next</i>
 							<i className={`material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`} style={this.state.isOpened === true ? { display: 'inline-block' } : { display: 'none' }} onClick={this.addSongToFavorites}>favorite</i>
 							<MuteButton changeMuteState={this.changeMuteState} muteState={this.state.muteState} isOpened={this.state.isOpened} />
 						</div>
@@ -323,7 +298,6 @@ class Player extends React.Component {
 				</div>
 			</div>
 		);
-
 	}
 
 }
