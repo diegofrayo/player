@@ -1,3 +1,4 @@
+// npm librs
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
@@ -7,11 +8,14 @@ import {
 	Router
 } from 'react-router';
 
+// styles
 import 'styles/base.less';
 
+// js utils
 import APP from 'utils/app.js';
 import Utilities from 'utils/utilities/Utilities.js';
 
+// react components
 import AppView from 'views/App/App.jsx';
 import FavoritesView from 'views/Favorites/Favorites.jsx';
 import PlaylistView from 'views/Playlist/Playlist.jsx';

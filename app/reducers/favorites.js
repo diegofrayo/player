@@ -1,21 +1,54 @@
+// redux
 import {
 	ADD_SONG_TO_FAVORITES,
-	REMOVE_SONG_FROM_FAVORITES
+	FETCH_FAVORITES,
+	REMOVE_SONG_FROM_FAVORITES,
+	UPDATE_FAVORITE
 } from 'constants/index';
 
-export default function favorites(state = [], action = {}) {
+// js utils
+import Utilities from 'utils/utilities/Utilities';
+
+export default function favorites(state = {}, action = {}) {
 
 	switch (action.type) {
 
 		case ADD_SONG_TO_FAVORITES:
-			return state.concat(action.song);
+			return Object.assign({}, state, {
+				errorMessage: '',
+				songs: Utilities.arrayIndexOf(state.songs, 'source_id', action.song.source_id) === -1 ? [action.song].concat(state.songs).sort(Utilities.sortByTitle) : state.songs,
+				status: 'SUCCESS'
+			});
+
+		case FETCH_FAVORITES:
+			return Object.assign({}, state, {
+				errorMessage: '',
+				songs: action.songs.sort(Utilities.sortByTitle),
+				status: 'SUCCESS'
+			});
 
 		case REMOVE_SONG_FROM_FAVORITES:
-			return state.map((song) => {
-				if (song.source_id !== action.song.source_id) {
+			return Object.assign({}, state, {
+				errorMessage: '',
+				songs: state.songs.map((song) => {
+					if (song.source_id !== action.song.source_id) {
+						return song;
+					}
+					return null;
+				}).sort(Utilities.sortPlaylist),
+				status: 'SUCCESS'
+			});
+
+		case UPDATE_FAVORITE:
+			return Object.assign({}, state, {
+				errorMessage: '',
+				songs: state.songs.map((song) => {
+					if (song.source_id === action.song.source_id) {
+						return Utilities.cloneObject({}, action.song);
+					}
 					return song;
-				}
-				return null;
+				}).sort(Utilities.sortPlaylist),
+				status: 'SUCCESS'
 			});
 
 		default:

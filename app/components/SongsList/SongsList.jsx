@@ -1,9 +1,12 @@
+// npm libs
 import React from 'react';
 
+// react components
 import FavoriteSong from 'components/FavoriteSong/FavoriteSong.jsx';
 import PlaylistSong from 'components/PlaylistSong/PlaylistSong.jsx';
 import SearchSong from 'components/SearchSong/SearchSong.jsx';
 
+// styles
 import playlistStyles from 'views/Playlist/Playlist.less';
 import styles from './SongsList.less';
 
@@ -22,8 +25,8 @@ class SongsList extends React.Component {
 
 				return (
 					<div className={playlistStyles.noSongsFound}>
-							There are not songs in queue
-						</div>
+						There are not songs in queue
+					</div>
 				);
 
 			}

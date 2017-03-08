@@ -1,9 +1,24 @@
+// npm libs
 import firebase from 'firebase';
 
+// js utils
 import APP from 'utils/app.js';
 import Utilities from 'utils/utilities/Utilities';
 
-// import store from 'store/index';
+// redux
+import store from 'store/index';
+import {
+	addSongToFavorites,
+	fetchFavorites,
+	removeSongFromFavorites,
+	updateFavorite
+} from 'actions/favorites';
+import {
+	addSongToPlaylist,
+	fetchPlaylist,
+	removeSongFromPlaylist,
+	updatePlaylistSong
+} from 'actions/playlist';
 
 firebase.initializeApp({
 	databaseURL: '@@firebase_database_url',
@@ -14,267 +29,114 @@ firebase.initializeApp({
 export class FirebaseImplementationClass {
 
 	constructor(firebaseConfig) {
-		this.db_reference = firebaseConfig.db_reference;
-		this.playlist = [];
-		this.isLoadingPlaylist = true;
+		this.reference = firebaseConfig.reference;
 		this.routes = firebaseConfig.routes;
-		this.registeredCallbacks = {
-			playlist: {
-				child_added: {},
-				child_changed: {},
-				child_removed: {}
-			},
-			favorites: {
-				child_added: {},
-				child_changed: {},
-				child_removed: {}
-			}
-		};
 	}
 
-	registerCallback(watcherName, componentName, eventName, callback) {
-		this.registeredCallbacks[watcherName][eventName][componentName] = callback;
-	}
+	fetchSongsList(listName, username) {
 
-	unregisterCallbacks(componentName) {
+		let route;
+		let action;
 
-		const callbacks = this.registeredCallbacks;
-
-		for (const watcherName in callbacks) {
-
-			// no-prototype-builtins
-			if (Object.hasOwnProperty.call(callbacks, watcherName)) {
-
-				const watcherCallbacks = callbacks[watcherName];
-
-				for (const eventName in watcherCallbacks) {
-
-					// no-prototype-builtins
-					if (Object.hasOwnProperty.call(watcherCallbacks, eventName)) {
-
-						const eventCallbacks = watcherCallbacks[eventName];
-
-						for (const componentKey in eventCallbacks) {
-
-							// no-prototype-builtins
-							if (Object.hasOwnProperty.call(eventCallbacks, componentKey) && componentName === componentKey) {
-
-								if (eventCallbacks[componentKey]) {
-									delete eventCallbacks[componentKey];
-								}
-
-							}
-
-						}
-
-					}
-
-				}
-
-			}
-
+		if (listName === 'favorites') {
+			action = fetchFavorites;
+			route = this.routes.favorites(username);
+		} else {
+			action = fetchPlaylist;
+			route = this.routes.playlist(username);
 		}
 
-	}
+		this.reference.child(route)
+			.once('value', (snapshot) => {
 
-	executeCallbacks(watcherName, eventName) {
-
-		const callbacks = this.registeredCallbacks[watcherName][eventName];
-
-		for (const componentKey in callbacks) {
-
-			// no-prototype-builtins
-			if (Object.hasOwnProperty.call(callbacks, componentKey)) {
-
-				if (callbacks[componentKey]) {
-					callbacks[componentKey]();
-				}
-
-			}
-
-		}
-
-	}
-
-	getPlaylist() {
-		return this.playlist;
-	}
-
-	setPlaylistState() {
-		this.isLoadingPlaylist = false;
-		this.executeCallbacks('playlist', 'child_added');
-	}
-
-	downloadPlaylist(username) {
-
-		const promise = APP.promise.createPromise((resolve) => {
-
-			this.db_reference.child(this.routes.playlist(username)).once('value', (snapshot) => {
+				let songs = [];
 
 				if (snapshot.exists()) {
-					this.playlist = Utilities.jsonToArray(snapshot.val());
+					songs = Utilities.jsonToArray(snapshot.val());
 				}
 
-				this.playlist.sort(Utilities.sortPlaylist);
-				resolve(this.playlist);
-
+				store.dispatch(action(songs));
 			});
 
-		});
-
-		return promise;
 	}
 
-	getFavorites() {
+	createSongsListWatcher(listName, username) {
 
-		if (this.favorites === undefined) {
-			this.favorites = [];
+		let actions;
+		let currentStore;
+		let reference;
+
+		if (listName === 'favorites') {
+			currentStore = store.getState().favorites;
+			reference = this.reference.child(this.routes.favorites(username));
+			actions = {
+				addSong: addSongToFavorites,
+				removeSong: removeSongFromFavorites,
+				updateSong: updateFavorite
+			};
+		} else {
+			currentStore = store.getState().playlist;
+			reference = this.reference.child(this.routes.playlist(username));
+			actions = {
+				addSong: addSongToPlaylist,
+				removeSong: removeSongFromPlaylist,
+				updateSong: updatePlaylistSong
+			};
 		}
 
-		return this.favorites;
+		reference.on('child_added', (snapshot) => {
+
+			if (currentStore.status === 'FETCHING') {
+				return;
+			}
+
+			let song = snapshot.val();
+
+			if (song) {
+				store.dispatch(actions.addSong(song));
+			}
+
+			song = null;
+		});
+
+		reference.on('child_changed', (snapshot) => {
+
+			if (currentStore.status === 'FETCHING') {
+				return;
+			}
+
+			let changedSong = snapshot.val();
+
+			if (changedSong) {
+				store.dispatch(actions.updateSong(changedSong));
+			}
+
+			changedSong = null;
+		});
+
+		reference.on('child_removed', (snapshot) => {
+
+			if (currentStore.status === 'FETCHING') {
+				return;
+			}
+
+			let removedSong = snapshot.val();
+
+			if (removedSong) {
+				store.dispatch(actions.removeSong(removedSong));
+			}
+
+			removedSong = null;
+		});
+
 	}
 
 	initPlaylistWatchers(username) {
-
-		if (this.playlistReference === undefined) {
-
-			// TODO: Improve this route
-			this.playlistReference = this.db_reference.child(this.routes.playlist(username));
-
-			this.playlistReference.on('child_added', (snapshot) => {
-
-				if (this.isLoadingPlaylist === true) {
-					return;
-				}
-
-				let song = snapshot.val();
-
-				if (song && Utilities.arrayIndexOf(this.playlist, 'source_id', song.source_id) === -1) {
-
-					// TODO: Clone object
-					this.playlist.push(Utilities.cloneObject(song));
-					this.playlist.sort(Utilities.sortPlaylist);
-					this.executeCallbacks('playlist', 'child_added');
-
-					// store.dispatch(reduxActions.addSongToPlaylist(song));
-				}
-
-				song = null;
-			});
-
-			this.playlistReference.on('child_changed', (snapshot) => {
-
-				if (this.isLoadingPlaylist === true) {
-					return;
-				}
-
-				let changedSong = snapshot.val();
-
-				if (changedSong) {
-
-					const index = Utilities.arrayIndexOf(this.playlist, 'source_id', changedSong.source_id);
-
-					if (index !== -1) {
-						// TODO: Clone object
-						this.playlist[index] = Utilities.cloneObject(changedSong);
-					}
-
-					this.playlist.sort(Utilities.sortPlaylist);
-					this.executeCallbacks('playlist', 'child_changed');
-				}
-
-				changedSong = null;
-			});
-
-			this.playlistReference.on('child_removed', (snapshot) => {
-
-				if (this.isLoadingPlaylist === true) {
-					return;
-				}
-
-				let removedSong = snapshot.val();
-
-				if (removedSong) {
-
-					const index = Utilities.arrayIndexOf(this.playlist, 'source_id', removedSong.source_id);
-
-					if (index !== -1) {
-						this.playlist.splice(index, 1);
-					}
-
-					this.playlist.sort(Utilities.sortPlaylist);
-					this.executeCallbacks('playlist', 'child_removed');
-				}
-
-				removedSong = null;
-			});
-
-		}
-
+		this.createSongsListWatcher('playlist', username);
 	}
 
 	initFavoritesWatchers(username) {
-
-		if (this.favoritesReference === undefined) {
-
-			// TODO: Improve this route
-			this.favoritesReference = this.db_reference.child(this.routes.favorites(username));
-
-			this.favoritesReference.on('child_added', (snapshot) => {
-
-				let song = snapshot.val();
-
-				if (song) {
-					// TODO: Clone object
-					this.favorites.push(Utilities.cloneObject(song));
-					this.favorites.sort(Utilities.sortByTitle);
-					this.executeCallbacks('favorites', 'child_added');
-				}
-
-				song = null;
-			});
-
-			this.favoritesReference.on('child_changed', (snapshot) => {
-
-				let changedSong = snapshot.val();
-
-				if (changedSong) {
-
-					const index = Utilities.arrayIndexOf(this.favorites, 'source_id', changedSong.source_id);
-
-					if (index !== -1) {
-						// TODO: Clone object
-						this.favorites[index] = Utilities.cloneObject(changedSong);
-					}
-
-					this.favorites.sort(Utilities.sortByTitle);
-					this.executeCallbacks('favorites', 'child_changed');
-				}
-
-				changedSong = null;
-			});
-
-			this.favoritesReference.on('child_removed', (snapshot) => {
-
-				let removedSong = snapshot.val();
-
-				if (removedSong) {
-
-					const index = Utilities.arrayIndexOf(this.favorites, 'source_id', removedSong.source_id);
-
-					if (index !== -1) {
-						this.favorites.splice(index, 1);
-					}
-
-					this.favorites.sort(Utilities.sortByTitle);
-					this.executeCallbacks('favorites', 'child_removed');
-				}
-
-				removedSong = null;
-			});
-
-		}
-
+		this.createSongsListWatcher('favorites', username);
 	}
 
 	addSongToPlaylist(username, song, omitIfExists) {
@@ -294,10 +156,12 @@ export class FirebaseImplementationClass {
 			};
 
 			if (omitIfExists === true) {
+
 				addSong();
+
 			} else {
 
-				this.db_reference.child(this.routes.playlist(username)).child(song.source_id)
+				this.reference.child(this.routes.playlist(username)).child(song.source_id)
 					.once('value', (snapshot) => {
 
 						if (snapshot.exists()) {
@@ -316,7 +180,7 @@ export class FirebaseImplementationClass {
 	}
 
 	removeSongFromPlaylist(username, song) {
-		return this.db_reference.child(this.routes.playlist(username)).child(song.source_id).remove();
+		return this.reference.child(this.routes.playlist(username)).child(song.source_id).remove();
 	}
 
 	addSongToFavorites(username, song) {
@@ -329,11 +193,11 @@ export class FirebaseImplementationClass {
 		delete newSong.type;
 		delete newSong.votes;
 
-		return this.db_reference.child(this.routes.favorites(username)).child(song.source_id).update(newSong);
+		return this.reference.child(this.routes.favorites(username)).child(song.source_id).update(newSong);
 	}
 
 	removeSongFromFavorites(username, song) {
-		return this.db_reference.child(this.routes.favorites(username)).child(song.source_id).remove();
+		return this.reference.child(this.routes.favorites(username)).child(song.source_id).remove();
 	}
 
 	addSongToTop(username, song) {
@@ -343,15 +207,16 @@ export class FirebaseImplementationClass {
 			const newSong = Utilities.cloneObject(song);
 			newSong.type = type || 'top';
 
-			this.db_reference.child(this.routes.playlist(username)).child(song.source_id).once('value', (snapshot) => {
+			this.reference.child(this.routes.playlist(username)).child(song.source_id)
+				.once('value', (snapshot) => {
 
-				if (snapshot.exists()) {
-					this.updatePlaylistSong(username, newSong);
-				} else {
-					this.addSongToPlaylist(username, newSong, true);
-				}
+					if (snapshot.exists()) {
+						this.updatePlaylistSong(username, newSong);
+					} else {
+						this.addSongToPlaylist(username, newSong, true);
+					}
 
-			});
+				});
 
 		};
 
@@ -361,11 +226,12 @@ export class FirebaseImplementationClass {
 
 		} else {
 
-			const songTopIndex = Utilities.arrayIndexOf(this.playlist, 'type', 'top');
+			const playlist = store.getState().playlist.songs;
+			const songTopIndex = Utilities.arrayIndexOf(playlist, 'type', 'top');
 
 			if (songTopIndex !== -1) {
 
-				const songTop = Utilities.cloneObject(this.playlist[songTopIndex]);
+				const songTop = Utilities.cloneObject(playlist[songTopIndex]);
 				songTop.type = 'normal';
 
 				this.updatePlaylistSong(username, songTop)
@@ -383,7 +249,6 @@ export class FirebaseImplementationClass {
 
 	addVoteToSong(username, song) {
 
-		// TODO: Clone object
 		const newSong = Utilities.cloneObject(song);
 		newSong.votes += 1;
 
@@ -391,16 +256,15 @@ export class FirebaseImplementationClass {
 	}
 
 	updatePlaylistSong(username, song) {
-		return this.db_reference.child(this.routes.playlist(username)).child(song.source_id).update(song);
+		return this.reference.child(this.routes.playlist(username)).child(song.source_id).update(song);
 	}
 
 }
 
 export const FIREBASE_CONNECTION = {
-	db_reference: firebase.database().ref(),
+	reference: firebase.database().ref(),
 	routes: {
-		playlist: username => `player/${username}/playlist`,
-		playlists: username => `player/${username}/playlists`,
-		favorites: username => `player/${username}/favorites`
+		favorites: username => `player/${username}/favorites`,
+		playlist: username => `player/${username}/playlist`
 	}
 };

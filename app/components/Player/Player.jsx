@@ -1,10 +1,17 @@
+// npm libs
 import React from 'react';
+import {
+	connect
+} from 'react-redux';
 
+// js utils
 import APP from 'utils/app.js';
 
+// styles
 import utilStyles from 'styles/util.less';
 import playerStyles from './Player.less';
 
+// -------------------------------------------
 
 const PlayButton = ({
 	changePlayerState,
@@ -20,6 +27,7 @@ PlayButton.propTypes = {
 	playerState: React.PropTypes.string.isRequired
 };
 
+// -------------------------------------------
 
 const MuteButton = ({
 	changeMuteState,
@@ -37,6 +45,7 @@ MuteButton.propTypes = {
 	muteState: React.PropTypes.bool.isRequired
 };
 
+// -------------------------------------------
 
 const ProgressBar = ({
 	progress
@@ -50,6 +59,7 @@ ProgressBar.propTypes = {
 	progress: React.PropTypes.number.isRequired
 };
 
+// -------------------------------------------
 
 class Player extends React.Component {
 
@@ -79,62 +89,51 @@ class Player extends React.Component {
 
 	componentDidMount() {
 
-		APP.songs_storage.initPlaylistWatchers(APP.username);
+		APP.songs_storage.initPlaylistWatchers('playlist', APP.username);
+		APP.songs_storage.fetchSongsList('playlist', APP.username);
 
-		APP.songs_storage.registerCallback('playlist', 'player', 'child_added', this.onPlaylistUpdate);
-		APP.songs_storage.registerCallback('playlist', 'player', 'child_changed', this.onPlaylistUpdate);
-		APP.songs_storage.registerCallback('playlist', 'player', 'child_removed', this.onPlaylistUpdate);
+		APP.player.setup({
+			container_id: playerStyles.playerPluginContainer,
+			source_id: 'aP_-P_BS6KY',
+			key: 'h97SPVY9oEJMHKhqc2vKipwiGipeHUoFkXLNNA',
+			skin: {
+				name: 'custom-skin'
+			}
+		});
 
-		APP.songs_storage.downloadPlaylist(APP.username)
-			.then((playlist) => {
+		APP.player.setVolume(100);
 
-				this.playlist = playlist;
+		APP.player.configureCallbacks({
+			complete: this.nextSong,
+			pause: () => {
 
-				APP.player.setup({
-					container_id: playerStyles.playerPluginContainer,
-					source_id: 'aP_-P_BS6KY',
-					key: 'h97SPVY9oEJMHKhqc2vKipwiGipeHUoFkXLNNA',
-					skin: {
-						name: 'custom-skin'
-					}
+				this.setState({
+					playerState: 'PAUSED'
 				});
 
-				APP.player.setVolume(100);
+			},
+			play: () => {
 
-				APP.player.configureCallbacks({
-					complete: this.nextSong,
-					pause: () => {
-
-						this.setState({
-							playerState: 'PAUSED'
-						});
-
-					},
-					play: () => {
-
-						this.setState({
-							playerState: 'PLAYING'
-						});
-
-					},
-					time: () => {
-
-						const songDuration = APP.player.getDuration();
-						const playerPosition = (100 * APP.player.getPosition()) / songDuration;
-
-						this.setState({
-							playerPosition
-						});
-
-					}
+				this.setState({
+					playerState: 'PLAYING'
 				});
 
-				this.updatePlayingSong();
+			},
+			time: () => {
 
-				APP.songs_storage.setPlaylistState();
+				const songDuration = APP.player.getDuration();
+				const playerPosition = (100 * APP.player.getPosition()) / songDuration;
 
-			});
+				this.setState({
+					playerPosition
+				});
 
+			}
+		});
+
+		this.updatePlayingSong();
+
+		APP.songs_storage.setPlaylistState();
 	}
 
 	onPlaylistUpdate() {
@@ -321,4 +320,10 @@ class Player extends React.Component {
 
 }
 
-export default Player;
+const mapStateToProps = state => {
+	{
+		playlistReducer: state.playlist
+	}
+};
+
+export default connect(mapStateToProps)(Player);

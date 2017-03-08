@@ -3,6 +3,7 @@ import React from 'react';
 
 // react components
 import SongsList from 'components/SongsList/SongsList.jsx';
+import Spinner from 'components/Spinner/Spinner.jsx';
 
 // js utils
 import APP from 'utils/app';
@@ -23,13 +24,9 @@ class Searches extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.search = this.search.bind(this);
 		store.subscribe(this.handleSubscribeChanges.bind(this));
-		this.state = {
-			errorMessage: '',
-			songs: [],
-			status: 'success'
-		};
+		this.search = this.search.bind(this);
+		this.state = store.getState().searches;
 	}
 
 	componentDidMount() {
@@ -71,18 +68,17 @@ class Searches extends React.Component {
 						<input type="text" placeholder="Search songs, artists, albums..." className={`form-control ${searchesStyles.inputSearch}`} onKeyPress={this.search} ref={(input) => { this.input = input; }} autoFocus />
 					</div>
 				</div>
-				{ this.state.status === 'SUCCESS' &&
+				{
+					this.state.status === 'SUCCESS' &&
 					<SongsList type="search" songsList={this.state.songs.toArray()} />
 				}
-				{ this.state.status === 'FETCHING' &&
-					<div className={searchesStyles.fetchingDivContainer}>
-						<div className={searchesStyles.fetchingDivContainerInner}>
-							<img src="/assets/images/spinner.svg" alt="spinner" />
-						</div>
-					</div>
+				{
+					this.state.status === 'FETCHING' &&
+					<Spinner />
 				}
-				{ this.state.status === 'FAILURE' &&
-					<div className={searchesStyles.errorMessage}>
+				{
+					this.state.status === 'FAILURE' &&
+					<div>
 						{this.state.errorMessage}
 					</div>
 				}

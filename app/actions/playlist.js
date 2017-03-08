@@ -1,9 +1,8 @@
 import {
 	ADD_SONG_TO_PLAYLIST,
-	ADD_SONG_TO_PLAYLIST_TOP,
-	ADD_VOTE_TO_SONG,
+	FETCH_PLAYLIST,
 	REMOVE_SONG_FROM_PLAYLIST,
-	UPDATE_PLAYLIST_SONG_TOP
+	UPDATE_PLAYLIST_SONG
 } from 'constants/index';
 
 export function addSongToPlaylist(song) {
@@ -13,9 +12,23 @@ export function addSongToPlaylist(song) {
 	};
 }
 
-export function removeSongfromPlaylist(song) {
+export function fetchPlaylist(songs) {
+	return {
+		type: FETCH_PLAYLIST,
+		songs
+	};
+}
+
+export function removeSongFromPlaylist(song) {
 	return {
 		type: REMOVE_SONG_FROM_PLAYLIST,
+		song
+	};
+}
+
+export function updatePlaylistSong(song) {
+	return {
+		type: UPDATE_PLAYLIST_SONG,
 		song
 	};
 }

@@ -8,12 +8,20 @@ import playlist from 'reducers/playlist';
 import searches from 'reducers/searches';
 
 const initialState = {
-	favorites: [],
-	playlist: [],
+	favorites: {
+		errorMessage: '',
+		songs: [],
+		status: 'FETCHING'
+	},
+	playlist: {
+		errorMessage: '',
+		songs: [],
+		status: 'FETCHING'
+	},
 	searches: {
 		errorMessage: '',
 		songs: [],
-		status: 'success'
+		status: 'SUCCESS'
 	}
 };
 
