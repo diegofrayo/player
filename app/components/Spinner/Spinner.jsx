@@ -7,7 +7,7 @@ import styles from './Spinner.less';
 const Spinner = () => (
 	<div className={styles.container}>
 		<div className={styles.containerInner}>
-			<img src="/assets/images/spinner.svg" alt="spinner" />
+			<img src="/assets/player/images/spinner.svg" alt="spinner" />
 		</div>
 	</div>
 );

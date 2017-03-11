@@ -1,4 +1,4 @@
-var path = require('path');
+const path = require('path');
 
 module.exports = {
 	entry: './app/index.jsx',
@@ -18,7 +18,7 @@ module.exports = {
 		loaders: [{
 			test: /(\.js|.jsx)$/,
 			loader: 'babel',
-			exclude: /(node_modules|bower_components|dist)/,
+			exclude: /(node_modules|dist)/,
 			query: {
 				presets: ['es2015', 'stage-2', 'react']
 			},
@@ -26,29 +26,14 @@ module.exports = {
 		}, {
 			test: /(\.js|.jsx)$/,
 			loader: 'eslint-loader',
-			exclude: /(node_modules|bower_components|dist)/
+			exclude: /(node_modules|dist)/
 		}, {
 			test: /(\.css|.less)$/,
 			loaders: [
 				'style-loader',
 				'css-loader?modules&importLoaders=1&localIdentName=[name]_[local]_[hash:base64:5]',
 				'less-loader'
-				// 'postcss-loader'
 			]
 		}]
 	}
-	// postcss: () => {
-	// 	return [
-	// 		require('postcss-modules-values'),
-	// 		require('postcss-nested'),
-	// 		require('postcss-simple-vars'),
-	// 		require('postcss-css-variables'),
-	// 		require('postcss-color-function')
-	// 		require('postcss-import'),
-	// 		require('postcss-mixins')
-	// 		require('postcss-custom-properties'),
-	// 		require('postcss-calc'),
-	// 		require('postcss-math')
-	// 	];
-	// }
 }
