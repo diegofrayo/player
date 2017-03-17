@@ -15,10 +15,10 @@ import {
 	searchSongsFailure,
 	searchSongsFetching,
 	searchSongsSuccess
-} from 'actions/searches';
+} from 'actions/search';
 
 // styles
-import styles from './Searches.less';
+import styles from './Search.less';
 
 class Searches extends React.Component {
 

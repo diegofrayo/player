@@ -1,39 +1,50 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
-	entry: './app/index.jsx',
-	resolve: {
-		extensions: ['', '.js', '.jsx'],
-		root: [path.resolve('./app/')]
-	},
 	context: __dirname,
+	entry: './app/index.jsx',
 	output: {
-		path: path.resolve(__dirname, 'dist/assets/player/js'),
-		filename: 'webpack-bundle.js'
+		filename: 'webpack-bundle.js',
+		path: path.resolve(__dirname, 'build/assets/player/js'),
+		publicPath: '/assets/player/'
 	},
-	eslint: {
-		configFile: './config.eslint.json'
+	resolve: {
+		extensions: ['.js', '.jsx'],
+		modules: [path.resolve(__dirname, 'app'), 'node_modules']
 	},
 	module: {
-		loaders: [{
+		rules: [{
 			test: /(\.js|.jsx)$/,
-			loader: 'babel',
-			exclude: /(node_modules|dist)/,
-			query: {
-				presets: ['es2015', 'stage-2', 'react']
-			},
-			plugins: ['syntax-jsx']
+			exclude: /(node_modules|build)/,
+			use: {
+				loader: 'babel-loader',
+				options: {
+					plugins: ['syntax-jsx'],
+					presets: ['es2015', 'stage-2', 'react']
+				}
+			}
 		}, {
-			test: /(\.js|.jsx)$/,
+			exclude: /(node_modules|build)/,
 			loader: 'eslint-loader',
-			exclude: /(node_modules|dist)/
+			test: /(\.js|.jsx)$/
 		}, {
-			test: /(\.css|.less)$/,
+			exclude: /(node_modules|build)/,
+			test: /(\.less)$/,
 			loaders: [
 				'style-loader',
 				'css-loader?modules&importLoaders=1&localIdentName=[name]_[local]_[hash:base64:5]',
 				'less-loader'
 			]
 		}]
-	}
+	},
+	plugins: [
+		new webpack.LoaderOptionsPlugin({
+			options: {
+				eslint: {
+					configFile: path.join(__dirname, './config.eslint.json')
+				}
+			}
+		})
+	]
 }

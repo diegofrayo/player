@@ -8,10 +8,10 @@ import {
 } from 'react-router';
 
 // react components
-import AppView from 'views/App/App.jsx';
-import FavoritesView from 'views/Favorites/Favorites.jsx';
-import PlaylistView from 'views/Playlist/Playlist.jsx';
-import SearchesView from 'views/Searches/Searches.jsx';
+import AppView from 'containers/App/App.jsx';
+import FavoritesView from 'containers/Favorites/Favorites.jsx';
+import PlaylistView from 'containers/Playlist/Playlist.jsx';
+import SearchView from 'containers/Search/Search.jsx';
 
 export default function createRoutes() {
 	return (
@@ -20,7 +20,7 @@ export default function createRoutes() {
 				<IndexRoute component={PlaylistView} />
 				<Route path="/player/favorites" component={FavoritesView} />
 				<Route path="/player/playlist" component={PlaylistView} />
-				<Route path="/player/search" component={SearchesView} />
+				<Route path="/player/search" component={SearchView} />
 			</Route>
 		</Router>
 	);

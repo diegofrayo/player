@@ -7,7 +7,7 @@ import PlaylistSong from 'components/PlaylistSong/PlaylistSong.jsx';
 import SearchSong from 'components/SearchSong/SearchSong.jsx';
 
 // styles
-import playlistStyles from 'views/Playlist/Playlist.less';
+import playlistStyles from 'containers/Playlist/Playlist.less';
 import styles from './SongsList.less';
 
 class SongsList extends React.Component {

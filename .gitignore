@@ -1,5 +1,5 @@
 node_modules/
 bower_components/
-dist/
-config.gulp.json
+build/
+config.app.json
 *.log

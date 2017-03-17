@@ -5,7 +5,7 @@ import {
 
 import favorites from 'reducers/favorites';
 import playlist from 'reducers/playlist';
-import searches from 'reducers/searches';
+import searches from 'reducers/search';
 
 const initialState = {
 	favorites: {

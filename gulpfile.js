@@ -20,7 +20,7 @@ var environment;
 var settings;
 
 try {
-	settings = JSON.parse(fs.readFileSync('./config.gulp.json', 'utf8'));
+	settings = JSON.parse(fs.readFileSync('./config.app.json', 'utf8'));
 } catch (error) {
 	g.util.log('MY LOG ==> ' + error);
 	process.exit();
@@ -54,13 +54,17 @@ function replaceEnvironmentVariables() {
 
 function createLocalServer() {
 
-	gulp.task('run-local-server', g.serve({
-		root: ['./dist', './app'],
-		port: 4567,
-		middleware: function(req, res, next) {
-			return historyApiFallback(req, res, next);
-		}
-	}));
+	gulp.task('run-local-server', function() {
+		g.connect.server({
+			root: ['./build', './app'],
+			livereload: true,
+			port: 4567,
+			hostname: 'localhost',
+			middleware: function() {
+				return [historyApiFallback({})];
+			}
+		});
+	});
 
 	gulp.start('run-local-server');
 }
@@ -71,7 +75,7 @@ function createLocalServer() {
 //------------------- JS Tasks -----------------------
 gulp.task('build-js', () => {
 
-	let stream = gulp.src('./dist/assets/player/js/webpack-bundle.js')
+	let stream = gulp.src('./build/assets/player/js/webpack-bundle.js')
 		.pipe(g.rename('bundle.js'))
 		.pipe(replaceEnvironmentVariables());
 
@@ -104,7 +108,7 @@ gulp.task('build-html', () => {
 
 		return stream
 			.pipe(g.embedlr())
-			.pipe(gulp.dest('dist/'))
+			.pipe(gulp.dest('build/'))
 			.pipe(g.livereload());
 
 	} else {
@@ -124,7 +128,7 @@ gulp.task('build-html', () => {
 //------------------- Copy Assets Tasks --------------
 gulp.task('copy-assets', () => {
 
-	gulp.src('./app/images/**/*')
+	gulp.src('./app/assets/images/**/*')
 		.pipe(gulp.dest(destPath + '/images/'));
 
 });

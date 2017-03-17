@@ -30,7 +30,7 @@ class SearchSong extends Song {
 						</p>
 						<div className="text-center">
 							<button className={styles.songButton} onClick={this.addSongToPlaylist}>
-								<i className="material-icons">add</i>
+								<i className="material-icons">add_to_queue</i>
 							</button>
 							<button className={styles.songButton} onClick={this.addSongToTop}>
 								<i className="material-icons">queue_play_next</i>
