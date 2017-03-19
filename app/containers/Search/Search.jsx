@@ -47,7 +47,7 @@ class Searches extends React.Component {
 
 		if (event.key === 'Enter' && inputText.length > 2 && this.state.status !== 'FETCHING') {
 
-			store.dispatch(searchSongsFetching());
+			store.dispatch(searchSongsFetching(inputText));
 
 			APP.searcher.searchSongs(inputText).then((response) => {
 
@@ -69,21 +69,15 @@ class Searches extends React.Component {
 			<div>
 				<div className={styles.inputContainer}>
 					<div className="form-group">
-						<input type="text" placeholder="Search songs, artists, albums..." className={`form-control ${styles.inputSearch}`} onKeyPress={this.search} ref={(input) => { this.input = input; }} autoFocus />
+						<input type="text" placeholder="Search songs, artists, albums..." className={`form-control ${styles.inputSearch}`} onKeyPress={this.search} ref={(input) => { this.input = input; }} defaultValue={this.state.query} autoFocus />
 					</div>
 				</div>
 				{
 					this.state.status === 'SUCCESS' &&
 					(
-						<div>
-							<p className={styles.searchInfo}>
-								<i className={`material-icons ${styles.infoIcon}`}>info</i>
-								<span>
-									Results for <strong>{this.state.query}</strong>: {this.state.songs.length}
-								</span>
-							</p>
-							<SongsList type="search" songsList={this.state.songs} />
-						</div>
+						<SongsList type="search" songsList={this.state.songs}>
+							Results for <strong>{this.state.query}</strong>: {this.state.songs.length}
+						</SongsList>
 					)
 				}
 				{

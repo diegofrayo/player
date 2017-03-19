@@ -26,9 +26,10 @@ export function removeSongFromFavorites(song) {
 	};
 }
 
-export function updateFavorite(song) {
+export function updateFavorite(song, index) {
 	return {
 		type: UPDATE_FAVORITE,
+		index,
 		song
 	};
 }

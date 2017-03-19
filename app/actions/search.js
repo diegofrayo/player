@@ -11,9 +11,10 @@ export function searchSongsFailure(errorMessage) {
 	};
 }
 
-export function searchSongsFetching() {
+export function searchSongsFetching(query) {
 	return {
-		type: SEARCH_SONGS_FETCHING
+		type: SEARCH_SONGS_FETCHING,
+		query
 	};
 }
 

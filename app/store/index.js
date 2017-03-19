@@ -20,6 +20,7 @@ const initialState = {
 	},
 	searches: {
 		errorMessage: '',
+		query: '',
 		songs: [],
 		status: 'BLANK'
 	}

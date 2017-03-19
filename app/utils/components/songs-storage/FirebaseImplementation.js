@@ -100,7 +100,7 @@ export class FirebaseImplementationClass {
 
 			let song = snapshot.val();
 
-			if (song) {
+			if (song && Utilities.arrayIndexOf(currentStore.songs, 'source_id', song.source_id) === -1) {
 				store.dispatch(actions.addSong(song));
 			}
 
@@ -116,9 +116,10 @@ export class FirebaseImplementationClass {
 			}
 
 			let changedSong = snapshot.val();
+			const index = Utilities.arrayIndexOf(currentStore.songs, 'source_id', changedSong.source_id);
 
-			if (changedSong) {
-				store.dispatch(actions.updateSong(changedSong));
+			if (changedSong && index !== -1) {
+				store.dispatch(actions.updateSong(changedSong, index));
 			}
 
 			changedSong = null;
@@ -159,7 +160,7 @@ export class FirebaseImplementationClass {
 
 			const addSong = () => {
 
-				const newSong = Utilities.cloneObject(song);
+				const newSong = Utilities.createPlaylistSong(song);
 
 				newSong.is_playing = false;
 				newSong.timestamp = new Date().getTime();
@@ -199,13 +200,7 @@ export class FirebaseImplementationClass {
 
 	addSongToFavorites(username, song) {
 
-		const newSong = Utilities.cloneObject(song);
-
-		newSong.timestamp = new Date().getTime();
-
-		delete newSong.is_playing;
-		delete newSong.type;
-		delete newSong.votes;
+		const newSong = Utilities.createFavoriteSong(song);
 
 		return this.reference.child(this.routes.favorites(username)).child(song.source_id).update(newSong);
 	}
@@ -218,7 +213,7 @@ export class FirebaseImplementationClass {
 
 		const updateSong = (type) => {
 
-			const newSong = Utilities.cloneObject(song);
+			const newSong = Utilities.createPlaylistSong(song);
 			newSong.type = type || 'top';
 
 			this.reference.child(this.routes.playlist(username)).child(song.source_id)
@@ -245,7 +240,7 @@ export class FirebaseImplementationClass {
 
 			if (songTopIndex !== -1) {
 
-				const songTop = Utilities.cloneObject(playlist[songTopIndex]);
+				const songTop = Utilities.createPlaylistSong(playlist[songTopIndex]);
 				songTop.type = 'normal';
 
 				this.updatePlaylistSong(username, songTop)
@@ -263,7 +258,7 @@ export class FirebaseImplementationClass {
 
 	addVoteToSong(username, song) {
 
-		const newSong = Utilities.cloneObject(song);
+		const newSong = Utilities.createPlaylistSong(song);
 		newSong.votes += 1;
 
 		return this.updatePlaylistSong(username, newSong);

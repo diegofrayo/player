@@ -1,6 +1,9 @@
 /* eslint consistent-return: "off" */
 /* eslint indent: "off" */
 
+// npm libs
+import update from 'immutability-helper';
+
 // redux
 import {
 	ADD_SONG_TO_PLAYLIST,
@@ -14,45 +17,75 @@ import Utilities from 'utils/utilities/Utilities';
 
 export default function playlist(state = [], action = {}) {
 
+	let newState;
+
 	switch (action.type) {
 
 		case ADD_SONG_TO_PLAYLIST:
-			return Object.assign({}, state, {
-				errorMessage: '',
-				songs: Utilities.arrayIndexOf(state.songs, 'source_id', action.song.source_id) === -1 ? [...state.songs, action.song].sort(Utilities.sortPlaylist) : state.songs,
-				status: 'SUCCESS'
+
+			newState = update(state, {
+				errorMessage: {
+					$set: '',
+				},
+				songs: {
+					$push: [action.song].sort(Utilities.sortByTitle)
+				},
+				status: {
+					$set: 'SUCCESS',
+				}
 			});
+			newState.songs.sort(Utilities.sortPlaylist);
+
+			return newState;
 
 		case FETCH_PLAYLIST:
-			return Object.assign({}, state, {
-				errorMessage: '',
-				songs: [...action.songs].sort(Utilities.sortPlaylist),
-				status: 'SUCCESS'
+			return update(state, {
+				errorMessage: {
+					$set: '',
+				},
+				songs: {
+					$set: action.songs.sort(Utilities.sortPlaylist)
+				},
+				status: {
+					$set: 'SUCCESS',
+				}
 			});
 
 		case REMOVE_SONG_FROM_PLAYLIST:
-			return Object.assign({}, state, {
-				errorMessage: '',
-				songs: state.songs.filter((song) => {
-					if (song.source_id !== action.song.source_id) {
-						return song;
-					}
-				}).sort(Utilities.sortPlaylist),
-				status: 'SUCCESS'
+			return update(state, {
+				errorMessage: {
+					$set: '',
+				},
+				songs: {
+					$set: state.songs.filter((song) => {
+						if (song.source_id !== action.song.source_id) {
+							return song;
+						}
+					}).sort(Utilities.sortPlaylist)
+				},
+				status: {
+					$set: 'SUCCESS',
+				}
 			});
 
 		case UPDATE_PLAYLIST_SONG:
-			return Object.assign({}, state, {
-				errorMessage: '',
-				songs: state.songs.map((song) => {
-					if (song.source_id === action.song.source_id) {
-						// return Utilities.cloneObject({}, action.song);
-						return action.song;
+
+			newState = update(state, {
+				errorMessage: {
+					$set: '',
+				},
+				songs: {
+					[action.index]: {
+						$merge: action.song
 					}
-					return song;
-				}).sort(Utilities.sortPlaylist),
-				status: 'SUCCESS'
+				},
+				status: {
+					$set: 'SUCCESS',
+				}
 			});
+			newState.songs.sort(Utilities.sortPlaylist);
+
+			return newState;
 
 		default:
 			return state;

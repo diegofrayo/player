@@ -1,67 +1,3 @@
-/* eslint no-unused-vars: "off" */
-
-// let duration = durationParam.replace('PT', '');
-// let hours = '';
-// let minutes;
-// let seconds;
-// let arrayDuration;
-
-// console.log(durationParam);
-
-// // PT1H11M40S
-
-// if (duration.indexOf('H') !== -1) {
-// 	duration = duration.replace('H', ':');
-// 	duration = duration.replace('M', ':');
-// 	arrayDuration = duration.split(':');
-// 	hours = `${parseInt(arrayDuration[0], 10)}:`;
-// }
-
-// if (duration.indexOf('M') !== -1 && duration.indexOf('S') !== -1) {
-
-// 	// If the duration have a minutes and seconds
-// 	duration = duration.replace('S', '');
-
-// 	if (hours !== '') {
-
-// 		minutes = parseInt(arrayDuration[1], 10);
-// 		seconds = parseInt(arrayDuration[2], 10);
-
-// 	} else {
-
-// 		duration = duration.replace('M', ':');
-// 		arrayDuration = duration.split(':');
-// 		minutes = parseInt(arrayDuration[0], 10);
-// 		seconds = parseInt(arrayDuration[1], 10);
-
-// 	}
-
-// } else if (duration.indexOf('M') !== -1 && duration.indexOf('S') === -1) {
-
-// 	// If the duration have a minutes but not seconds
-// 	duration = duration.replace('M', '');
-// 	minutes = parseInt(duration, 10);
-// 	seconds = '00';
-
-// } else if (duration.indexOf('S') !== -1 && duration.indexOf('M') === -1) {
-
-// 	// If the duration have a seconds but not minutes
-// 	duration = duration.replace('S', '');
-// 	seconds = parseInt(duration, 10);
-// 	minutes = '0';
-
-// }
-
-// if (typeof seconds === 'number' && seconds < 10) {
-// 	seconds = `0${seconds}`;
-// }
-
-// if (typeof minutes === 'number' && minutes < 10) {
-// 	minutes = `0${minutes}`;
-// }
-
-// return `${hours}${minutes}:${seconds}`;
-
 const Utilities = {
 
 	getDurationInSeconds(duration) {
@@ -219,6 +155,51 @@ const Utilities = {
 
 	cloneObject(object) {
 		return Object.assign({}, object);
+	},
+
+	createFavoriteSong(song) {
+
+		const newSong = {
+			timestamp: new Date().getTime()
+		};
+		const properties = [
+			'duration',
+			'source_id',
+			'thumbnail',
+			'title',
+		];
+
+		properties.forEach((property) => {
+			newSong[property] = song[property];
+		});
+
+		return newSong;
+	},
+
+	createPlaylistSong(song) {
+
+		const newSong = {
+			is_playing: false,
+			type: 'normal',
+			votes: 0
+		};
+		const properties = [
+			'duration',
+			'is_playing',
+			'source_id',
+			'thumbnail',
+			'title',
+			'type',
+			'votes'
+		];
+
+		properties.forEach((property) => {
+			if (song[property] !== undefined) {
+				newSong[property] = song[property];
+			}
+		});
+
+		return newSong;
 	},
 
 	arrayIndexOf(array, key, value) {

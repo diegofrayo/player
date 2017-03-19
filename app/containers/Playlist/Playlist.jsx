@@ -8,8 +8,11 @@ import {
 import Utilities from 'utils/utilities/Utilities';
 
 // react components
-import SongsList from 'components/SongsList/SongsList.jsx';
+import PlaylistSong from 'components/PlaylistSong/PlaylistSong.jsx';
 import Spinner from 'components/Spinner/Spinner.jsx';
+
+// styles
+import styles from './Playlist.less';
 
 class Playlist extends React.Component {
 
@@ -20,12 +23,48 @@ class Playlist extends React.Component {
 	componentWillUnmount() {}
 
 	render() {
+
+		if (this.props.playlistReducer.status === 'SUCCESS') {
+
+			const songs = this.props.playlistReducer.songs;
+
+			if (songs.length <= 1) {
+				return (
+					<div className={styles.noSongsFound}>
+						There are not songs in queue
+					</div>
+				);
+			}
+
+			const songsOutput = songs.map((song, index) => {
+				if (index > 1) {
+					return <PlaylistSong song={song} key={song.source_id} />;
+				}
+			});
+
+			return (
+				<div>
+					<div className={styles.nextSongContainer}>
+						<p className={styles.playlistInfoTitle}>
+							Next to play
+						</p>
+						<PlaylistSong song={songs[1]} key={songs[1].source_id} />
+					</div>
+					<div className={styles.queueSongsContainer} style={songs.length > 2 ? { display: 'block' } : { display: 'none' }}>
+						<p className={styles.playlistInfoTitle}>
+							Queue
+						</p>
+						<div className={styles.songsOutputContainer} style={{ boxShadow: 'none' }}>
+							{songsOutput}
+						</div>
+					</div>
+				</div>
+			);
+
+		}
+
 		return (
 			<div>
-				{
-					this.props.playlistReducer.status === 'SUCCESS' &&
-					<SongsList songsList={this.props.playlistReducer.songs} type="playlist" />
-				}
 				{
 					this.props.playlistReducer.status === 'FETCHING' &&
 					<Spinner />

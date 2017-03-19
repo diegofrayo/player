@@ -26,9 +26,10 @@ export function removeSongFromPlaylist(song) {
 	};
 }
 
-export function updatePlaylistSong(song) {
+export function updatePlaylistSong(song, index) {
 	return {
 		type: UPDATE_PLAYLIST_SONG,
+		index,
 		song
 	};
 }
