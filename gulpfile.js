@@ -97,6 +97,18 @@ gulp.task('build-js', () => {
 
 
 //----------------------------------------------------
+//------------------- CSS Tasks -----------------------
+gulp.task('build-css', () => {
+
+	return gulp.src('./build/assets/player/css/styles.css')
+		.pipe(g.minifyCss())
+		.pipe(gulp.dest(destPath + '/css'));
+
+});
+
+
+
+//----------------------------------------------------
 //------------------- HTML Tasks ---------------------
 gulp.task('build-html', () => {
 
@@ -178,6 +190,7 @@ gulp.task('build-live', () => {
 
 	g.runSequence(
 		'build-js',
+		'build-css',
 		'build-html',
 		'copy-assets'
 	);

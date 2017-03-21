@@ -1,8 +1,11 @@
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
+const extractLESS = new ExtractTextPlugin('../css/styles.css');
 
 module.exports = {
 	context: __dirname,
+	devtool: 'source-map',
 	entry: './app/index.jsx',
 	output: {
 		filename: 'webpack-bundle.js',
@@ -31,11 +34,10 @@ module.exports = {
 		}, {
 			exclude: /(node_modules|build)/,
 			test: /(\.less)$/,
-			loaders: [
-				'style-loader',
-				'css-loader?modules&importLoaders=1&localIdentName=[name]_[local]_[hash:base64:5]',
-				'less-loader'
-			]
+			use: extractLESS.extract({
+				fallback: 'style-loader',
+				use: ['css-loader?modules&importLoaders=1&localIdentName=[name]_[local]_[hash:base64:5]', 'less-loader']
+			})
 		}]
 	},
 	plugins: [
@@ -45,6 +47,7 @@ module.exports = {
 					configFile: path.join(__dirname, './config.eslint.json')
 				}
 			}
-		})
+		}),
+		extractLESS
 	]
 }
