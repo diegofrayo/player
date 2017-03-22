@@ -37,13 +37,13 @@ class FavoriteSong extends Song {
 						</p>
 						<div className="text-center">
 							<button className={songStyles.songButton} onClick={this.addSongToPlaylist}>
-								<i className="material-icons">add_to_queue</i>
+								<i className="material-icons">&#xE05C;</i>
 							</button>
 							<button className={songStyles.songButton} onClick={this.addSongToTop}>
-								<i className="material-icons">queue_play_next</i>
+								<i className="material-icons">&#xE066;</i>
 							</button>
 							<button className={songStyles.songButton} onClick={this.removeSongFromFavorites}>
-								<i className="material-icons">clear</i>
+								<i className="material-icons">&#xE14C;</i>
 							</button>
 						</div>
 					</div>

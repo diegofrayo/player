@@ -21,11 +21,16 @@ import playerStyles from './Player.less';
 const PlayButton = ({
 	changePlayerState,
 	playerState
-}) => (
-	<i className={`material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`} onClick={changePlayerState}>
-		{playerState === 'PLAYING' ? 'pause' : 'play_arrow'}
-	</i>
-);
+}) => {
+
+	const className = `material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`;
+
+	if (playerState === 'PLAYING') {
+		return <i className={className} onClick={changePlayerState}>&#xE034;</i>;
+	}
+
+	return <i className={className} onClick={changePlayerState}>&#xE037;</i>;
+};
 
 PlayButton.propTypes = {
 	changePlayerState: PropTypes.func.isRequired,
@@ -38,11 +43,17 @@ const MuteButton = ({
 	changeMuteState,
 	isOpened,
 	muteState
-}) => (
-	<i className={`material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`} onClick={changeMuteState} style={isOpened === true ? { display: 'inline-block' } : { display: 'none' }}>
-		{muteState === true ? 'volume_off' : 'volume_up'}
-	</i>
-);
+}) => {
+
+	const className = `material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`;
+	const style = isOpened === true ? { display: 'inline-block' } : { display: 'none' };
+
+	if (muteState === true) {
+		return <i className={className} onClick={changeMuteState} style={style}>&#xE04F;</i>;
+	}
+
+	return <i className={className} onClick={changeMuteState} style={style}>&#xE050;</i>;
+};
 
 MuteButton.propTypes = {
 	changeMuteState: PropTypes.func.isRequired,
@@ -172,6 +183,7 @@ class Player extends React.Component {
 
 			if (this.isFirstSong === true) {
 				playerState = 'PAUSED';
+				APP.player.stop();
 			} else {
 				APP.player.play();
 			}
@@ -264,7 +276,12 @@ class Player extends React.Component {
 			<div id="player" className={this.state.isOpened === true ? playerStyles.player__opened : playerStyles.player}>
 				<div className={`text-center ${playerStyles.expandButtonContainer}`}>
 					<button onClick={this.openPlayer} className={playerStyles.expandButton}>
-						<i className={`material-icons ${utilStyles['u-material-icons--28']}`}>{this.state.isOpened === true ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}</i>
+						{this.state.isOpened === true &&
+							(<i className={`material-icons ${utilStyles['u-material-icons--28']}`}>&#xE313;</i>)
+						}
+						{this.state.isOpened !== true &&
+							(<i className={`material-icons ${utilStyles['u-material-icons--28']}`}>&#xE316;</i>)
+						}
 					</button>
 				</div>
 				<div className={`${playerStyles.contentWrapper}`}>
@@ -290,8 +307,8 @@ class Player extends React.Component {
 						</div>
 						<div className={this.state.isOpened === true ? 'col-xs-12' : 'col-xs-4 col-sm-3 text-center'}>
 							<PlayButton changePlayerState={this.changePlayerState} playerState={this.state.playerState} />
-							<i className={`material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`} onClick={() => this.nextSong()}>skip_next</i>
-							<i className={`material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`} style={this.state.isOpened === true ? { display: 'inline-block' } : { display: 'none' }} onClick={this.addSongToFavorites}>favorite</i>
+							<i className={`material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`} onClick={() => this.nextSong()}>&#xE044;</i>
+							<i className={`material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`} style={this.state.isOpened === true ? { display: 'inline-block' } : { display: 'none' }} onClick={this.addSongToFavorites}>&#xE87D;</i>
 							<MuteButton changeMuteState={this.changeMuteState} muteState={this.state.muteState} isOpened={this.state.isOpened} />
 						</div>
 					</div>

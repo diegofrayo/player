@@ -24,7 +24,7 @@ class SongsList extends React.Component {
 			return (
 				<div>
 					<p className={styles.songsListInfo}>
-						<i className={`material-icons ${styles.infoIcon}`}>info</i>
+						<i className={`material-icons ${styles.infoIcon}`}>&#xE88E;</i>
 						<span>
 							Total number of songs: {songs.length}
 						</span>
@@ -46,7 +46,7 @@ class SongsList extends React.Component {
 			return (
 				<div>
 					<p className={styles.songsListInfo}>
-						<i className={`material-icons ${styles.infoIcon}`}>info</i>
+						<i className={`material-icons ${styles.infoIcon}`}>&#xE88E;</i>
 						<span>
 							{this.props.children}
 						</span>

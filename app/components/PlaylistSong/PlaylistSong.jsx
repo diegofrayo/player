@@ -51,18 +51,21 @@ class PlaylistSong extends Song {
 								{song.votes}
 							</span>
 							<button onClick={this.addSongToTop} className={songStyles.songButton} style={this.props.song.type === 'top' ? { color: '#d2a90b' } : {}}>
-								<i className="material-icons">
-									{this.props.song.type === 'top' ? 'remove_from_queue' : 'queue_play_next'}
-								</i>
+								{this.props.song.type === 'top' &&
+									(<i className="material-icons">&#xE067;</i>)
+								}
+								{this.props.song.type !== 'top' &&
+									(<i className="material-icons">&#xE066;</i>)
+								}
 							</button>
 							<button className={songStyles.songButton} onClick={this.addVoteToSong}>
-								<i className="material-icons">plus_one</i>
+								<i className="material-icons">&#xE800;</i>
 							</button>
 							<button className={songStyles.songButton} onClick={this.addSongToFavorites}>
-								<i className="material-icons">favorite</i>
+								<i className="material-icons">&#xE87D;</i>
 							</button>
 							<button className={songStyles.songButton} onClick={this.removeSongFromPlaylist}>
-								<i className="material-icons">clear</i>
+								<i className="material-icons">&#xE14C;</i>
 							</button>
 						</div>
 					</div>
