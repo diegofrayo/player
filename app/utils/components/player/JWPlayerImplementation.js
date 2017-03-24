@@ -7,125 +7,73 @@ export default class JWPlayerImplementation {
 		const setupConfig = {
 			file: `https://www.youtube.com/watch?v=${this.configuration.source_id}`,
 			width: '0px',
-			height: '0px',
-			key: this.configuration.key
+			height: '0px'
 		};
 
-		jwplayer(this.configuration.container_id).setup(setupConfig);
+		jwplayer.key = this.configuration.key;
+		this.player = jwplayer(this.configuration.container_id).setup(setupConfig);
 	}
 
 	loadSong(song) {
 
-		jwplayer(this.configuration.container_id).load([{
+		this.player.load([{
 			file: `https://www.youtube.com/watch?v=${song.source_id}`
 		}]);
 
 	}
 
 	play() {
-		jwplayer(this.configuration.container_id).play();
+		this.player.play();
 	}
 
 	pause() {
-		jwplayer(this.configuration.container_id).pause();
+		this.player.pause();
 	}
 
 	stop() {
-		jwplayer(this.configuration.container_id).stop();
+		this.player.stop();
 	}
 
 	getState() {
-		return jwplayer(this.configuration.container_id).getState().toUpperCase();
+		return this.player.getState().toUpperCase();
 	}
 
 	getDuration() {
-		return jwplayer(this.configuration.container_id).getDuration();
+		return this.player.getDuration();
 	}
 
 	getVolume() {
-		return jwplayer(this.configuration.container_id).getVolume();
+		return this.player.getVolume();
 	}
 
 	setVolume(value) {
-		jwplayer(this.configuration.container_id).setVolume(value);
+		this.player.setVolume(value);
 	}
 
 	getMute() {
-		return jwplayer(this.configuration.container_id).getMute();
+		return this.player.getMute();
 	}
 
 	setMute() {
-		jwplayer(this.configuration.container_id).setMute();
+		this.player.setMute();
 	}
 
 	getPosition() {
-		return jwplayer(this.configuration.container_id).getPosition();
+		return this.player.getPosition();
 	}
 
 	setPosition(position) {
-		jwplayer(this.configuration.container_id).seek(position);
+		this.player.seek(position);
 	}
 
 	configureCallbacks(callbacks) {
-		jwplayer(this.configuration.container_id).on('complete', callbacks.complete);
-		jwplayer(this.configuration.container_id).on('error', callbacks.error);
-		jwplayer(this.configuration.container_id).on('pause', callbacks.pause);
-		jwplayer(this.configuration.container_id).on('play', callbacks.play);
-		jwplayer(this.configuration.container_id).on('ready', callbacks.ready);
-		jwplayer(this.configuration.container_id).on('seek', callbacks.seek);
-		jwplayer(this.configuration.container_id).on('time', callbacks.time);
+		this.player.on('complete', callbacks.complete);
+		this.player.on('error', callbacks.error);
+		this.player.on('pause', callbacks.pause);
+		this.player.on('play', callbacks.play);
+		this.player.on('ready', callbacks.ready);
+		this.player.on('seek', callbacks.seek);
+		this.player.on('time', callbacks.time);
 	}
-
-	// play() {
-	// 	return jwplayer(this.configuration.container_id).play();
-	// }
-
-	// pause() {
-	// 	return jwplayer(this.configuration.container_id).pause();
-	// }
-
-	// stop() {
-	// 	return jwplayer(this.configuration.container_id).stop();
-	// }
-
-	// setup() {}
-
-	// loadSong() {}
-
-	// getVolume() {
-	// 	return jwplayer(this.configuration.container_id).getVolume();
-	// }
-
-	// setVolume(value) {
-	// 	jwplayer(this.configuration.container_id).setVolume(value);
-	// }
-
-	// getMute() {
-	// 	return jwplayer(this.configuration.container_id).getMute();
-	// }
-
-	// setMute() {
-	// 	jwplayer(this.configuration.container_id).setMute();
-	// }
-
-	// getPosition() {
-	// 	return jwplayer(this.configuration.container_id).getPosition();
-	// }
-
-	// setPosition(position) {
-	// 	jwplayer(this.configuration.container_id).seek(position);
-	// }
-
-	// getState() {
-	// 	return jwplayer(this.configuration.container_id).getState();
-	// }
-
-	// getDuration() {
-	// 	return jwplayer(this.configuration.container_id).getDuration();
-	// }
-
-	// configureCallbacks(callbacks) {
-	// 	jwplayer(this.configuration.container_id).configureCallbacks(callbacks);
-	// }
 
 }

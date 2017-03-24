@@ -23,8 +23,8 @@
 			display: none;
 		}
 
-		.playerProgressBar{
-			width: 150px !important;
+		.playerProgressBarContainer{
+			width: 150px;
 		}
 
 		.songDetail{
@@ -69,17 +69,21 @@
 	width: 50px;
 }
 
-.playerProgressBar{
-	background-color: @bg-color-4;
-	height: 5px;
+.playerProgressBarContainer{
+	height: 20px;
 	margin: 0 auto;
 	max-width: 100%;
 	width: 50px;
+}
 
-	&Inner{
-		background-color: #ff0000;
-		height: 100%;
-	}
+.playerProgressBarInner{
+	background-color: @bg-color-4;
+	height: 5px;
+}
+
+.playerProgressBar{
+	background-color: #ff0000;
+	height: 100%;
 }
 
 .songDetail{

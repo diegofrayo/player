@@ -46,7 +46,11 @@ const MuteButton = ({
 }) => {
 
 	const className = `material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`;
-	const style = isOpened === true ? { display: 'inline-block' } : { display: 'none' };
+	const style = isOpened === true ? {
+		display: 'inline-block'
+	} : {
+		display: 'none'
+	};
 
 	if (muteState === true) {
 		return <i className={className} onClick={changeMuteState} style={style}>&#xE04F;</i>;
@@ -66,8 +70,10 @@ MuteButton.propTypes = {
 const ProgressBar = ({
 	progress
 }) => (
-	<div id={playerStyles.playerProgressBar} className={playerStyles.playerProgressBar}>
-		<div className={playerStyles.playerProgressBarInner} style={{ width: `${progress}%` }}>{''}</div>
+	<div className={`${playerStyles.playerProgressBarContainer}`}>
+		<div className={`${playerStyles.playerProgressBarInner}`}>
+			<div className={playerStyles.playerProgressBar} style={{ width: `${progress}%` }}>{''}</div>
+		</div>
 	</div>
 );
 
