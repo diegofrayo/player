@@ -5,9 +5,10 @@ export default class JWPlayerImplementation {
 		this.configuration = configuration;
 
 		const setupConfig = {
+			controls: false,
 			file: `https://www.youtube.com/watch?v=${this.configuration.source_id}`,
-			width: '0px',
-			height: '0px'
+			height: '0px',
+			width: '0px'
 		};
 
 		jwplayer.key = this.configuration.key;
@@ -15,11 +16,9 @@ export default class JWPlayerImplementation {
 	}
 
 	loadSong(song) {
-
 		this.player.load([{
 			file: `https://www.youtube.com/watch?v=${song.source_id}`
 		}]);
-
 	}
 
 	play() {
