@@ -17,20 +17,26 @@ import Utilities from 'utils/utilities/Utilities';
 
 export default function favorites(state = {}, action = {}) {
 
+	let newState;
+
 	switch (action.type) {
 
 		case ADD_SONG_TO_FAVORITES:
-			return update(state, {
+
+			newState = update(state, {
 				errorMessage: {
 					$set: '',
 				},
 				songs: {
-					$push: [action.song].sort(Utilities.sortByTitle)
+					$push: [action.song]
 				},
 				status: {
 					$set: 'SUCCESS',
 				}
 			});
+			newState.songs.sort(Utilities.sortByTitle);
+
+			return newState;
 
 		case FETCH_FAVORITES:
 			return update(state, {

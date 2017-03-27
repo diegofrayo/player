@@ -28,7 +28,7 @@ export default function playlist(state = [], action = {}) {
 					$set: '',
 				},
 				songs: {
-					$push: [action.song].sort(Utilities.sortByTitle)
+					$push: [action.song]
 				},
 				status: {
 					$set: 'SUCCESS',
