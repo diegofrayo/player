@@ -73,8 +73,13 @@ export default function favorites(state = {}, action = {}) {
 					$set: '',
 				},
 				songs: {
-					[action.index]: {
-						$merge: action.song
+					$apply: (songs) => {
+						const newSongs = update(songs, {
+							[action.index]: {
+								$merge: action.song
+							}
+						});
+						return newSongs.sort(Utilities.sortByTitle);
 					}
 				},
 				status: {

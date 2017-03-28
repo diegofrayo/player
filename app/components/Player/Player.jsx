@@ -90,7 +90,7 @@ class Player extends React.Component {
 		super();
 
 		this.state = {
-			isOpened: false,
+			isOpened: true,
 			muteState: false,
 			playerPosition: 0,
 			playerState: 'PAUSED',
