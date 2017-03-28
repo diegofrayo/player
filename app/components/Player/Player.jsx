@@ -166,7 +166,6 @@ class Player extends React.Component {
 		} else if (!this.state.playingSong.title) {
 
 			this.isFirstSong = true;
-			APP.player.stop();
 			this.updatePlayingSong(playlistReducer);
 
 		} else if (this.waitingForSongs === true && APP.player.getState() !== 'PLAYING') {
@@ -188,8 +187,17 @@ class Player extends React.Component {
 			let playerState = 'PLAYING';
 
 			if (this.isFirstSong === true) {
+
 				playerState = 'PAUSED';
-				APP.player.stop();
+				APP.player.setVolume(0);
+				setTimeout(() => {
+					APP.player.setVolume(100);
+					APP.player.stop();
+					this.setState({
+						playerState: 'PAUSED'
+					});
+				}, 2500);
+
 			} else {
 				APP.player.play();
 			}

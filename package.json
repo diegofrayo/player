@@ -38,10 +38,12 @@
     "gulp-util": "",
     "less": "",
     "less-loader": "",
+    "postcss-less": "^0.15.0",
     "style-loader": "",
     "webpack": ""
   },
   "dependencies": {
+    "babel-plugin-react-css-modules": "^2.6.0",
     "firebase": "^3.7.2",
     "immutability-helper": "^2.1.2",
     "jquery": "^3.2.0",

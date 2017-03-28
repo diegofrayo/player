@@ -17,26 +17,25 @@ import Utilities from 'utils/utilities/Utilities';
 
 export default function playlist(state = [], action = {}) {
 
-	let newState;
-
 	switch (action.type) {
 
 		case ADD_SONG_TO_PLAYLIST:
-
-			newState = update(state, {
+			return update(state, {
 				errorMessage: {
 					$set: '',
 				},
 				songs: {
-					$push: [action.song]
+					$apply: (songs) => {
+						const newSongs = update(songs, {
+							$push: [action.song]
+						});
+						return newSongs.sort(Utilities.sortPlaylist);
+					}
 				},
 				status: {
 					$set: 'SUCCESS',
 				}
 			});
-			newState.songs.sort(Utilities.sortPlaylist);
-
-			return newState;
 
 		case FETCH_PLAYLIST:
 			return update(state, {
@@ -69,23 +68,24 @@ export default function playlist(state = [], action = {}) {
 			});
 
 		case UPDATE_PLAYLIST_SONG:
-
-			newState = update(state, {
+			return update(state, {
 				errorMessage: {
 					$set: '',
 				},
 				songs: {
-					[action.index]: {
-						$merge: action.song
+					$apply: (songs) => {
+						const newSongs = update(songs, {
+							[action.index]: {
+								$merge: action.song
+							}
+						});
+						return newSongs.sort(Utilities.sortPlaylist);
 					}
 				},
 				status: {
 					$set: 'SUCCESS',
 				}
 			});
-			newState.songs.sort(Utilities.sortPlaylist);
-
-			return newState;
 
 		default:
 			return state;
