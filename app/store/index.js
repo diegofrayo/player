@@ -4,6 +4,7 @@ import {
 } from 'redux';
 
 import favorites from 'reducers/favorites';
+import player from 'reducers/player';
 import playlist from 'reducers/playlist';
 import searches from 'reducers/search';
 
@@ -12,6 +13,10 @@ const initialState = {
 		errorMessage: '',
 		songs: [],
 		status: 'FETCHING'
+	},
+	player: {
+		close: false,
+		status: 'LOADING'
 	},
 	playlist: {
 		errorMessage: '',
@@ -28,6 +33,7 @@ const initialState = {
 
 const reduxApp = combineReducers({
 	favorites,
+	player,
 	playlist,
 	searches
 });

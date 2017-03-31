@@ -1,11 +1,19 @@
+// npm libs
 import React from 'react';
-
 import {
 	Link
 } from 'react-router';
 
+// js utils
 import APP from 'utils/app';
 
+// redux
+import {
+	closePlayer as closePlayerAction
+} from 'actions/player';
+import store from 'store/index';
+
+// styles
 import styles from './MainMenu.less';
 
 class MainMenu extends React.Component {
@@ -39,6 +47,11 @@ class MainMenu extends React.Component {
 
 		}, false);
 
+		this.onClickLink = this.onClickLink.bind(this);
+	}
+
+	onClickLink() {
+		store.dispatch(closePlayerAction(true));
 	}
 
 	render() {
@@ -51,19 +64,19 @@ class MainMenu extends React.Component {
 					</div>
 					<ul className={styles.menu}>
 						<li className={styles.menuItem}>
-							<Link to="/player/playlist" className={styles.menuItemLink}>
+							<Link onClick={this.onClickLink} to="/player/playlist" className={styles.menuItemLink}>
 								<i className={`material-icons ${styles.menuItemIcon}`}>&#xE030;</i>
 								<span>Playlist</span>
 							</Link>
 						</li>
 						<li className={styles.menuItem}>
-							<Link to="/player/search" className={styles.menuItemLink}>
+							<Link onClick={this.onClickLink} to="/player/search" className={styles.menuItemLink}>
 								<i className={`material-icons ${styles.menuItemIcon}`}>&#xE8B6;</i>
 								<span>Search</span>
 							</Link>
 						</li>
 						<li className={styles.menuItem}>
-							<Link to="/player/favorites" className={styles.menuItemLink}>
+							<Link onClick={this.onClickLink} to="/player/favorites" className={styles.menuItemLink}>
 								<i className={`material-icons ${styles.menuItemIcon}`}>&#xE8D0;</i>
 								<span>Favorites</span>
 							</Link>

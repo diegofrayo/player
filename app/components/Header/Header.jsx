@@ -1,5 +1,7 @@
+// npm libs
 import React from 'react';
 
+// styles
 import styles from './Header.less';
 
 const Header = () => (

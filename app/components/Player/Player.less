@@ -1,3 +1,4 @@
+@import '../../styles/util.less';
 @import '../../styles/variables.less';
 
 .player{
@@ -12,7 +13,7 @@
 
 	&__opened{
 		composes: player;
-		height: calc(~"100% - " @navbar-height);
+		height: calc(~"100% - " (@navbar-height - 2));
 
 		.contentWrapper{
 			margin: 0 auto;
@@ -23,8 +24,23 @@
 			display: none;
 		}
 
-		.playerProgressBarContainer{
+		.columnPlayerInner{
+			margin: 0 auto;
+			position: relative;
 			width: 150px;
+		}
+
+		.playerProgressBarContainer{
+			.u-position-left-bottom();
+			cursor: pointer;
+			height: 50px;
+			width: 150px;
+			z-index: 10;
+		}
+
+		.playerProgressBarInner{
+			.u-position-left-bottom();
+			height: 10px;
 		}
 
 		.songDetail{
@@ -40,10 +56,8 @@
 			font-size: 50px;
 		}
 
-		#playerPluginContainer{
-			height: 150px !important;
-			margin: 0 auto;
-			width: 150px !important;
+		.playerPluginContainer{
+			display: block;
 		}
 	}
 }
@@ -78,6 +92,7 @@
 .playerProgressBarInner{
 	background-color: @bg-color-4;
 	height: 5px;
+	width: 100%;
 }
 
 .playerProgressBar{
@@ -104,9 +119,9 @@
 }
 
 .playerPluginContainer{
-	height: 1px;
-	width: 1px;
-	z-index: 1;
+	display: none;
+	height: 150px;
+	width: 100%;
 }
 
 .playingSongContainer{

@@ -2,17 +2,19 @@ export default class JWPlayerImplementation {
 
 	setup(configuration) {
 
-		this.configuration = configuration;
-
 		const setupConfig = {
+			key: 'h97SPVY9oEJMHKhqc2vKipwiGipeHUoFkXLNNA',
 			controls: false,
-			file: `https://www.youtube.com/watch?v=${this.configuration.source_id}`,
-			height: '0px',
-			width: '0px'
+			file: `https://www.youtube.com/watch?v=${configuration.source_id}`,
+			height: '100%',
+			skin: {
+				name: 'custom-skin'
+			},
+			width: '100%'
 		};
 
-		jwplayer.key = this.configuration.key;
-		this.player = jwplayer(this.configuration.container_id).setup(setupConfig);
+		jwplayer.key = setupConfig.key;
+		this.player = jwplayer(configuration.container_id).setup(setupConfig);
 	}
 
 	loadSong(song) {

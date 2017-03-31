@@ -6,6 +6,12 @@ import {
 	connect
 } from 'react-redux';
 
+// redux
+import {
+	closePlayer,
+	updatePlayerStatus
+} from 'actions/player';
+
 // js utils
 import APP from 'utils/app.js';
 
@@ -26,10 +32,10 @@ const PlayButton = ({
 	const className = `material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`;
 
 	if (playerState === 'PLAYING') {
-		return <i className={className} onClick={changePlayerState}>&#xE034;</i>;
+		return <i id="hola" className={className} onClick={changePlayerState}>&#xE034;</i>;
 	}
 
-	return <i className={className} onClick={changePlayerState}>&#xE037;</i>;
+	return <i id="hola" className={className} onClick={changePlayerState}>&#xE037;</i>;
 };
 
 PlayButton.propTypes = {
@@ -68,9 +74,10 @@ MuteButton.propTypes = {
 // -------------------------------------------
 
 const ProgressBar = ({
+	onClick,
 	progress
 }) => (
-	<div className={`${playerStyles.playerProgressBarContainer}`}>
+	<div className={`${playerStyles.playerProgressBarContainer}`} onClick={onClick}>
 		<div className={`${playerStyles.playerProgressBarInner}`}>
 			<div className={playerStyles.playerProgressBar} style={{ width: `${progress}%` }}>{''}</div>
 		</div>
@@ -78,6 +85,7 @@ const ProgressBar = ({
 );
 
 ProgressBar.propTypes = {
+	onClick: PropTypes.func.isRequired,
 	progress: PropTypes.number.isRequired
 };
 
@@ -105,6 +113,7 @@ class Player extends React.Component {
 		this.nextSong = this.nextSong.bind(this);
 		this.onPlaylistUpdate = this.onPlaylistUpdate.bind(this);
 		this.openPlayer = this.openPlayer.bind(this);
+		this.progressBarOnClick = this.progressBarOnClick.bind(this);
 	}
 
 	componentDidMount() {
@@ -114,11 +123,7 @@ class Player extends React.Component {
 
 		APP.player.setup({
 			container_id: playerStyles.playerPluginContainer,
-			key: 'h97SPVY9oEJMHKhqc2vKipwiGipeHUoFkXLNNA',
-			source_id: 'aP_-P_BS6KY',
-			skin: {
-				name: 'custom-skin'
-			}
+			source_id: 'aP_-P_BS6KY'
 		});
 
 		APP.player.configureCallbacks({
@@ -133,7 +138,9 @@ class Player extends React.Component {
 					playerState: 'PLAYING'
 				});
 			},
-			ready: () => {},
+			ready: () => {
+				this.props.updatePlayerStatusAction();
+			},
 			time: () => {
 				const songDuration = APP.player.getDuration();
 				const playerPosition = (100 * APP.player.getPosition()) / songDuration;
@@ -142,12 +149,20 @@ class Player extends React.Component {
 				});
 			}
 		});
-
-		APP.player.setVolume(100);
 	}
 
 	componentWillReceiveProps(nextProps) {
-		this.onPlaylistUpdate(nextProps.playlistReducer);
+
+		if (nextProps.playerReducer.close === true) {
+			this.props.closePlayerAction(false);
+			this.setState({
+				isOpened: false
+			});
+		}
+
+		if (nextProps.playerReducer.status === 'READY') {
+			this.onPlaylistUpdate(nextProps.playlistReducer);
+		}
 	}
 
 	/*
@@ -187,17 +202,7 @@ class Player extends React.Component {
 			let playerState = 'PLAYING';
 
 			if (this.isFirstSong === true) {
-
 				playerState = 'PAUSED';
-				APP.player.setVolume(0);
-				setTimeout(() => {
-					APP.player.setVolume(100);
-					APP.player.stop();
-					this.setState({
-						playerState: 'PAUSED'
-					});
-				}, 2500);
-
 			} else {
 				APP.player.play();
 			}
@@ -281,6 +286,16 @@ class Player extends React.Component {
 		}
 	}
 
+	progressBarOnClick(event) {
+		if (this.state.isOpened === true && this.props.playerReducer.status === 'READY') {
+			const clickPosition = event.nativeEvent.offsetX;
+			const clickPositionPercent = parseInt((100 / 150) * clickPosition, 0);
+			const songDuration = APP.player.getDuration();
+			const position = (songDuration / 100) * clickPositionPercent;
+			APP.player.setPosition(position);
+		}
+	}
+
 	addSongToFavorites() {
 		APP.songs_storage.addSongToFavorites(APP.username, this.state.playingSong);
 	}
@@ -299,7 +314,7 @@ class Player extends React.Component {
 					</button>
 				</div>
 				<div className={`${playerStyles.contentWrapper}`}>
-					<div className={`${playerStyles.noPlayingSongContainer} text-center`} style={this.props.playlistReducer.status === 'FETCHING' ? { display: 'flex' } : { display: 'none' }}>
+					<div className={`${playerStyles.noPlayingSongContainer} text-center`} style={this.props.playerReducer.status === 'LOADING' ? { display: 'flex' } : { display: 'none' }}>
 						<Spinner />
 					</div>
 					<div className={`${playerStyles.noPlayingSongContainer} text-center`} style={this.props.playlistReducer.status === 'SUCCESS' && this.props.playlistReducer.songs.length === 0 ? { display: 'flex' } : { display: 'none' }}>
@@ -307,9 +322,16 @@ class Player extends React.Component {
 					</div>
 					<div className={this.state.isOpened === true ? `row text-center ${playerStyles.playingSongContainer}` : `row ${playerStyles.playingSongContainer}`} style={this.props.playlistReducer.songs.length > 0 ? { display: 'block' } : { display: 'none' }}>
 						<div className={this.state.isOpened === true ? 'col-xs-12' : 'col-xs-3 col-sm-2 text-center'}>
-							<img src={this.state.playingSong.thumbnail} alt="thumbnail" className={playerStyles.songThumbnail} />
-							<div id={playerStyles.playerPluginContainer}>{''}</div>
-							<ProgressBar progress={this.state.playerPosition} />
+							<div className={playerStyles.columnPlayerInner}>
+								<img src={this.state.playingSong.thumbnail} alt="thumbnail" className={playerStyles.songThumbnail} />
+								<div className={playerStyles.playerPluginContainer}>
+									<div id={playerStyles.playerPluginContainer}>{''}</div>
+									{/*
+										<div id={playerStyles.playerPluginContainer} data-video-id="aP_-P_BS6KY" data-type="youtube">{''}</div>
+									*/}
+								</div>
+								<ProgressBar progress={this.state.playerPosition} onClick={this.progressBarOnClick} />
+							</div>
 						</div>
 						<div className={this.state.isOpened === true ? 'col-xs-12' : 'col-xs-5 col-sm-7'}>
 							<p className={playerStyles.songTitle}>
@@ -334,11 +356,20 @@ class Player extends React.Component {
 }
 
 const mapStateToProps = state => ({
+	playerReducer: state.player,
 	playlistReducer: state.playlist
 });
 
+const mapDispatchToProps = (dispatch, ownProps) => ({
+	closePlayerAction: close => dispatch(closePlayer(close)),
+	updatePlayerStatusAction: () => dispatch(updatePlayerStatus())
+});
+
 Player.propTypes = {
-	playlistReducer: PropTypes.object.isRequired
+	playerReducer: PropTypes.object.isRequired,
+	playlistReducer: PropTypes.object.isRequired,
+	closePlayerAction: PropTypes.func.isRequired,
+	updatePlayerStatusAction: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps)(Player);
+export default connect(mapStateToProps, mapDispatchToProps)(Player);
