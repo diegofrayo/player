@@ -30,10 +30,6 @@ export default class PlyrImplementation {
 		});
 	}
 
-	getInstance() {
-		return this.player;
-	}
-
 	play() {
 		this.player.play();
 	}
@@ -79,7 +75,6 @@ export default class PlyrImplementation {
 	}
 
 	configureCallbacks(callbacks) {
-		this.player.on('loadstart', callbacks.loadeddata);
 		this.player.on('ended', callbacks.complete);
 		this.player.on('error', callbacks.error);
 		this.player.on('pause', callbacks.pause);

@@ -32,10 +32,10 @@ const PlayButton = ({
 	const className = `material-icons ${playerStyles.controlButtons} ${utilStyles['u-material-icons--28']}`;
 
 	if (playerState === 'PLAYING') {
-		return <i id="hola" className={className} onClick={changePlayerState}>&#xE034;</i>;
+		return <i className={className} onClick={changePlayerState}>&#xE034;</i>;
 	}
 
-	return <i id="hola" className={className} onClick={changePlayerState}>&#xE037;</i>;
+	return <i className={className} onClick={changePlayerState}>&#xE037;</i>;
 };
 
 PlayButton.propTypes = {
@@ -199,21 +199,17 @@ class Player extends React.Component {
 
 			APP.player.loadSong(playingSong);
 
-			let playerState = 'PLAYING';
-
-			if (this.isFirstSong === true) {
-				playerState = 'PAUSED';
-			} else {
+			if (this.isFirstSong !== true) {
 				APP.player.play();
 			}
 
+			this.isFirstSong = false;
+
 			this.setState({
 				playerPosition: 0,
-				playerState,
+				playerState: 'PLAYING',
 				playingSong
 			});
-
-			this.isFirstSong = false;
 
 			APP.songs_storage.updatePlaylistSong(APP.username, playingSong);
 
@@ -314,7 +310,7 @@ class Player extends React.Component {
 					</button>
 				</div>
 				<div className={`${playerStyles.contentWrapper}`}>
-					<div className={`${playerStyles.noPlayingSongContainer} text-center`} style={this.props.playerReducer.status === 'LOADING' ? { display: 'flex' } : { display: 'none' }}>
+					<div className={`${playerStyles.noPlayingSongContainer} text-center`} style={this.props.playerReducer.status !== 'READY' ? { display: 'flex' } : { display: 'none' }}>
 						<Spinner />
 					</div>
 					<div className={`${playerStyles.noPlayingSongContainer} text-center`} style={this.props.playlistReducer.status === 'SUCCESS' && this.props.playlistReducer.songs.length === 0 ? { display: 'flex' } : { display: 'none' }}>
