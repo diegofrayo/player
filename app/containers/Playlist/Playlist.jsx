@@ -31,7 +31,9 @@ class Playlist extends React.Component {
 			if (songs.length <= 1) {
 				return (
 					<div className={styles.noSongsFound}>
-						There are not songs in queue
+						<p>
+							There are not songs in queue
+						</p>
 					</div>
 				);
 			}

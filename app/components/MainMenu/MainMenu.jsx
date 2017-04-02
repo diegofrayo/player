@@ -1,6 +1,7 @@
 // npm libs
 import React from 'react';
 import {
+	browserHistory,
 	Link
 } from 'react-router';
 
@@ -39,6 +40,10 @@ class MainMenu extends React.Component {
 
 			const OnTransitionEnd = () => {
 				myMenu.classList.remove(styles.menu__animatable);
+				if (this.selectedItemPath) {
+					browserHistory.push(this.selectedItemPath);
+					store.dispatch(closePlayerAction(true));
+				}
 			};
 
 			myMenu.addEventListener('transitionend', OnTransitionEnd, false);
@@ -50,8 +55,8 @@ class MainMenu extends React.Component {
 		this.onClickLink = this.onClickLink.bind(this);
 	}
 
-	onClickLink() {
-		store.dispatch(closePlayerAction(true));
+	onClickLink(event) {
+		this.selectedItemPath = event.currentTarget.getAttribute('data-link');
 	}
 
 	render() {
@@ -64,22 +69,22 @@ class MainMenu extends React.Component {
 					</div>
 					<ul className={styles.menu}>
 						<li className={styles.menuItem}>
-							<Link onClick={this.onClickLink} to="/player/playlist" className={styles.menuItemLink}>
+							<a onClick={this.onClickLink} data-link="/player/playlist" className={styles.menuItemLink}>
 								<i className={`material-icons ${styles.menuItemIcon}`}>&#xE030;</i>
 								<span>Playlist</span>
-							</Link>
+							</a>
 						</li>
 						<li className={styles.menuItem}>
-							<Link onClick={this.onClickLink} to="/player/search" className={styles.menuItemLink}>
+							<a onClick={this.onClickLink} data-link="/player/search" className={styles.menuItemLink}>
 								<i className={`material-icons ${styles.menuItemIcon}`}>&#xE8B6;</i>
 								<span>Search</span>
-							</Link>
+							</a>
 						</li>
 						<li className={styles.menuItem}>
-							<Link onClick={this.onClickLink} to="/player/favorites" className={styles.menuItemLink}>
+							<a onClick={this.onClickLink} data-link="/player/favorites" className={styles.menuItemLink}>
 								<i className={`material-icons ${styles.menuItemIcon}`}>&#xE8D0;</i>
 								<span>Favorites</span>
-							</Link>
+							</a>
 						</li>
 					</ul>
 				</div>
