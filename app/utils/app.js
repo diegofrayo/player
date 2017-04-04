@@ -6,26 +6,26 @@ import SearcherFactory from 'utils/components/searcher/SearcherFactory';
 import SongsStorageFactory from 'utils/components/songs-storage/SongsStorageFactory';
 import Utilities from 'utils/utilities/Utilities.js';
 
-const environment = '@@environment';
+const environment = APP_SETTINGS.environment;
 
 const APP = {
 	environment,
-	http: new HttpFactory().createInstance('HttpJQueryImplementation', {}),
+	http: new HttpFactory().createInstance('HttpFetchImplementation', {}),
 	player: new PlayerFactory().createInstance('JWPlayerImplementation'),
 	promise: new PromiseFactory().createInstance('PromiseImplementation', {}),
 	searcher: new SearcherFactory().createInstance('YoutubeSearcher', {
-		api_key: '@@youtube_api_key'
+		api_key: APP_SETTINGS.youtube_api_key
 	}),
 	songs_storage: new SongsStorageFactory().createInstance('FirebaseImplementationClass', {}),
 	username: Utilities.isGuestUser(environment) === true ? 'guest' : 'diegofrayo'
 };
 
-if (APP.environment === 'DEV') {
+if (APP.environment === 'development') {
 	// APP.http = new HttpFactory().createInstance('HttpFetchImplementation', {});
 	// APP.searcher = new SearcherFactory().createInstance('LocalSearcher', {});
 }
 
-if (APP.username === 'guest' && APP.environment === 'LIVE') {
+if (APP.username === 'guest' && APP.environment === 'production') {
 	/* eslint-disable */
 	(function(i, s, o, g, r, a, m) {
 		i['GoogleAnalyticsObject'] = r;

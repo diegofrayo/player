@@ -217,7 +217,7 @@ const Utilities = {
 
 		const auth = this.getCookie('auth');
 
-		if (auth || environment === 'DEV') {
+		if (auth || environment === 'development') {
 			return false;
 		}
 

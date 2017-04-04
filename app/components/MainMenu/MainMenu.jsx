@@ -1,12 +1,12 @@
 // npm libs
 import React from 'react';
 import {
-	browserHistory,
-	Link
+	browserHistory
 } from 'react-router';
 
 // js utils
 import APP from 'utils/app';
+import routerUrls from 'utils/routerUrls';
 
 // redux
 import {
@@ -69,19 +69,19 @@ class MainMenu extends React.Component {
 					</div>
 					<ul className={styles.menu}>
 						<li className={styles.menuItem}>
-							<a onClick={this.onClickLink} data-link="/player/playlist" className={styles.menuItemLink}>
+							<a onClick={this.onClickLink} data-link={routerUrls.PLAYLIST()} className={styles.menuItemLink}>
 								<i className={`material-icons ${styles.menuItemIcon}`}>&#xE030;</i>
 								<span>Playlist</span>
 							</a>
 						</li>
 						<li className={styles.menuItem}>
-							<a onClick={this.onClickLink} data-link="/player/search" className={styles.menuItemLink}>
+							<a onClick={this.onClickLink} data-link={routerUrls.SEARCH()} className={styles.menuItemLink}>
 								<i className={`material-icons ${styles.menuItemIcon}`}>&#xE8B6;</i>
 								<span>Search</span>
 							</a>
 						</li>
 						<li className={styles.menuItem}>
-							<a onClick={this.onClickLink} data-link="/player/favorites" className={styles.menuItemLink}>
+							<a onClick={this.onClickLink} data-link={routerUrls.FAVORITES()} className={styles.menuItemLink}>
 								<i className={`material-icons ${styles.menuItemIcon}`}>&#xE8D0;</i>
 								<span>Favorites</span>
 							</a>

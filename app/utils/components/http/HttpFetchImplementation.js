@@ -42,17 +42,10 @@ export default class HttpFetchImplementation {
 					reject(response);
 
 				});
-			// .finally(() => {
 
-			// 	if (alwaysCallback) {
-			// 		alwaysCallback();
-			// 	}
-
-			// });
-
-			if (alwaysCallback) {
-				alwaysCallback();
-			}
+			// if (alwaysCallback) {
+			// 	alwaysCallback();
+			// }
 
 		});
 
@@ -96,17 +89,10 @@ export default class HttpFetchImplementation {
 					reject(response);
 
 				});
-			// .finally(() => {
 
-			// 	if (alwaysCallback) {
-			// 		alwaysCallback();
-			// 	}
-
-			// });
-
-			if (alwaysCallback) {
-				alwaysCallback();
-			}
+			// if (alwaysCallback) {
+			// 	alwaysCallback();
+			// }
 
 		});
 

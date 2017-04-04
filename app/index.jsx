@@ -1,4 +1,4 @@
-// npm librs
+// npm libs
 import React from 'react';
 import {
 	render

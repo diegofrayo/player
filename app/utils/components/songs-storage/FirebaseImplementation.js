@@ -21,9 +21,9 @@ import {
 } from 'actions/playlist';
 
 firebase.initializeApp({
-	databaseURL: '@@firebase_database_url',
-	authDomain: '@@firebase_auth_domain',
-	apiKey: '@@firebase_api_key'
+	databaseURL: APP_SETTINGS.firebase_database_url,
+	authDomain: APP_SETTINGS.firebase_auth_domain,
+	apiKey: APP_SETTINGS.firebase_api_key,
 });
 
 export class FirebaseImplementationClass {

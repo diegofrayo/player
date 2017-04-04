@@ -8,6 +8,7 @@
 		}
 	},
 	"globals": {
+		"APP_SETTINGS": true,
 		"console": true,
 		"document": true,
 		"fetch": true,
@@ -24,6 +25,7 @@
 		"dot-location": 0,
 		"eol-last": 0,
 		"import/extensions": 0,
+		"import/first": 1,
 		"import/no-extraneous-dependencies": 0,
 		"import/no-unresolved": 0,
 		"import/prefer-default-export": 1,

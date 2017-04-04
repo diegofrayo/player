@@ -1,3 +1,15 @@
+const fs = require('fs');
+const ENVIRONMENT = process.env.NODE_ENV.trim();
+let settings = {};
+
+try {
+	settings = JSON.parse(fs.readFileSync('./config.app.json', 'utf8'));
+	settings = settings[ENVIRONMENT];
+} catch (error) {
+	console.log(error);
+	process.exit();
+}
+
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
@@ -5,11 +17,10 @@ const extractLESS = new ExtractTextPlugin('../css/styles.css');
 
 module.exports = {
 	context: __dirname,
-	devtool: 'source-map',
-	entry: './app/index.jsx',
+	devtool: 'inline-source-map',
+	entry: ['babel-polyfill', 'whatwg-fetch', './app/index.jsx'],
 	output: {
-		filename: 'webpack-bundle.js',
-		path: path.resolve(__dirname, 'build/assets/player/js'),
+		filename: 'bundle.js',
 		publicPath: '/assets/player/'
 	},
 	resolve: {
@@ -48,6 +59,9 @@ module.exports = {
 				}
 			}
 		}),
-		extractLESS
+		extractLESS,
+		new webpack.DefinePlugin({
+			'APP_SETTINGS': JSON.stringify(settings)
+		})
 	]
 }

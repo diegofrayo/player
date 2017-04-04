@@ -1,18 +1,22 @@
 import JWPlayerImplementation from 'utils/components/player/JWPlayerImplementation';
+// import PlyrImplementation from 'utils/components/player/PlyrImplementation';
 
 export default class PlayerFactory {
 
 	createInstance(className) {
 
 		if (className === 'JWPlayerImplementation') {
-			this.httpInstance = new JWPlayerImplementation();
+			this.playerInstance = new JWPlayerImplementation();
 		}
+		// else if (className === 'PlyrImplementation') {
+		// 	this.playerInstance = new PlyrImplementation();
+		// }
 
-		return this.httpInstance;
+		return this.playerInstance;
 	}
 
 	getInstance() {
-		return this.httpInstance;
+		return this.playerInstance;
 	}
 
 }
