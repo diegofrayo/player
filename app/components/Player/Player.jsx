@@ -158,9 +158,7 @@ class Player extends React.Component {
 			this.setState({
 				isOpened: false
 			});
-		}
-
-		if (nextProps.playerReducer.status === 'READY') {
+		} else if (nextProps.playerReducer.status === 'READY') {
 			this.onPlaylistUpdate(nextProps.playlistReducer);
 		}
 	}

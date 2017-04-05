@@ -28,9 +28,7 @@ class MainMenu extends React.Component {
 			const myMenu = document.getElementById('menu-container');
 
 			const toggleClassMenu = () => {
-
 				myMenu.classList.add(styles.menuContainer__animatable);
-
 				if (!myMenu.classList.contains(styles.menuContainer__visible)) {
 					myMenu.classList.add(styles.menuContainer__visible);
 				} else {
@@ -43,6 +41,7 @@ class MainMenu extends React.Component {
 				if (this.selectedItemPath) {
 					browserHistory.push(this.selectedItemPath);
 					store.dispatch(closePlayerAction(true));
+					this.selectedItemPath = '';
 				}
 			};
 

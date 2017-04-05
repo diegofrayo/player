@@ -1,8 +1,10 @@
+// npm libs
 import {
 	combineReducers,
 	createStore
 } from 'redux';
 
+// redux
 import favorites from 'reducers/favorites';
 import player from 'reducers/player';
 import playlist from 'reducers/playlist';
@@ -38,7 +40,9 @@ const reduxApp = combineReducers({
 	searches
 });
 
+const reduxDevTool = (window.__REDUX_DEVTOOLS_EXTENSION__ && APP_SETTINGS.environment === 'development') ? window.__REDUX_DEVTOOLS_EXTENSION__() : undefined;
+
 /* eslint no-underscore-dangle: "off" */
-const store = createStore(reduxApp, initialState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(reduxApp, initialState, reduxDevTool);
 
 export default store;

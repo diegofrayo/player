@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "SET NODE_ENV=development && webpack-dev-server --host localhost --port 4567 --hot --content-base build/",
+    "start": "SET NODE_ENV=development && webpack-dev-server --hot --inline",
     "build": "SET NODE_ENV=production && webpack -p && gulp build-live"
   },
   "devDependencies": {
