@@ -3,21 +3,22 @@ import React from 'react';
 import {
 	render
 } from 'react-dom';
-import {
-	Provider
-} from 'react-redux';
+
+// react components
+import RootContainer from 'containers/Root/Root';
 
 // styles
 import 'styles/base.less';
 
-// react components
-import App from 'routes.jsx';
+const target = document.getElementById('parent-container');
+const environment = APP_SETTINGS.environment;
 
-// redux
-import store from 'store/index';
+render(<RootContainer environment={environment} />, target);
 
-render((
-	<Provider store={store}>
-		<App />
-	</Provider>
-), document.getElementById('parent-container'));
+if (module.hot) {
+	module.hot.accept('containers/Root/Root.jsx', () => {
+		console.log('this');
+		const NextRootContainer = require('containers/Root/Root.jsx');
+		render(<NextRootContainer environment={environment} />, target);
+	});
+}

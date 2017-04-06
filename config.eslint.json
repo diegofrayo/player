@@ -24,6 +24,7 @@
 		"consistent-return": 1,
 		"dot-location": 0,
 		"eol-last": 0,
+		"global-require": 1,
 		"import/extensions": 0,
 		"import/first": 1,
 		"import/no-extraneous-dependencies": 0,

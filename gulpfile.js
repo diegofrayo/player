@@ -4,8 +4,7 @@ const gulp = require('gulp'),
 	fs = require('fs'),
 	g = require('gulp-load-plugins')({
 		lazy: false
-	}),
-	historyApiFallback = require('connect-history-api-fallback');
+	});
 
 const htmlminOpts = {
 	removeComments: true,
@@ -28,70 +27,11 @@ try {
 
 
 
-//--------------------------------------------------------------
-//------------------------- Util Functions ---------------------
-function replaceEnvironmentVariables() {
-
-	return g.replaceTask({
-		patterns: [{
-			match: 'environment',
-			replacement: settings[environment].environment
-		}, {
-			match: 'firebase_database_url',
-			replacement: settings[environment].firebase_database_url
-		}, {
-			match: 'firebase_auth_domain',
-			replacement: settings[environment].firebase_auth_domain
-		}, {
-			match: 'firebase_api_key',
-			replacement: settings[environment].firebase_api_key
-		}, {
-			match: 'youtube_api_key',
-			replacement: settings[environment].youtube_api_key
-		}]
-	});
-}
-
-function createLocalServer() {
-
-	gulp.task('run-local-server', function() {
-		g.connect.server({
-			root: ['./build', './app'],
-			livereload: true,
-			port: 4567,
-			hostname: 'localhost',
-			middleware: function() {
-				return [historyApiFallback({})];
-			}
-		});
-	});
-
-	gulp.start('run-local-server');
-}
-
-
-
 //----------------------------------------------------
 //------------------- JS Tasks -----------------------
 gulp.task('build-js', () => {
-
-	let stream = gulp.src('./build/assets/player/js/webpack-bundle.js')
-		.pipe(g.rename('bundle.js'))
-		.pipe(replaceEnvironmentVariables());
-
-	if (environment === 'LIVE') {
-
-		return stream
-			.pipe(gulp.dest(destPath + '/js'));
-
-	} else {
-
-		return stream
-			.pipe(gulp.dest(destPath + '/js'))
-			.pipe(g.livereload());
-
-	}
-
+	return gulp.src('./build/assets/player/js/bundle.js')
+		.pipe(gulp.dest(destPath + '/js'));
 });
 
 
@@ -99,11 +39,9 @@ gulp.task('build-js', () => {
 //----------------------------------------------------
 //------------------- CSS Tasks -----------------------
 gulp.task('build-css', () => {
-
 	return gulp.src('./build/assets/player/css/styles.css')
 		.pipe(g.minifyCss())
 		.pipe(gulp.dest(destPath + '/css'));
-
 });
 
 
@@ -116,12 +54,10 @@ gulp.task('build-html', () => {
 		.pipe(g.htmlhint('./config.htmlhint.json'))
 		.pipe(g.htmlhint.reporter());
 
-	if (environment === 'DEV') {
+	if (environment === 'development') {
 
 		return stream
-			.pipe(g.embedlr())
-			.pipe(gulp.dest('build/'))
-			.pipe(g.livereload());
+			.pipe(gulp.dest('./build/'));
 
 	} else {
 
@@ -140,10 +76,10 @@ gulp.task('build-html', () => {
 //------------------- Copy Assets Tasks --------------
 gulp.task('copy-assets', () => {
 
-	gulp.src('./app/assets/images/**/*')
+	gulp.src('./assets/images/**/*')
 		.pipe(gulp.dest(destPath + '/images/'));
 
-	gulp.src('./app/vendor/**/*')
+	gulp.src('./assets/app/vendor/**/*')
 		.pipe(gulp.dest(destPath + '/js/vendor'));
 
 });
@@ -151,35 +87,13 @@ gulp.task('copy-assets', () => {
 
 
 //-------------------------------------------------------
-//----------------- Main Tasks --------------------------
-gulp.task('watch', () => {
-
-	gulp.start('build-dev');
-
-	gulp.watch('./app/index.html', ['build-html']);
-	gulp.watch(destPath + '/js/webpack-bundle.js', ['build-js']);
-
-	createLocalServer();
-
-	g.livereload.listen({
-		start: true
-	});
-
-});
-
-gulp.task('default', ['watch']);
-
-
-
-//-------------------------------------------------------
 //----------------- Builds Tasks ------------------------
 gulp.task('build-dev', () => {
 
-	environment = 'DEV';
+	environment = 'development';
 	destPath = settings[environment].dest_path;
 
 	g.runSequence(
-		'build-js',
 		'build-html',
 		'copy-assets'
 	);
@@ -188,7 +102,7 @@ gulp.task('build-dev', () => {
 
 gulp.task('build-live', () => {
 
-	environment = 'LIVE';
+	environment = 'production';
 	destPath = settings[environment].dest_path;
 
 	g.runSequence(

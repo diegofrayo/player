@@ -1,16 +1,25 @@
-const fs = require('fs');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
-const extractLESS = new ExtractTextPlugin('./../css/styles.css');
 
 const ENVIRONMENT = process.env.NODE_ENV.trim();
+let environmentConfig;
+let extractLESS;
 let settings = {};
 
 try {
 	settings = JSON.parse(fs.readFileSync('./config.app.json', 'utf8'))[ENVIRONMENT];
 } catch (error) {
 	process.exit();
+}
+
+if (ENVIRONMENT === 'development') {
+	environmentConfig = require('./config/webpack.config.dev.js');
+	extractLESS = new ExtractTextPlugin('./../css/styles.css');
+} else {
+	environmentConfig = require('./config/webpack.config.prod.js');
+	extractLESS = new ExtractTextPlugin('./../css/styles.[hash].css');
 }
 
 const plugins = [
@@ -27,32 +36,15 @@ const plugins = [
 	})
 ];
 
-if (ENVIRONMENT === 'production') {
-	plugins.concat([,
-		new webpack.optimize.OccurrenceOrderPlugin(),
-		new webpack.optimize.UglifyJsPlugin({
-			compress: {
-				warnings: false
-			}
-		})
-	]);
-}
-
-module.exports = {
+const config = Object.assign({
 	context: __dirname,
-	devtool: ENVIRONMENT === 'development' ? 'source-map' : '',
-	devServer: {
-		contentBase: __dirname + '/build',
-		historyApiFallback: true,
-		host: 'localhost',
-		port: 4567
-	},
-	entry: ['babel-polyfill', 'whatwg-fetch', './app/index.jsx'],
-	output: {
-		filename: 'bundle.js',
-		path: __dirname + '/build/assets/player/js/',
-		publicPath: '/assets/player/'
-	},
+	entry: [
+		'webpack/hot/only-dev-server',
+		'react-hot-loader/patch',
+		'babel-polyfill',
+		'whatwg-fetch',
+		'./app/index.jsx'
+	],
 	resolve: {
 		extensions: ['.js', '.jsx'],
 		modules: [path.resolve(__dirname, 'app'), 'node_modules']
@@ -61,13 +53,15 @@ module.exports = {
 		rules: [{
 			test: /(\.js|.jsx)$/,
 			exclude: /(node_modules|build)/,
-			use: {
+			use: [{
+				loader: 'react-hot-loader/webpack'
+			}, {
 				loader: 'babel-loader',
 				options: {
-					plugins: ['syntax-jsx'],
-					presets: ['es2015', 'stage-2', 'react']
+					plugins: ['react-hot-loader/babel','syntax-jsx'],
+					presets: ['es2015', 'react']
 				}
-			}
+			}]
 		}, {
 			exclude: /(node_modules|build)/,
 			loader: 'eslint-loader',
@@ -75,11 +69,11 @@ module.exports = {
 		}, {
 			exclude: /(node_modules|build)/,
 			test: /(\.less)$/,
-			use: extractLESS.extract({
-				fallback: 'style-loader',
-				use: ['css-loader?modules&importLoaders=2&localIdentName=[name]_[local]_[hash:base64:5]', 'less-loader']
-			})
+			loader: ['style-loader', 'css-loader?modules&sourceMap&importLoaders=2&localIdentName=[name]_[local]_[hash:base64:5]', 'less-loader?sourceMap'].join('!')
 		}]
 	},
-	plugins
-};
+}, environmentConfig);
+
+config.plugins = plugins.concat(config.plugins);
+
+module.exports = config;
