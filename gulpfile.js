@@ -30,7 +30,7 @@ try {
 //----------------------------------------------------
 //------------------- JS Tasks -----------------------
 gulp.task('build-js', () => {
-	return gulp.src('./build/assets/player/js/bundle.js')
+	return gulp.src('./build/assets/player/bundle.js')
 		.pipe(gulp.dest(destPath + '/js'));
 });
 
@@ -39,8 +39,7 @@ gulp.task('build-js', () => {
 //----------------------------------------------------
 //------------------- CSS Tasks -----------------------
 gulp.task('build-css', () => {
-	return gulp.src('./build/assets/player/css/styles.css')
-		.pipe(g.minifyCss())
+	return gulp.src('./build/assets/player/styles.css')
 		.pipe(gulp.dest(destPath + '/css'));
 });
 
@@ -50,18 +49,50 @@ gulp.task('build-css', () => {
 //------------------- HTML Tasks ---------------------
 gulp.task('build-html', () => {
 
+	const timestamp = +new Date();
+
+	const transformJS = (filepath) => {
+		return '<script src="' + filepath + '"></script>';
+	};
+
+	const transformCSS = (filepath) => {
+		return '<link href="' + filepath + '" rel="stylesheet"/>';
+	};
+
 	let stream = gulp.src('./app/index.html')
 		.pipe(g.htmlhint('./config.htmlhint.json'))
 		.pipe(g.htmlhint.reporter());
 
+	let cssSources, jsSources;
+
 	if (environment === 'development') {
 
+		cssSources = ['/assets/player/styles.css'].map((href) => {
+			return transformCSS(href);
+		}).join('');
+
+		jsSources = ['/assets/player/js/vendor/jwplayer.min.js', '/assets/player/bundle.js'].map((href) => {
+			return transformJS(href);
+		}).join('');
+
 		return stream
+			.pipe(g.replace('<!-- INJECT:css -->', cssSources))
+			.pipe(g.replace('<!-- INJECT:js -->', jsSources))
 			.pipe(gulp.dest('./build/'));
 
 	} else {
 
+		cssSources = [`/assets/player/css/styles.css?${timestamp}`].map((href) => {
+			return transformCSS(href);
+		}).join('');
+
+		jsSources = ['/assets/player/js/vendor/jwplayer.min.js', `/assets/player/js/bundle.js?${timestamp}`].map((href) => {
+			return transformJS(href);
+		}).join('');
+
 		return stream
+			.pipe(g.replace('<!-- INJECT:css -->', cssSources))
+			.pipe(g.replace('<!-- INJECT:js -->', jsSources))
 			.pipe(g.rename('player.html'))
 			.pipe(g.htmlmin(htmlminOpts))
 			.pipe(gulp.dest(destPath.replace('/assets/player', '') + '/templates'));
@@ -79,7 +110,7 @@ gulp.task('copy-assets', () => {
 	gulp.src('./assets/images/**/*')
 		.pipe(gulp.dest(destPath + '/images/'));
 
-	gulp.src('./assets/app/vendor/**/*')
+	gulp.src('./app/vendor/**/*')
 		.pipe(gulp.dest(destPath + '/js/vendor'));
 
 });

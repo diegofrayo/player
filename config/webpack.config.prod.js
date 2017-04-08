@@ -3,9 +3,10 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
+	entry: [],
 	output: {
-		filename: 'bundle.[hash].js',
-		path: path.join(__dirname, '../build/assets/player/js/'),
+		filename: 'bundle.js',
+		path: path.join(__dirname, '../build/assets/player/'),
 		publicPath: '/assets/player/'
 	},
 	plugins: [

@@ -1,18 +1,16 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
 	devtool: 'source-map',
-	devServer: {
-		contentBase: path.join(__dirname, '../build'),
-		historyApiFallback: true,
-		host: 'localhost',
-		hot: true,
-		port: 4567
-	},
+	entry: [
+		'react-hot-loader/patch',
+		'webpack-hot-middleware/client'
+	],
 	output: {
 		filename: 'bundle.js',
-		path: path.join(__dirname, '../build/assets/player/js/'),
+		path: path.resolve(__dirname, '../build/assets/player/'),
 		publicPath: '/assets/player/'
 	},
-	plugins: []
+	plugins: [new webpack.HotModuleReplacementPlugin()]
 };

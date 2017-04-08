@@ -8,6 +8,7 @@
 		}
 	},
 	"globals": {
+		"$": true,
 		"APP_SETTINGS": true,
 		"console": true,
 		"document": true,

@@ -17,8 +17,6 @@ const RootContainer = ({
 	environment
 }) => {
 
-	console.log(environment);
-
 	if (environment === 'development') {
 		return (
 			<AppContainer>

@@ -6,6 +6,7 @@ import {
 
 // react components
 import RootContainer from 'containers/Root/Root';
+// import Playlist from 'containers/Playlist/Playlist';
 
 // styles
 import 'styles/base.less';
@@ -16,9 +17,8 @@ const environment = APP_SETTINGS.environment;
 render(<RootContainer environment={environment} />, target);
 
 if (module.hot) {
-	module.hot.accept('containers/Root/Root.jsx', () => {
-		console.log('this');
-		const NextRootContainer = require('containers/Root/Root.jsx');
+	module.hot.accept('./containers/Root/Root.jsx', () => {
+		const NextRootContainer = require('./containers/Root/Root.jsx').default;
 		render(<NextRootContainer environment={environment} />, target);
 	});
 }
