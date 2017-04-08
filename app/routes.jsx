@@ -19,11 +19,11 @@ import routerUrls from 'utils/routerUrls';
 export default function createRoutes() {
 	return (
 		<Router history={browserHistory}>
-			<Route path={routerUrls.ROOT} component={AppView}>
+			<Route path={routerUrls.HOME} component={AppView}>
 				<IndexRoute component={PlaylistView} />
-				<Route path={routerUrls.FAVORITES()} component={FavoritesView} />
-				<Route path={routerUrls.PLAYLIST()} component={PlaylistView} />
-				<Route path={routerUrls.SEARCH()} component={SearchView} />
+				<Route path={routerUrls.FAVORITES} component={FavoritesView} />
+				<Route path={routerUrls.PLAYLIST} component={PlaylistView} />
+				<Route path={routerUrls.SEARCH} component={SearchView} />
 			</Route>
 		</Router>
 	);

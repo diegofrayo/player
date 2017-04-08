@@ -76,7 +76,7 @@ class Searches extends React.Component {
 					this.state.status === 'SUCCESS' &&
 					(
 						<SongsList type="search" songsList={this.state.songs}>
-							Results for <strong>{this.state.query}</strong>: {this.state.songs.length}
+							{this.state.songs.length} results for <strong>{this.state.query}</strong>
 						</SongsList>
 					)
 				}

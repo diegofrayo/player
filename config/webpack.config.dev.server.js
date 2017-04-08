@@ -8,15 +8,13 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-const fs = require('fs');
 const webpack = require('webpack');
 const Browsersync = require('browser-sync');
 const task = require('./task');
 
-global.HMR = !process.argv.includes('--no-hmr'); // Hot Module Replacement (HMR)
-
 // Build the app and launch it in a browser for testing via Browsersync
 module.exports = task('webpack.config.dev.server', () => new Promise((resolve) => {
+
 	let count = 0;
 	const bs = Browsersync.create();
 	const webpackConfig = require('./../webpack.config');

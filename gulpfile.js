@@ -28,6 +28,30 @@ try {
 
 
 //----------------------------------------------------
+//------------------- Util Functions -----------------
+function createCSSTags(cssSources) {
+
+	const createTag = (url) => {
+		return '<link href="' + url + '" rel="stylesheet"/>';
+	};
+
+	return cssSources.map((url) => {
+		return createTag(url);
+	}).join('');
+}
+
+function createJSTags(jsSources) {
+
+	const createTag = (url) => {
+		return '<script src="' + url + '"></script>';
+	};
+
+	return jsSources.map((url) => {
+		return createTag(url);
+	}).join('');
+}
+
+//----------------------------------------------------
 //------------------- JS Tasks -----------------------
 gulp.task('build-js', () => {
 	return gulp.src('./build/assets/player/bundle.js')
@@ -63,36 +87,26 @@ gulp.task('build-html', () => {
 		.pipe(g.htmlhint('./config.htmlhint.json'))
 		.pipe(g.htmlhint.reporter());
 
-	let cssSources, jsSources;
+	let cssSources, jsSources = ['/assets/player/js/vendor/jwplayer.min.js'];
 
 	if (environment === 'development') {
 
-		cssSources = ['/assets/player/styles.css'].map((href) => {
-			return transformCSS(href);
-		}).join('');
-
-		jsSources = ['/assets/player/js/vendor/jwplayer.min.js', '/assets/player/bundle.js'].map((href) => {
-			return transformJS(href);
-		}).join('');
+		cssSources = ['/assets/player/styles.css'];
+		jsSources.push('/assets/player/bundle.js');
 
 		return stream
-			.pipe(g.replace('<!-- INJECT:css -->', cssSources))
-			.pipe(g.replace('<!-- INJECT:js -->', jsSources))
+			.pipe(g.replace('<!-- INJECT:css -->', createCSSTags(cssSources)))
+			.pipe(g.replace('<!-- INJECT:js -->', createJSTags(jsSources)))
 			.pipe(gulp.dest('./build/'));
 
 	} else {
 
-		cssSources = [`/assets/player/css/styles.css?${timestamp}`].map((href) => {
-			return transformCSS(href);
-		}).join('');
-
-		jsSources = ['/assets/player/js/vendor/jwplayer.min.js', `/assets/player/js/bundle.js?${timestamp}`].map((href) => {
-			return transformJS(href);
-		}).join('');
+		cssSources = [`/assets/player/css/styles.css?${timestamp}`];
+		jsSources.push(`/assets/player/js/bundle.js?${timestamp}`);
 
 		return stream
-			.pipe(g.replace('<!-- INJECT:css -->', cssSources))
-			.pipe(g.replace('<!-- INJECT:js -->', jsSources))
+			.pipe(g.replace('<!-- INJECT:css -->', createCSSTags(cssSources)))
+			.pipe(g.replace('<!-- INJECT:js -->', createJSTags(jsSources)))
 			.pipe(g.rename('player.html'))
 			.pipe(g.htmlmin(htmlminOpts))
 			.pipe(gulp.dest(destPath.replace('/assets/player', '') + '/templates'));

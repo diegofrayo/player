@@ -6,7 +6,6 @@ import {
 
 // react components
 import RootContainer from 'containers/Root/Root';
-// import Playlist from 'containers/Playlist/Playlist';
 
 // styles
 import 'styles/base.less';

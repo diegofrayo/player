@@ -68,19 +68,19 @@ class MainMenu extends React.Component {
 					</div>
 					<ul className={styles.menu}>
 						<li className={styles.menuItem}>
-							<a onClick={this.onClickLink} data-link={routerUrls.PLAYLIST()} className={styles.menuItemLink}>
+							<a onClick={this.onClickLink} data-link={routerUrls.PLAYLIST} className={styles.menuItemLink}>
 								<i className={`material-icons ${styles.menuItemIcon}`}>&#xE030;</i>
 								<span>Playlist</span>
 							</a>
 						</li>
 						<li className={styles.menuItem}>
-							<a onClick={this.onClickLink} data-link={routerUrls.SEARCH()} className={styles.menuItemLink}>
+							<a onClick={this.onClickLink} data-link={routerUrls.SEARCH} className={styles.menuItemLink}>
 								<i className={`material-icons ${styles.menuItemIcon}`}>&#xE8B6;</i>
 								<span>Search</span>
 							</a>
 						</li>
 						<li className={styles.menuItem}>
-							<a onClick={this.onClickLink} data-link={routerUrls.FAVORITES()} className={styles.menuItemLink}>
+							<a onClick={this.onClickLink} data-link={routerUrls.FAVORITES} className={styles.menuItemLink}>
 								<i className={`material-icons ${styles.menuItemIcon}`}>&#xE8D0;</i>
 								<span>Favorites</span>
 							</a>

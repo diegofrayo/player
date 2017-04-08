@@ -29,14 +29,14 @@ const babelConfig = {
 
 if (ENVIRONMENT === 'development') {
 	environmentConfig = require('./config/webpack.config.dev.js');
+	babelConfig.use[0].options.plugins.unshift('react-hot-loader/babel');
+	babelConfig.use.unshift({
+		loader: 'react-hot-loader/webpack'
+	});
 	extractLESS = new ExtractTextPlugin({
 		filename: 'styles.css',
 		allChunks: true,
 		disable: isDevelopment
-	});
-	babelConfig.use[0].options.plugins.unshift('react-hot-loader/babel');
-	babelConfig.use.unshift({
-		loader: 'react-hot-loader/webpack'
 	});
 } else {
 	environmentConfig = require('./config/webpack.config.prod.js');
@@ -80,7 +80,6 @@ const config = Object.assign({
 			test: /(\.less)$/,
 			use: extractLESS.extract({
 				fallback: 'style-loader',
-				publicPath: environmentConfig.output.publicPath,
 				use: [{
 					loader: 'css-loader',
 					options: {
