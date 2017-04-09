@@ -1,5 +1,8 @@
+// npm libs
+import PropTypes from 'prop-types';
 import React from 'react';
 
+// js utils
 import APP from 'utils/app';
 
 class Song extends React.Component {
@@ -32,10 +35,10 @@ class Song extends React.Component {
 }
 
 Song.propTypes = {
-	song: React.PropTypes.shape({
-		duration: React.PropTypes.string.isRequired,
-		thumbnail: React.PropTypes.string.isRequired,
-		title: React.PropTypes.string.isRequired
+	song: PropTypes.shape({
+		duration: PropTypes.string.isRequired,
+		thumbnail: PropTypes.string.isRequired,
+		title: PropTypes.string.isRequired
 	}).isRequired
 };
 

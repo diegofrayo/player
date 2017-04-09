@@ -1,8 +1,14 @@
+// npm libs
+import PropTypes from 'prop-types';
 import React from 'react';
 
-import APP from 'utils/app';
+// react components
 import Song from 'components/Song/Song.jsx';
 
+// js libs
+import APP from 'utils/app';
+
+// styles
 import songStyles from 'components/Song/Song.less';
 import playlistSongStyles from './PlaylistSong.less';
 
@@ -38,12 +44,12 @@ class PlaylistSong extends Song {
 				<div className={`col-xs-12 ${songStyles.songInner}`}>
 					<div className={songStyles.songThumbnailWrapper}>
 						<img src={song.thumbnail} alt="song-thumbnail" className={songStyles.songThumbnailImg} />
-						<p className={`text-right ${songStyles.songThumbnailDuration}`}>
+						<p className={`text-right u-position-right-bottom u-gradient ${songStyles.songThumbnailDuration}`}>
 							{song.duration}
 						</p>
 					</div>
 					<div className={songStyles.songDetailsWrapper}>
-						<p className={songStyles.songDetailsTitle} title={song.title}>
+						<p className={`${songStyles.songDetailsTitle} u-cut-text`} title={song.title}>
 							{song.title}
 						</p>
 						<div className="text-center">
@@ -77,7 +83,7 @@ class PlaylistSong extends Song {
 
 }
 
-PlaylistSong.propTypes.song.type = React.PropTypes.string.isRequired;
-PlaylistSong.propTypes.song.votes = React.PropTypes.number.isRequired;
+PlaylistSong.propTypes.song.type = PropTypes.string.isRequired;
+PlaylistSong.propTypes.song.votes = PropTypes.number.isRequired;
 
 export default PlaylistSong;

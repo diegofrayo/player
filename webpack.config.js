@@ -12,6 +12,7 @@ let settings = {};
 try {
 	settings = JSON.parse(fs.readFileSync('./config.app.json', 'utf8'))[ENVIRONMENT];
 } catch (error) {
+	console.log(error);
 	process.exit();
 }
 
@@ -76,7 +77,7 @@ const config = Object.assign({
 			loader: 'eslint-loader',
 			test: /(\.js|.jsx)$/
 		}, {
-			exclude: /(node_modules|build)/,
+			exclude: [/(node_modules|build)/, path.resolve(__dirname, 'app/styles/util.less')],
 			test: /(\.less)$/,
 			use: extractLESS.extract({
 				fallback: 'style-loader',
@@ -94,6 +95,17 @@ const config = Object.assign({
 					options: {
 						sourceMap: isDevelopment
 					}
+				}]
+			})
+		}, {
+			exclude: /(node_modules|build)/,
+			test: [path.resolve(__dirname, 'app/styles/util.less')],
+			use: extractLESS.extract({
+				fallback: 'style-loader',
+				use: [{
+					loader: 'css-loader'
+				}, {
+					loader: 'less-loader'
 				}]
 			})
 		}]

@@ -1,4 +1,5 @@
 // npm libs
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
 	connect
@@ -19,8 +20,6 @@ class Playlist extends React.Component {
 	componentDidMount() {
 		Utilities.updatePageTitle('playlist');
 	}
-
-	componentWillUnmount() {}
 
 	render() {
 
@@ -46,13 +45,13 @@ class Playlist extends React.Component {
 
 			return (
 				<div>
-					<div className={styles.nextSongContainer}>
+					<div className={`${styles.nextSongContainer} u-box-shadow`}>
 						<p className={styles.playlistInfoTitle}>
 							Next to play
 						</p>
 						<PlaylistSong song={songs[1]} key={songs[1].source_id} />
 					</div>
-					<div className={styles.queueSongsContainer} style={songs.length > 2 ? { display: 'block' } : { display: 'none' }}>
+					<div className={`${styles.queueSongsContainer} u-box-shadow`} style={songs.length > 2 ? { display: 'block' } : { display: 'none' }}>
 						<p className={styles.playlistInfoTitle}>
 							Queue
 						</p>
@@ -88,7 +87,7 @@ const mapStateToProps = state => ({
 });
 
 Playlist.propTypes = {
-	playlistReducer: React.PropTypes.object.isRequired
+	playlistReducer: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps)(Playlist);

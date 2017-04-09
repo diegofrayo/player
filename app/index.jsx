@@ -9,6 +9,7 @@ import RootContainer from 'containers/Root/Root';
 
 // styles
 import 'styles/base.less';
+import 'styles/util.less';
 
 const target = document.getElementById('parent-container');
 const environment = APP_SETTINGS.environment;

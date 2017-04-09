@@ -138,13 +138,12 @@ const Utilities = {
 
 		const array = [];
 
-		for (const key in json) {
-			// no-prototype-builtins
-			if (Object.hasOwnProperty.call(json, key)) {
-				const object = json[key];
+		Object.keys(json).map((key) => {
+			const object = json[key];
+			if (object !== undefined) {
 				array.push(object);
 			}
-		}
+		});
 
 		return array;
 	},

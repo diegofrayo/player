@@ -1,4 +1,5 @@
 // npm libs
+import PropTypes from 'prop-types';
 import React from 'react';
 
 // react components
@@ -29,7 +30,7 @@ class SongsList extends React.Component {
 							Total number of songs: {songs.length}
 						</span>
 					</p>
-					<div className={styles.songsOutputContainer}>
+					<div className={`u-box-shadow ${styles.songsOutputContainer}`}>
 						{songsOutput}
 					</div>
 				</div>
@@ -66,9 +67,9 @@ class SongsList extends React.Component {
 }
 
 SongsList.propTypes = {
-	children: React.PropTypes.node,
-	songsList: React.PropTypes.array.isRequired,
-	type: React.PropTypes.string.isRequired
+	children: PropTypes.node,
+	songsList: PropTypes.array.isRequired,
+	type: PropTypes.string.isRequired
 };
 
 SongsList.defaultProps = {

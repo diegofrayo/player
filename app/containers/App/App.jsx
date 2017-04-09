@@ -1,4 +1,5 @@
 // npm libs
+import PropTypes from 'prop-types';
 import React from 'react';
 
 // react components
@@ -12,7 +13,7 @@ import styles from './App.less';
 const App = ({
 	children
 }) => (
-	<div className={`container ${styles.parentContainer}`}>
+	<div className={`container-fluid ${styles.parentContainer} u-box-shadow`}>
 		<div className={styles.parentContainerChild}>
 			<MainMenu />
 			<Header />
@@ -25,7 +26,7 @@ const App = ({
 );
 
 App.propTypes = {
-	children: React.PropTypes.element.isRequired
+	children: PropTypes.element.isRequired
 };
 
 export default App;

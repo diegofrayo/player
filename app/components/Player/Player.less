@@ -1,8 +1,6 @@
-@import '../../styles/util.less';
 @import '../../styles/variables.less';
 
 .player{
-	composes: u-position-bottom from 'styles/util.less';
 	background-color: @bg-color-1;
 	height: @player-height;
 	margin: 0;
@@ -66,7 +64,6 @@
 }
 
 .expandButtonContainer{
-	composes: u-position-left-top from 'styles/util.less';
 	width: 100%;
 }
 
@@ -111,7 +108,6 @@
 
 .songTitle{
 	composes: songDetail;
-	composes: u-cut-text from 'styles/util.less';
 	margin-top: 4px;
 }
 

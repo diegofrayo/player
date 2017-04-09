@@ -20,12 +20,12 @@ class SearchSong extends Song {
 				<div className={`col-xs-12 ${styles.songInner}`}>
 					<div className={styles.songThumbnailWrapper}>
 						<img src={song.thumbnail} alt="song-thumbnail" className={styles.songThumbnailImg} />
-						<p className={`text-right ${styles.songThumbnailDuration}`}>
+						<p className={`text-right u-position-right-bottom u-gradient ${styles.songThumbnailDuration}`}>
 							{song.duration}
 						</p>
 					</div>
 					<div className={styles.songDetailsWrapper}>
-						<p className={styles.songDetailsTitle} title={song.title}>
+						<p className={`${styles.songDetailsTitle} u-cut-text`} title={song.title}>
 							{song.title}
 						</p>
 						<div className="text-center">

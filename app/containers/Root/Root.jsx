@@ -1,4 +1,5 @@
 // npm libs
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
 	Provider
@@ -35,7 +36,7 @@ const RootContainer = ({
 };
 
 RootContainer.propTypes = {
-	environment: React.PropTypes.string.isRequired
+	environment: PropTypes.string.isRequired
 };
 
 export default RootContainer;

@@ -30,26 +30,16 @@ try {
 //----------------------------------------------------
 //------------------- Util Functions -----------------
 function createCSSTags(cssSources) {
-
-	const createTag = (url) => {
-		return '<link href="' + url + '" rel="stylesheet"/>';
-	};
-
-	return cssSources.map((url) => {
-		return createTag(url);
-	}).join('');
+	const createTag = (url) => `<link href="${url}" rel="stylesheet"/>\n\t`;
+	return cssSources.map((url) => createTag(url)).join('');
 }
 
 function createJSTags(jsSources) {
-
-	const createTag = (url) => {
-		return '<script src="' + url + '"></script>';
-	};
-
-	return jsSources.map((url) => {
-		return createTag(url);
-	}).join('');
+	const createTag = (url) => `<script src="${url}"></script>\n\t`;
+	return jsSources.map((url) => createTag(url)).join('');
 }
+
+
 
 //----------------------------------------------------
 //------------------- JS Tasks -----------------------
@@ -75,14 +65,6 @@ gulp.task('build-html', () => {
 
 	const timestamp = +new Date();
 
-	const transformJS = (filepath) => {
-		return '<script src="' + filepath + '"></script>';
-	};
-
-	const transformCSS = (filepath) => {
-		return '<link href="' + filepath + '" rel="stylesheet"/>';
-	};
-
 	let stream = gulp.src('./app/index.html')
 		.pipe(g.htmlhint('./config.htmlhint.json'))
 		.pipe(g.htmlhint.reporter());
@@ -91,7 +73,7 @@ gulp.task('build-html', () => {
 
 	if (environment === 'development') {
 
-		cssSources = ['/assets/player/styles.css'];
+		cssSources = [];
 		jsSources.push('/assets/player/bundle.js');
 
 		return stream
