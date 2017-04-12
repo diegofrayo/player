@@ -33,7 +33,7 @@ export default class YoutubeSearcher {
 				const resourcesId = this.getResourcesIdFromYoutubeResponse(response.items);
 
 				if (resourcesId === '') {
-					return new RequestResponse('Error', 'SEARCHS_SONGS_NOT_FOUND', {});
+					return new RequestResponse('Error', 'There are no results', {});
 				}
 
 				return new RequestResponse('Success', '', {
@@ -55,7 +55,7 @@ export default class YoutubeSearcher {
 						};
 
 						if (songs.size() === 0) {
-							finalResponse = new RequestResponse('Error', 'SEARCHS_SONGS_NOT_FOUND', finalResponse);
+							finalResponse = new RequestResponse('Error', 'There are no results', finalResponse);
 						} else {
 							finalResponse = new RequestResponse('Success', '', finalResponse);
 						}

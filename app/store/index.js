@@ -1,14 +1,20 @@
 // npm libs
 import {
+	applyMiddleware,
 	combineReducers,
+	compose,
 	createStore
 } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 
 // redux
 import favorites from 'reducers/favorites';
 import player from 'reducers/player';
 import playlist from 'reducers/playlist';
 import searches from 'reducers/search';
+
+// sagas
+import mySagas from 'sagas/root';
 
 const initialState = {
 	favorites: {
@@ -40,9 +46,17 @@ const reduxApp = combineReducers({
 	searches
 });
 
+const sagaMiddleware = createSagaMiddleware();
+
 const reduxDevTool = (window.__REDUX_DEVTOOLS_EXTENSION__ && APP_SETTINGS.environment === 'development') ? window.__REDUX_DEVTOOLS_EXTENSION__() : undefined;
 
+const createStoreWithMiddleware = compose(
+	applyMiddleware(sagaMiddleware)
+)(createStore);
+
 /* eslint no-underscore-dangle: "off" */
-const store = createStore(reduxApp, initialState, reduxDevTool);
+const store = createStoreWithMiddleware(reduxApp, initialState, reduxDevTool);
+
+sagaMiddleware.run(mySagas);
 
 export default store;

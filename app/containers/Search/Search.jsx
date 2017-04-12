@@ -6,15 +6,12 @@ import SongsList from 'components/SongsList/SongsList.jsx';
 import Spinner from 'components/Spinner/Spinner.jsx';
 
 // js utils
-import APP from 'utils/app';
 import Utilities from 'utils/utilities/Utilities';
 
 // redux
 import store from 'store/index';
 import {
-	searchSongsFailure,
-	searchSongsFetching,
-	searchSongsSuccess
+	searchSongsFetching
 } from 'actions/search';
 
 // styles
@@ -46,21 +43,8 @@ class Searches extends React.Component {
 		const inputText = this.input.value;
 
 		if (event.key === 'Enter' && inputText.length > 2 && this.state.status !== 'FETCHING') {
-
 			store.dispatch(searchSongsFetching(inputText));
-
-			APP.searcher.searchSongs(inputText).then((response) => {
-
-				if (response.type === 'error') {
-					store.dispatch(searchSongsFailure(response.message));
-				} else {
-					store.dispatch(searchSongsSuccess(response.data.songs.toArray()));
-				}
-
-			});
-
 		}
-
 	}
 
 	render() {
@@ -86,9 +70,9 @@ class Searches extends React.Component {
 				}
 				{
 					this.state.status === 'FAILURE' &&
-					<div>
+					<p className={styles.error}>
 						{this.state.errorMessage}
-					</div>
+					</p>
 				}
 			</div>
 		);

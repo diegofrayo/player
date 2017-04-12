@@ -52,7 +52,8 @@
 		"quotes": [1, "single", {
 			"avoidEscape": true,
 			"allowTemplateLiterals": true
-		}]
+		}],
+		"yield-star-spacing": [0, "after"]
 	},
 	"plugins": ["react"]
 }

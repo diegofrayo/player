@@ -36,7 +36,7 @@ export default class LocalSearcher {
 				};
 
 				if (songs.size() === 0) {
-					response = new RequestResponse('Error', 'SEARCHS_SONGS_NOT_FOUND', response);
+					response = new RequestResponse('Error', 'There are no results', response);
 				} else {
 					response = new RequestResponse('Success', '', response);
 				}

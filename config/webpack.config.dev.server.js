@@ -27,7 +27,7 @@ module.exports = task('webpack.config.dev.server', () => new Promise((resolve) =
 		// Launch Browsersync after the initial bundling is complete
 		count += 1;
 		if (count === 1) {
-			bs.watch('build/index.html').on('change', () => {
+			bs.watch('app/index.html').on('change', () => {
 				task('gulp build-dev');
 				bs.reload();
 			});

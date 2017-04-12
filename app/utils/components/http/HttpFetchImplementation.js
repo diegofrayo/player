@@ -6,6 +6,12 @@ export default class HttpFetchImplementation {
 		this.configuration = configuration;
 	}
 
+	executeAllwaysCallback(alwaysCallback) {
+		if (alwaysCallback) {
+			alwaysCallback();
+		}
+	}
+
 	get(url, params, successCallback, errorCallback, alwaysCallback) {
 
 		const promise = APP.promise.createPromise((resolve, reject) => {
@@ -26,8 +32,8 @@ export default class HttpFetchImplementation {
 						response = data;
 					}
 
+					this.executeAllwaysCallback(alwaysCallback);
 					resolve(response);
-
 				})
 				.catch((requestResponse) => {
 
@@ -39,13 +45,9 @@ export default class HttpFetchImplementation {
 						response = requestResponse;
 					}
 
+					this.executeAllwaysCallback(alwaysCallback);
 					reject(response);
-
 				});
-
-			// if (alwaysCallback) {
-			// 	alwaysCallback();
-			// }
 
 		});
 
@@ -73,8 +75,8 @@ export default class HttpFetchImplementation {
 						response = data;
 					}
 
+					this.executeAllwaysCallback(alwaysCallback);
 					resolve(response);
-
 				})
 				.catch((requestResponse) => {
 
@@ -86,13 +88,9 @@ export default class HttpFetchImplementation {
 						response = requestResponse;
 					}
 
+					this.executeAllwaysCallback(alwaysCallback);
 					reject(response);
-
 				});
-
-			// if (alwaysCallback) {
-			// 	alwaysCallback();
-			// }
 
 		});
 
