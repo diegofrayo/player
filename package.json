@@ -3,8 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "SET NODE_ENV=development && gulp build-dev && node config/webpack.config.dev.server.js",
-    "build": "SET NODE_ENV=production && webpack -p && gulp build-live"
+    "start:all": "gulp build-dev && node config/webpack.config.dev.server.js",
+    "start": "cross-env NODE_ENV=development && npm run start:all",
+    "build:all": "webpack -p && gulp build-live",
+    "build": "cross-env NODE_ENV=production npm run build:all"
   },
   "devDependencies": {
     "babel-cli": "^6.24.0",
@@ -47,11 +49,13 @@
   "dependencies": {
     "axios": "^0.16.1",
     "babel-plugin-react-css-modules": "^2.6.0",
+    "cross-env": "^4.0.0",
     "firebase": "^3.7.2",
     "immutability-helper": "^2.1.2",
     "immutable-js": "^0.3.1-6",
     "jquery": "^3.2.0",
     "lodash": "^4.17.4",
+    "node-cmd": "^2.0.0",
     "plyr": "^2.0.12",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",

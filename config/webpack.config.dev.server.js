@@ -8,9 +8,10 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-const webpack = require('webpack');
 const Browsersync = require('browser-sync');
+const cmd = require('node-cmd');
 const task = require('./task');
+const webpack = require('webpack');
 
 // Build the app and launch it in a browser for testing via Browsersync
 module.exports = task('webpack.config.dev.server', () => new Promise((resolve) => {
@@ -28,8 +29,9 @@ module.exports = task('webpack.config.dev.server', () => new Promise((resolve) =
 		count += 1;
 		if (count === 1) {
 			bs.watch('app/index.html').on('change', () => {
-				task('gulp build-dev');
-				bs.reload();
+				cmd.get('gulp build-dev', (data) => {
+					bs.reload();
+				});
 			});
 			bs.init({
 				port: process.env.PORT || 4567,

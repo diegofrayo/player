@@ -201,14 +201,17 @@ export class FirebaseImplementationClass {
 	}
 
 	addSongToFavorites(username, song) {
-
 		const newSong = Utilities.createFavoriteSong(song);
-
 		return this.reference.child(this.routes.favorites(username)).child(song.source_id).update(newSong);
 	}
 
 	removeSongFromFavorites(username, song) {
 		return this.reference.child(this.routes.favorites(username)).child(song.source_id).remove();
+	}
+
+	editFavorite(username, song, newAttrs) {
+		const newSong = Object.assign(Utilities.createFavoriteSong(song), newAttrs);
+		return this.reference.child(this.routes.favorites(username)).child(newSong.source_id).update(newSong);
 	}
 
 	addSongToTop(username, song) {
