@@ -100,23 +100,23 @@ export default class YoutubeSearcher {
 
 		items.forEach((item) => {
 
-			if (item.snippet.categoryId === '10') {
+			// music category: item.snippet.categoryId === '10'
 
-				const duration = Utilities.normalizeDuration(item.contentDetails.duration);
+			const duration = Utilities.normalizeDuration(item.contentDetails.duration);
 
-				if (duration !== null) {
+			if (duration !== null) {
 
-					const sourceId = item.id;
-					const thumbnail = item.snippet.thumbnails.medium.url;
-					const {
-						title
-					} = item.snippet;
+				const sourceId = item.id;
+				const thumbnail = item.snippet.thumbnails.medium.url;
+				const {
+					title
+				} = item.snippet;
 
-					const song = new Song(duration, sourceId, thumbnail, title);
+				const song = new Song(duration, sourceId, thumbnail, title);
 
-					songsList.add(song);
-				}
+				songsList.add(song);
 			}
+
 		});
 
 		return songsList;

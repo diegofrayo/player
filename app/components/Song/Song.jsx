@@ -38,6 +38,7 @@ class Song extends React.Component {
 		const {
 			children,
 			customClass,
+			hideButtons,
 			song,
 			titleComponent
 		} = this.props;
@@ -45,7 +46,7 @@ class Song extends React.Component {
 		return (
 			<div className={`${styles.songWrapper} ${customClass}`}>
 				<SongThumbnail duration={song.duration} thumbnailUrl={song.thumbnail} />
-				<SongBody title={song.title} titleComponent={titleComponent}>
+				<SongBody hideButtons={hideButtons} title={song.title} titleComponent={titleComponent}>
 					{children.map(child => child)}
 				</SongBody>
 			</div>
@@ -57,6 +58,7 @@ class Song extends React.Component {
 Song.propTypes = {
 	children: PropTypes.array.isRequired,
 	customClass: PropTypes.string,
+	hideButtons: PropTypes.bool,
 	song: PropTypes.shape({
 		duration: PropTypes.string.isRequired,
 		thumbnail: PropTypes.string.isRequired,
@@ -66,7 +68,8 @@ Song.propTypes = {
 };
 
 Song.defaultProps = {
-	customClass: ''
+	customClass: '',
+	hideButtons: false,
 };
 
 export default Song;

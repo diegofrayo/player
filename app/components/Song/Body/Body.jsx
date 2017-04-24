@@ -25,13 +25,14 @@ function updateChildClassName(child, index) {
 
 const Body = ({
 	children,
+	hideButtons,
 	title,
 	titleComponent
 }) => (
 	<div className={styles.wrapper}>
 		{titleComponent && titleComponent}
 		{!titleComponent && <SongTitle title={title} />}
-		<div className="u-text-center" style={{ margin: '5px 0' }}>
+		<div className="u-text-center" style={{ margin: '5px 0', display: hideButtons === false ? 'block' : 'none' }}>
 			{children.map((child, index) => updateChildClassName(child, index))}
 		</div>
 	</div>
@@ -39,8 +40,13 @@ const Body = ({
 
 Body.propTypes = {
 	children: PropTypes.array.isRequired,
+	hideButtons: PropTypes.bool,
 	title: PropTypes.string.isRequired,
 	titleComponent: PropTypes.element
+};
+
+Body.defaultProps = {
+	hideButtons: false
 };
 
 export default Body;

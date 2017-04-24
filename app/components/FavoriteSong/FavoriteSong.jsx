@@ -9,24 +9,24 @@ import APP from 'utils/app';
 import Song from 'components/Song/Song.jsx';
 
 // styles
-import styles from 'components/Song/Song.less';
+import styles from 'components/Song/Title/Title.less';
 
 const Title = ({
-	editTitle,
+	children,
 	onClickTitle,
 	showInput,
 	title
 }) => (
 	<div>
-		<p className={`${styles.detailsTitle} u-cut-text`} title={title} onClick={onClickTitle} style={showInput === false ? { display: 'block' } : { display: 'none' }}>
+		<p className={`${styles.title} u-cut-text`} title={title} onClick={onClickTitle} style={showInput === false ? { display: 'block' } : { display: 'none' }}>
 			{title}
 		</p>
-		<input type="text" className={`form-control`} onKeyPress={editTitle} style={showInput === true ? { display: 'block', marginTop: '10px' } : { display: 'none' }} />
+		{children}
 	</div>
 );
 
 Title.propTypes = {
-	editTitle: PropTypes.func.isRequired,
+	children: PropTypes.element.isRequired,
 	onClickTitle: PropTypes.func.isRequired,
 	showInput: PropTypes.bool,
 	title: PropTypes.string.isRequired
@@ -42,7 +42,7 @@ class FavoriteSong extends Song {
 
 		super();
 
-		this.editTitle = this.editTitle.bind(this);
+		this.onEditTitle = this.onEditTitle.bind(this);
 		this.onClickTitle = this.onClickTitle.bind(this);
 		this.removeSongFromFavorites = this.removeSongFromFavorites.bind(this);
 
@@ -62,7 +62,7 @@ class FavoriteSong extends Song {
 		APP.songs_storage.removeSongFromFavorites(APP.username, this.props.song);
 	}
 
-	editTitle(event) {
+	onEditTitle(event) {
 
 		if (event.key === 'Enter') {
 
@@ -96,7 +96,11 @@ class FavoriteSong extends Song {
 			song
 		} = this.props;
 
-		const titleComponent = <Title	editTitle={this.editTitle} onClickTitle={this.onClickTitle} showInput={this.state.showInput} title={song.title} />;
+		const titleComponent = (
+			<Title onClickTitle={this.onClickTitle} showInput={this.state.showInput} title={song.title}>
+				<input type="text" onKeyPress={this.onEditTitle} style={this.state.showInput === true ? { display: 'block' } : { display: 'none' }} ref={(input) => { this.input = input; }} />
+			</Title>
+		);
 
 		return (
 			<Song song={song} hideButtons={this.state.showInput} titleComponent={titleComponent}>

@@ -1,3 +1,5 @@
+/* eslint indent: "off" */
+
 const Utilities = {
 
 	getDurationInSeconds(duration) {
@@ -9,52 +11,58 @@ const Utilities = {
 		return seconds + (minutes * 60);
 	},
 
-	normalizeDuration(durationParam) {
+	convertStringToNumber(numberStr, noPutFirstZero) {
 
-		let duration = durationParam.replace('PT', '');
+		const number = parseFloat(numberStr, 10);
 
-		// If the duration video is less than one hour
-		if (duration.indexOf('H') === -1) {
-
-			let minutes;
-			let seconds;
-			let arrayDuration;
-
-			if (duration.indexOf('M') !== -1 && duration.indexOf('S') !== -1) {
-
-				// If the duration have a minutes and seconds
-				duration = duration.replace('S', '');
-				duration = duration.replace('M', ':');
-				arrayDuration = duration.split(':');
-				minutes = parseInt(arrayDuration[0], 10);
-				seconds = parseInt(arrayDuration[1], 10);
-
-
-			} else if (duration.indexOf('M') !== -1 && duration.indexOf('S') === -1) {
-
-				// If the duration have a minutes but not seconds
-				duration = duration.replace('M', '');
-				minutes = parseInt(duration, 10);
-				seconds = '00';
-
-
-			} else if (duration.indexOf('S') !== -1 && duration.indexOf('M') === -1) {
-
-				// If the duration have a seconds but not minutes
-				duration = duration.replace('S', '');
-				seconds = parseInt(duration, 10);
-				minutes = '0';
-
-			}
-
-			if (typeof seconds === 'number' && seconds < 10) {
-				seconds = `0${seconds}`;
-			}
-
-			return `${minutes}:${seconds}`;
+		if (isNaN(number)) {
+			return '00';
 		}
 
-		return null;
+		if (number < 10 && !noPutFirstZero) {
+			return `0${number}`;
+		}
+
+		return number;
+	},
+
+	normalizeDuration(durationParam) {
+
+		let hours;
+		let minutes;
+		let seconds;
+
+		let duration = durationParam.replace('PT', '');
+		duration = duration.replace('H', ':');
+		duration = duration.replace('M', ':');
+		duration = duration.replace('S', '');
+
+		const arrayDuration = duration.split(':');
+
+		switch (arrayDuration.length) {
+
+			case 1:
+				// only seconds
+				minutes = '0';
+				seconds = this.convertStringToNumber(arrayDuration[0]);
+				return `${minutes}:${seconds}`;
+
+			case 2:
+				// seconds and minutes
+				minutes = this.convertStringToNumber(arrayDuration[0], true);
+				seconds = this.convertStringToNumber(arrayDuration[1]);
+				return `${minutes}:${seconds}`;
+
+			case 3:
+				// hours, seconds and minutes
+				hours = this.convertStringToNumber(arrayDuration[0], true);
+				minutes = this.convertStringToNumber(arrayDuration[1]);
+				seconds = this.convertStringToNumber(arrayDuration[2]);
+				return `${hours}:${minutes}:${seconds}`;
+
+			default:
+				return null;
+		}
 	},
 
 	sortPlaylist(a, b) {

@@ -51,7 +51,7 @@ class Searches extends React.Component {
 
 		return (
 			<div>
-				<div>
+				<div style={{ marginBottom: '15px' }}>
 					<input type="text" placeholder="Search songs, artists, albums..." className={`form-control`} onKeyPress={this.search} ref={(input) => { this.input = input; }} defaultValue={this.state.query} autoFocus />
 				</div>
 				{
