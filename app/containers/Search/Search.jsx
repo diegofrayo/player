@@ -51,10 +51,8 @@ class Searches extends React.Component {
 
 		return (
 			<div>
-				<div className={styles.inputContainer}>
-					<div className="form-group">
-						<input type="text" placeholder="Search songs, artists, albums..." className={`form-control`} onKeyPress={this.search} ref={(input) => { this.input = input; }} defaultValue={this.state.query} autoFocus />
-					</div>
+				<div>
+					<input type="text" placeholder="Search songs, artists, albums..." className={`form-control`} onKeyPress={this.search} ref={(input) => { this.input = input; }} defaultValue={this.state.query} autoFocus />
 				</div>
 				{
 					this.state.status === 'SUCCESS' &&

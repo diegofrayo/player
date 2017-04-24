@@ -21,7 +21,6 @@ const APP = {
 };
 
 if (APP.environment === 'development') {
-	// APP.http = new HttpFactory().createInstance('HttpFetchImplementation', {});
 	// APP.searcher = new SearcherFactory().createInstance('LocalSearcher', {});
 }
 

@@ -9,8 +9,7 @@ import Song from 'components/Song/Song.jsx';
 import APP from 'utils/app';
 
 // styles
-import songStyles from 'components/Song/Song.less';
-import playlistSongStyles from './PlaylistSong.less';
+import styles from './PlaylistSong.less';
 
 class PlaylistSong extends Song {
 
@@ -40,49 +39,35 @@ class PlaylistSong extends Song {
 		} = this.props;
 
 		return (
-			<div className={this.props.song.type === 'top' ? `row ${songStyles.song} ${playlistSongStyles['song--top']}` : `row ${songStyles.song}`}>
-				<div className={`col-xs-12 ${songStyles.songInner}`}>
-					<div className={songStyles.songThumbnailWrapper}>
-						<img src={song.thumbnail} alt="song-thumbnail" className={songStyles.songThumbnailImg} />
-						<p className={`text-right u-position-right-bottom u-gradient ${songStyles.songThumbnailDuration}`}>
-							{song.duration}
-						</p>
-					</div>
-					<div className={songStyles.songDetailsWrapper}>
-						<p className={`${songStyles.songDetailsTitle} u-cut-text`} title={song.title}>
-							{song.title}
-						</p>
-						<div className="text-center">
-							<span className={`badge ${playlistSongStyles.song__playlistVotes}`}>
-								{song.votes}
-							</span>
-							<button onClick={this.addSongToTop} className={songStyles.songButton} style={this.props.song.type === 'top' ? { color: '#d2a90b' } : {}}>
-								{this.props.song.type === 'top' &&
-									(<i className="material-icons">&#xE067;</i>)
-								}
-								{this.props.song.type !== 'top' &&
-									(<i className="material-icons">&#xE066;</i>)
-								}
-							</button>
-							<button className={songStyles.songButton} onClick={this.addVoteToSong}>
-								<i className="material-icons">&#xE800;</i>
-							</button>
-							<button className={songStyles.songButton} onClick={this.addSongToFavorites}>
-								<i className="material-icons">&#xE87D;</i>
-							</button>
-							<button className={songStyles.songButton} onClick={this.removeSongFromPlaylist}>
-								<i className="material-icons">&#xE14C;</i>
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
+			<Song song={song} customClass={this.props.song.type === 'top' ? styles['song--top'] : ''}>
+				<span className={`badge ${styles.votes}`}>
+					{song.votes}
+				</span>
+				<button onClick={this.addSongToTop} style={this.props.song.type === 'top' ? { color: '#d2a90b' } : {}}>
+					{this.props.song.type === 'top' &&
+						(<i className="material-icons">&#xE067;</i>)
+					}
+					{this.props.song.type !== 'top' &&
+						(<i className="material-icons">&#xE066;</i>)
+					}
+				</button>
+				<button onClick={this.addVoteToSong}>
+					<i className="material-icons">&#xE800;</i>
+				</button>
+				<button onClick={this.addSongToFavorites}>
+					<i className="material-icons">&#xE87D;</i>
+				</button>
+				<button onClick={this.removeSongFromPlaylist}>
+					<i className="material-icons">&#xE14C;</i>
+				</button>
+			</Song>
 		);
 
 	}
 
 }
 
+delete PlaylistSong.propTypes.children;
 PlaylistSong.propTypes.song.type = PropTypes.string.isRequired;
 PlaylistSong.propTypes.song.votes = PropTypes.number.isRequired;
 

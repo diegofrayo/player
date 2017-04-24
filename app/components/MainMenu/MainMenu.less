@@ -26,7 +26,7 @@
 		will-change: opacity;
 	}
 
-	&__visible{
+	&--visible{
 		pointer-events: auto;
 
 		&:after{
@@ -40,13 +40,13 @@
 		}
 	}
 
-	&__animatable{
+	&--animatable{
 		.menuContainerInner{
 			transition: all 200ms ease-in;
 		}
 	}
 
-	&__visible&__animatable{
+	&--visible&--animatable{
 		.menuContainerInner{
 			transition: all 330ms ease-out;
 		}
@@ -68,6 +68,7 @@
 	}
 }
 
+// ul
 .menu{
 	margin: 0;
 	padding: 0;

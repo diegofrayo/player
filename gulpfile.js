@@ -103,8 +103,8 @@ gulp.task('build-html', () => {
 //------------------- Copy Assets Tasks --------------
 gulp.task('copy-assets', () => {
 
-	gulp.src('./assets/images/**/*')
-		.pipe(gulp.dest(destPath + '/images/'));
+	gulp.src('./assets/**/*')
+		.pipe(gulp.dest(destPath + ''));
 
 	gulp.src('./app/vendor/**/*')
 		.pipe(gulp.dest(destPath + '/js/vendor'));

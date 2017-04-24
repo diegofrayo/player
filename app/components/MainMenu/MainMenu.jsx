@@ -28,16 +28,16 @@ class MainMenu extends React.Component {
 			const myMenu = document.getElementById('menu-container');
 
 			const toggleClassMenu = () => {
-				myMenu.classList.add(styles.menuContainer__animatable);
-				if (!myMenu.classList.contains(styles.menuContainer__visible)) {
-					myMenu.classList.add(styles.menuContainer__visible);
+				myMenu.classList.add(styles['menuContainer--animatable']);
+				if (!myMenu.classList.contains(styles['menuContainer--visible'])) {
+					myMenu.classList.add(styles['menuContainer--visible']);
 				} else {
-					myMenu.classList.remove(styles.menuContainer__visible);
+					myMenu.classList.remove(styles['menuContainer--visible']);
 				}
 			};
 
 			const OnTransitionEnd = () => {
-				myMenu.classList.remove(styles.menu__animatable);
+				myMenu.classList.remove(styles['menu--animatable']);
 				if (this.selectedItemPath) {
 					browserHistory.push(this.selectedItemPath);
 					store.dispatch(closePlayerAction(true));

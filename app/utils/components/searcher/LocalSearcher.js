@@ -14,7 +14,7 @@ export default class LocalSearcher {
 
 		const promise = APP.promise.createPromise((resolve, reject) => {
 
-			const urlRequest = '/assets/json/search.json';
+			const urlRequest = '/assets/player/json/search.json';
 
 			const errorCallback = (response) => {
 

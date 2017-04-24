@@ -43,6 +43,7 @@
 		"padded-blocks": 0,
 		"quote-props": [1, "as-needed"],
 		"react/jsx-indent": [1, "tab"],
+		"react/require-default-props": 1,
 		"react/forbid-prop-types": [1, {
 			"forbid": ["any", "object"]
 		}],

@@ -294,8 +294,8 @@ class Player extends React.Component {
 
 	render() {
 		return (
-			<div id="player" className={this.state.isOpened === true ? `${styles.player__opened} u-position-bottom` : `${styles.player} u-position-bottom`}>
-				<div className={`text-center u-position-left-top ${styles.expandButtonContainer}`}>
+			<div id="player" className={this.state.isOpened === true ? `${styles['player--opened']} u-position-bottom` : `${styles.player} u-position-bottom`}>
+				<div className={`u-text-center u-position-left-top ${styles.expandButtonContainer}`}>
 					<button onClick={this.openPlayer} className={styles.expandButton}>
 						{this.state.isOpened === true &&
 							(<i className={`material-icons u-material-icons--28`}>&#xE313;</i>)
@@ -306,15 +306,15 @@ class Player extends React.Component {
 					</button>
 				</div>
 				<div className={`${styles.contentWrapper}`}>
-					<div className={`${styles.noPlayingSongContainer} text-center`} style={this.props.playerReducer.status !== 'READY' ? { display: 'flex' } : { display: 'none' }}>
+					<div className={`${styles.noPlayingSongContainer} u-text-center`} style={this.props.playerReducer.status !== 'READY' ? { display: 'flex' } : { display: 'none' }}>
 						<Spinner />
 					</div>
-					<div className={`${styles.noPlayingSongContainer} text-center`} style={this.props.playlistReducer.status === 'SUCCESS' && this.props.playlistReducer.songs.length === 0 ? { display: 'flex' } : { display: 'none' }}>
+					<div className={`${styles.noPlayingSongContainer} u-text-center`} style={this.props.playlistReducer.status === 'SUCCESS' && this.props.playlistReducer.songs.length === 0 ? { display: 'flex' } : { display: 'none' }}>
 						There are not songs to play
 					</div>
-					<div className={this.state.isOpened === true ? `row text-center ${styles.playingSongContainer}` : `row ${styles.playingSongContainer}`} style={this.props.playlistReducer.songs.length > 0 ? { display: 'block' } : { display: 'none' }}>
-						<div className={this.state.isOpened === true ? 'col-xs-12' : 'col-xs-3 col-sm-2 text-center'}>
-							<div className={styles.columnPlayerInner}>
+					<div className={styles.playingSongContainer} style={this.props.playlistReducer.songs.length > 0 ? { display: 'flex' } : { display: 'none' }}>
+						<div className={styles.playerWrapper}>
+							<div className={styles.playerWrapperInner}>
 								<img src={this.state.playingSong.thumbnail} alt="thumbnail" className={styles.songThumbnail} />
 								<div className={styles.playerPluginContainer}>
 									<div id={styles.playerPluginContainer}>{''}</div>
@@ -325,7 +325,7 @@ class Player extends React.Component {
 								<ProgressBar progress={this.state.playerPosition} onClick={this.progressBarOnClick} />
 							</div>
 						</div>
-						<div className={this.state.isOpened === true ? 'col-xs-12' : 'col-xs-5 col-sm-7'}>
+						<div className={styles.detailsWrapper}>
 							<p className={`${styles.songTitle} u-cut-text`} title={this.state.playingSong.title}>
 								{this.state.playingSong.title}
 							</p>
@@ -333,7 +333,7 @@ class Player extends React.Component {
 								{this.state.playingSong.duration}
 							</p>
 						</div>
-						<div className={this.state.isOpened === true ? 'col-xs-12' : 'col-xs-4 col-sm-3 text-center'}>
+						<div className={styles.buttonsWrapper}>
 							<PlayButton changePlayerState={this.changePlayerState} playerState={this.state.playerState} />
 							<i className={`material-icons ${styles.controlButtons} u-material-icons--28}`} onClick={() => this.nextSong()}>&#xE044;</i>
 							<i className={`material-icons ${styles.controlButtons} u-material-icons--28}`} style={this.state.isOpened === true ? { display: 'inline-block' } : { display: 'none' }} onClick={this.addSongToFavorites}>&#xE87D;</i>
