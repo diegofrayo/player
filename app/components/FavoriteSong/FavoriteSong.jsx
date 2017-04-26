@@ -18,7 +18,7 @@ const Title = ({
 	title
 }) => (
 	<div>
-		<p className={`${styles.title} u-cut-text`} title={title} onClick={onClickTitle} style={showInput === false ? { display: 'block' } : { display: 'none' }}>
+		<p className={`${styles.title} u-cut-text`} title={title} onClick={onClickTitle} style={showInput === false ? { display: 'block', cursor: 'pointer' } : { display: 'none', cursor: 'pointer' }}>
 			{title}
 		</p>
 		{children}

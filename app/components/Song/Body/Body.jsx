@@ -15,7 +15,7 @@ function updateChildClassName(child, index) {
 	};
 
 	if (child.type === 'button') {
-		customProps.className = styles.button;
+		customProps.className = `${styles.button} ${(customProps.className ? customProps.className : '')}`.trim();
 	}
 
 	const props = Object.assign({}, child.props, customProps);
