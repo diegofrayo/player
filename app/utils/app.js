@@ -24,7 +24,7 @@ if (APP.environment === 'development') {
 	// APP.searcher = new SearcherFactory().createInstance('LocalSearcher', {});
 }
 
-if (APP.username === 'guest' && APP.environment === 'production') {
+if (APP.username === 'guest' && APP.environment === 'production' && window.location.href.indexOf('diegofrayo.com') !== -1) {
 	/* eslint-disable */
 	(function(i, s, o, g, r, a, m) {
 		i['GoogleAnalyticsObject'] = r;
@@ -37,7 +37,11 @@ if (APP.username === 'guest' && APP.environment === 'production') {
 		a.src = g;
 		m.parentNode.insertBefore(a, m)
 	})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-	ga('create', 'UA-90015747-1', 'auto', 'playerApp');
+	ga('create', 'UA-90015747-3', 'auto', 'playerApp', {
+		location: window.location.href.replace('?i=1', '').replace('?i=2', ''),
+		page: '/player',
+		title: document.title
+	});
 	ga('playerApp.send', 'pageview');
 	/* eslint-enable */
 }
