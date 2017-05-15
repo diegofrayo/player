@@ -11,6 +11,9 @@ import SongsListInfo from 'components/SongsListInfo/SongsListInfo.jsx';
 import Spinner from 'components/Spinner/Spinner.jsx';
 
 // redux
+import {
+	updateFavoriteOpenedGroup as 	updateFavoriteOpenedGroupAction
+} from 'actions/favorites';
 import store from 'store/index';
 
 // styles
@@ -39,28 +42,28 @@ class Favorites extends React.Component {
 		this.setState(store.getState().favorites);
 	}
 
-	openGroupOfSongs(isOpened) {
-		// call to action
+	openGroupOfSongs(groupTitle) {
+		store.dispatch(updateFavoriteOpenedGroupAction(groupTitle));
 	}
 
 	renderFavorites(songs) {
 
-		const songsOutput = Object.keys(songs.songs).map((key) => {
+		const songsOutput = Object.keys(songs.groups).sort().map((key) => {
 
-			const groupOfSongs = songs.songs[key];
-
-			// {groupOfSongs.is_opened === true &&
-			// 	(<i className={`material-icons u-material-icons--28 u-position-right-top ${styles.expandButton}`} onClick={this.openGroupOfSongs}>&#xE313;</i>)
-			// }
-			// {groupOfSongs.is_opened !== true &&
-			// 	(<i className={`material-icons u-material-icons--28 u-position-right-top ${styles.expandButton}`} onClick={this.openGroupOfSongs}>&#xE316;</i>)
-			// }
+			const groupOfSongs = songs.groups[key];
 
 			return (
 				<div className={`${styles.artistContainer} u-box-shadow`} key={key}>
-					<h2 className={styles.artistContainerTitle}>
+					<h2 className={styles.artistContainerTitle} onClick={() => { this.openGroupOfSongs(groupOfSongs.title); }}>
 						{groupOfSongs.title}
+						{groupOfSongs.is_opened === true &&
+							(<i className={`material-icons u-material-icons--28 u-position-right-top ${styles.expandButton}`}>&#xE316;</i>)
+						}
+						{groupOfSongs.is_opened !== true &&
+							(<i className={`material-icons u-material-icons--28 u-position-right-top ${styles.expandButton}`}>&#xE313;</i>)
+						}
 					</h2>
+
 					<div className={styles.artistContainerSongs} style={{ display: groupOfSongs.is_opened === true ? 'block' : 'none' }}>
 						{
 							groupOfSongs.songs.map(song => <FavoriteSong song={song} key={song.source_id} />)
@@ -73,7 +76,7 @@ class Favorites extends React.Component {
 		return (
 			<div>
 				<SongsListInfo>
-					Total number of songs: <strong>{songs.number_of_songs}</strong>
+					Total number of songs: <strong>{songs.number}</strong>
 				</SongsListInfo>
 				<div>
 					{songsOutput}

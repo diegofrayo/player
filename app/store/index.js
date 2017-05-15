@@ -19,7 +19,15 @@ import mySagas from 'sagas/root';
 const initialState = {
 	favorites: {
 		errorMessage: '',
-		songs: [],
+		opened_groups: {
+			current: '',
+			previous: ''
+		},
+		songs: {
+			number: 0,
+			groups: {},
+			source_ids: []
+		},
 		status: 'FETCHING'
 	},
 	player: {

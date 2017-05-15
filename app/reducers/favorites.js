@@ -9,7 +9,7 @@ import {
 	ADD_SONG_TO_FAVORITES,
 	FETCH_FAVORITES,
 	REMOVE_SONG_FROM_FAVORITES,
-	UPDATE_FAVORITE
+	UPDATE_FAVORITE_OPENED_GROUP
 } from 'constants/index';
 
 // js utils
@@ -17,24 +17,84 @@ import Utilities from 'utils/utilities/Utilities';
 
 export default function favorites(state = {}, action = {}) {
 
+	let updateSongs;
+
 	switch (action.type) {
 
 		case ADD_SONG_TO_FAVORITES:
-			return update(state, {
-				errorMessage: {
-					$set: '',
-				},
-				songs: {
-					$apply: (songs) => {
-						const newSongs = update(songs, {
-							$push: [action.song]
+
+			updateSongs = {
+				$apply: (songs) => {
+
+					const song = Utilities.cloneObject({}, action.song, {
+						customTitle: Utilities.getFavoriteSongCustomTitle(action.song.title)
+					});
+
+					// add item to source_ids array
+					let newSongs = update(songs, {
+						source_ids: {
+							$push: [song.source_id]
+						}
+					});
+
+					// increase songs number
+					newSongs = update(newSongs, {
+						number: {
+							$set: newSongs.number + 1
+						}
+					});
+
+					let group = Utilities.getFavoritesGroupSongsByTitle(newSongs.groups, song.title);
+
+					if (!group) {
+
+						group = Utilities.createFavoritesGroupSongs(song);
+
+						// add new group
+						newSongs = update(newSongs, {
+							groups: {
+								$merge: {
+									[group.title]: group
+								}
+							}
 						});
-						return newSongs.sort(Utilities.sortByTitle);
+
+					} else {
+
+						// add new song to group songs
+						newSongs = update(newSongs, {
+							groups: {
+								$merge: {
+									[group.title]: update(group, {
+										songs: {
+											$push: [song]
+										}
+									})
+								}
+							}
+						});
+
+						// sort group songs by title
+						newSongs = update(newSongs, {
+							groups: {
+								$merge: {
+									[group.title]: update(group, {
+										songs: {
+											$set: newSongs.groups[group.title].songs.sort(Utilities.sortByTitle)
+										}
+									})
+								}
+							}
+						});
+
 					}
-				},
-				status: {
-					$set: 'SUCCESS',
+
+					return newSongs;
 				}
+			};
+
+			return update(state, {
+				songs: updateSongs,
 			});
 
 		case FETCH_FAVORITES:
@@ -51,41 +111,118 @@ export default function favorites(state = {}, action = {}) {
 			});
 
 		case REMOVE_SONG_FROM_FAVORITES:
-			return update(state, {
-				errorMessage: {
-					$set: '',
-				},
-				songs: {
-					$set: state.songs.filter((song) => {
-						if (song.source_id !== action.song.source_id) {
-							return song;
-						}
-					}).sort(Utilities.sortByTitle)
-				},
-				status: {
-					$set: 'SUCCESS',
-				}
-			});
 
-		case UPDATE_FAVORITE:
-			return update(state, {
-				errorMessage: {
-					$set: '',
-				},
-				songs: {
-					$apply: (songs) => {
-						const newSongs = update(songs, {
-							[action.index]: {
-								$merge: action.song
+			updateSongs = {
+				$apply: (songs) => {
+
+					const song = action.song;
+
+					// remove item from source_ids array
+					let newSongs = update(songs, {
+						source_ids: {
+							$set: songs.source_ids.filter((sourceId) => {
+								if (sourceId !== song.source_id) {
+									return song;
+								}
+							})
+						}
+					});
+
+					// decrease songs number
+					newSongs = update(newSongs, {
+						number: {
+							$set: newSongs.number - 1
+						}
+					});
+
+					const group = Utilities.getFavoritesGroupSongsBySourceId(newSongs.groups, song.source_id);
+
+					if (group) {
+
+						// remove song from group songs
+						newSongs = update(newSongs, {
+							groups: {
+								$merge: {
+									[group.title]: update(group, {
+										songs: {
+											$set: group.songs.filter((item) => {
+												if (item.source_id !== song.source_id) {
+													return song;
+												}
+											})
+										}
+									})
+								}
 							}
 						});
-						return newSongs.sort(Utilities.sortByTitle);
+
+						if (newSongs.groups[group.title].songs.length === 0) {
+							// TODO: Improve this
+							delete newSongs.groups[group.title];
+						}
+
 					}
-				},
-				status: {
-					$set: 'SUCCESS',
+
+					return newSongs;
 				}
+			};
+
+			return update(state, {
+				songs: updateSongs,
 			});
+
+		case UPDATE_FAVORITE_OPENED_GROUP:
+			{
+
+				const currentOpenedGroup = action.groupTitle;
+				const previousOpenedGroup = state.opened_groups.current;
+
+				return update(state, {
+					opened_groups: {
+						$set: {
+							current: currentOpenedGroup,
+							previous: previousOpenedGroup
+						}
+					},
+					songs: {
+						$apply: (songs) => {
+
+							let newSongs = songs;
+
+							if (previousOpenedGroup !== '' && state.songs.groups[previousOpenedGroup]) {
+								newSongs = update(songs, {
+									groups: {
+										$merge: {
+											[previousOpenedGroup]: update(state.songs.groups[previousOpenedGroup], {
+												is_opened: {
+													$set: false
+												}
+											})
+										}
+									}
+								});
+							}
+
+							if (state.songs.groups[currentOpenedGroup]) {
+								newSongs = update(newSongs, {
+									groups: {
+										$merge: {
+											[currentOpenedGroup]: update(state.songs.groups[currentOpenedGroup], {
+												is_opened: {
+													$set: (previousOpenedGroup === currentOpenedGroup) ? !state.songs.groups[currentOpenedGroup].is_opened : true
+												}
+											})
+										}
+									}
+								});
+							}
+
+							return newSongs;
+						}
+					}
+				});
+
+			}
 
 		default:
 			return state;

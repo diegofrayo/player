@@ -8,16 +8,15 @@ import Utilities from 'utils/utilities/Utilities';
 // redux
 import store from 'store/index';
 import {
-	addSongToFavorites,
-	fetchFavorites,
-	removeSongFromFavorites,
-	updateFavorite
+	addSongToFavorites as addSongToFavoritesAction,
+	fetchFavorites as fetchFavoritesAction,
+	removeSongFromFavorites as removeSongFromFavoritesAction
 } from 'actions/favorites';
 import {
-	addSongToPlaylist,
-	fetchPlaylist,
-	removeSongFromPlaylist,
-	updatePlaylistSong
+	addSongToPlaylist as addSongToPlaylistAction,
+	fetchPlaylist as fetchPlaylistAction,
+	removeSongFromPlaylist as removeSongFromPlaylistAction,
+	updatePlaylistSong as updatePlaylistSongAction
 } from 'actions/playlist';
 
 if (firebase.apps === undefined || (firebase.apps && firebase.apps.length === 0)) {
@@ -42,7 +41,7 @@ export class FirebaseImplementationClass {
 
 		if (listName === 'favorites') {
 
-			action = fetchFavorites;
+			action = fetchFavoritesAction;
 			route = this.routes.favorites(username);
 
 			if (store.getState().favorites.status === 'SUCCESS') {
@@ -50,7 +49,7 @@ export class FirebaseImplementationClass {
 			}
 
 		} else {
-			action = fetchPlaylist;
+			action = fetchPlaylistAction;
 			route = this.routes.playlist(username);
 		}
 
@@ -72,42 +71,22 @@ export class FirebaseImplementationClass {
 
 	}
 
-	createSongsListWatcher(listName, username) {
+	initPlaylistWatchers(username) {
 
-		let actions;
-		let isFavorite;
-		let reference;
-
-		if (listName === 'favorites') {
-			actions = {
-				addSong: addSongToFavorites,
-				removeSong: removeSongFromFavorites,
-				updateSong: updateFavorite
-			};
-			isFavorite = true;
-			reference = this.reference.child(this.routes.favorites(username));
-		} else {
-			actions = {
-				addSong: addSongToPlaylist,
-				removeSong: removeSongFromPlaylist,
-				updateSong: updatePlaylistSong
-			};
-			isFavorite = false;
-			reference = this.reference.child(this.routes.playlist(username));
-		}
+		const reference = this.reference.child(this.routes.playlist(username));
 
 		reference.on('child_added', (snapshot) => {
 
-			const currentStore = isFavorite ? store.getState().favorites : store.getState().playlist;
+			const state = store.getState().playlist;
 
-			if (currentStore.status === 'FETCHING') {
+			if (state.status === 'FETCHING') {
 				return;
 			}
 
 			let song = snapshot.val();
 
-			if (song && Utilities.arrayIndexOf(currentStore.songs, 'source_id', song.source_id) === -1) {
-				store.dispatch(actions.addSong(song));
+			if (song && Utilities.arrayIndexOf(state.songs, 'source_id', song.source_id) === -1) {
+				store.dispatch(addSongToPlaylistAction(song));
 			}
 
 			song = null;
@@ -115,17 +94,17 @@ export class FirebaseImplementationClass {
 
 		reference.on('child_changed', (snapshot) => {
 
-			const currentStore = isFavorite ? store.getState().favorites : store.getState().playlist;
+			const state = store.getState().playlist;
 
-			if (currentStore.status === 'FETCHING') {
+			if (state.status === 'FETCHING') {
 				return;
 			}
 
 			let changedSong = snapshot.val();
-			const index = Utilities.arrayIndexOf(currentStore.songs, 'source_id', changedSong.source_id);
+			const index = Utilities.arrayIndexOf(state.songs, 'source_id', changedSong.source_id);
 
 			if (changedSong && index !== -1) {
-				store.dispatch(actions.updateSong(changedSong, index));
+				store.dispatch(updatePlaylistSongAction(changedSong, index));
 			}
 
 			changedSong = null;
@@ -133,16 +112,16 @@ export class FirebaseImplementationClass {
 
 		reference.on('child_removed', (snapshot) => {
 
-			const currentStore = isFavorite ? store.getState().favorites : store.getState().playlist;
+			const state = store.getState().playlist;
 
-			if (currentStore.status === 'FETCHING') {
+			if (state.status === 'FETCHING') {
 				return;
 			}
 
 			let removedSong = snapshot.val();
 
 			if (removedSong) {
-				store.dispatch(actions.removeSong(removedSong));
+				store.dispatch(removeSongFromPlaylistAction(removedSong));
 			}
 
 			removedSong = null;
@@ -150,13 +129,64 @@ export class FirebaseImplementationClass {
 
 	}
 
-	initPlaylistWatchers(username) {
-		this.createSongsListWatcher('playlist', username);
-	}
-
 	initFavoritesWatchers(username) {
+
 		if (store.getState().favorites.status === 'FETCHING') {
-			this.createSongsListWatcher('favorites', username);
+
+			const reference = this.reference.child(this.routes.favorites(username));
+
+			reference.on('child_added', (snapshot) => {
+
+				const state = store.getState().favorites;
+
+				if (state.status === 'FETCHING') {
+					return;
+				}
+
+				let song = snapshot.val();
+
+				if (song && state.songs.source_ids.indexOf(song.source_id) === -1) {
+					store.dispatch(addSongToFavoritesAction(song));
+				}
+
+				song = null;
+			});
+
+			reference.on('child_changed', (snapshot) => {
+
+				const state = store.getState().favorites;
+
+				if (state.status === 'FETCHING') {
+					return;
+				}
+
+				let changedSong = snapshot.val();
+
+				if (changedSong && state.songs.source_ids.indexOf(changedSong.source_id) !== -1) {
+					store.dispatch(removeSongFromFavoritesAction(changedSong));
+					store.dispatch(addSongToFavoritesAction(changedSong));
+				}
+
+				changedSong = null;
+			});
+
+			reference.on('child_removed', (snapshot) => {
+
+				const state = store.getState().favorites;
+
+				if (state.status === 'FETCHING') {
+					return;
+				}
+
+				let removedSong = snapshot.val();
+
+				if (removedSong) {
+					store.dispatch(removeSongFromFavoritesAction(removedSong));
+				}
+
+				removedSong = null;
+			});
+
 		}
 	}
 
@@ -206,7 +236,7 @@ export class FirebaseImplementationClass {
 
 	addSongToFavorites(username, song) {
 		const newSong = Utilities.createFavoriteSong(song);
-		return this.reference.child(this.routes.favorites(username)).child(song.source_id).update(newSong);
+		return this.reference.child(this.routes.favorites(username)).child(song.source_id).set(newSong);
 	}
 
 	removeSongFromFavorites(username, song) {

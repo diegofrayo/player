@@ -2,7 +2,7 @@ import {
 	ADD_SONG_TO_FAVORITES,
 	FETCH_FAVORITES,
 	REMOVE_SONG_FROM_FAVORITES,
-	UPDATE_FAVORITE
+	UPDATE_FAVORITE_OPENED_GROUP
 } from 'constants/index';
 
 export function addSongToFavorites(song) {
@@ -26,10 +26,9 @@ export function removeSongFromFavorites(song) {
 	};
 }
 
-export function updateFavorite(song, index) {
-	return {
-		type: UPDATE_FAVORITE,
-		index,
-		song
-	};
+export function updateFavoriteOpenedGroup(groupTitle) {
+    return {
+        type: UPDATE_FAVORITE_OPENED_GROUP,
+        groupTitle
+    };
 }

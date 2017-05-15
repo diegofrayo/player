@@ -257,52 +257,97 @@ const Utilities = {
 		document.getElementById('header-title').innerHTML = page;
 	},
 
+	getFavoriteSongCustomTitle(songTitle) {
+
+		const songTitleWords = songTitle.split('-');
+
+		if (songTitleWords.length >= 2) {
+			return songTitleWords[1].trim();
+		}
+
+		return songTitle[0].trim();
+	},
+
+	getFavoritesGroupSongsByTitle(groups, songTitle) {
+
+		const songTitleWords = songTitle.split('-');
+
+		if (songTitleWords.length >= 2) {
+			const artist = songTitleWords[0].trim();
+			return groups[artist];
+		}
+
+		return groups.Others;
+	},
+
+	getFavoritesGroupSongsBySourceId(groups, songSourceId) {
+
+		const keys = Object.keys(groups);
+
+		for (let i = 0, length1 = keys.length; i < length1; i += 1) {
+
+			const group = groups[keys[i]];
+			const songs = group.songs;
+
+			for (let j = 0, length2 = songs.length; j < length2; j += 1) {
+
+				const song = songs[j];
+
+				if (song.source_id === songSourceId) {
+					return group;
+				}
+			}
+		}
+
+		return undefined;
+	},
+
+	createFavoritesGroupSongs(song) {
+
+		const songTitle = song.title;
+		const songTitleWords = songTitle.split('-');
+		let artist;
+
+		if (songTitleWords.length >= 2) {
+			artist = songTitleWords[0].trim();
+		} else {
+			artist = 'Others';
+		}
+
+		return {
+			is_opened: false,
+			songs: [song],
+			title: artist
+		};
+	},
+
 	structureFavoritesList(favorites) {
 
-		const list = {
-			number_of_songs: favorites.length,
-			songs: {}
-		};
-
-		const others = {
-			is_opened: false,
-			songs: [],
-			title: 'Others'
+		const songs = {
+			number: favorites.length,
+			groups: {},
+			source_ids: []
 		};
 
 		favorites.forEach((song) => {
 
-			const title = song.title;
-			const words = title.split('-');
+			const songTitle = song.title;
+			let group = this.getFavoritesGroupSongsByTitle(songs.groups, songTitle);
+			const newSong = this.cloneObject({}, song, {
+				customTitle: this.getFavoriteSongCustomTitle(songTitle)
+			});
 
-			if (words.length >= 2) {
-
-				const artist = words[0].trim();
-
-				if (!list.songs[artist]) {
-					list.songs[artist] = {
-						title: artist,
-						is_opened: true,
-						songs: []
-					};
-				}
-
-				const newSong = this.cloneObject({}, song, {
-					customTitle: words[1].trim()
-				});
-
-				list.songs[artist].songs.push(newSong);
-
+			if (!group) {
+				group = this.createFavoritesGroupSongs(newSong);
+				songs.groups[group.title] = group;
 			} else {
-				others.songs.push(song);
+				group.songs.push(newSong);
 			}
+
+			songs.source_ids.push(song.source_id);
 		});
 
-		if (others.songs.length > 0) {
-			list.songs.Others = others;
-		}
-
-		return list;
+		return songs;
 	}
 
 };

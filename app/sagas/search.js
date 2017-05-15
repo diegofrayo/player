@@ -16,8 +16,8 @@ import {
 	SEARCH_SONGS_FETCHING
 } from 'constants/index';
 import {
-	searchSongsFailure,
-	searchSongsSuccess
+	searchSongsFailure as searchSongsFailureAction,
+	searchSongsSuccess as searchSongsSuccessAction
 } from 'actions/search';
 
 
@@ -29,14 +29,14 @@ export function* searchSaga(action) {
 		const searchResponse = yield call(APP.searcher.searchSongs.bind(APP.searcher), action.query);
 
 		if (searchResponse.type === 'Success') {
-			yield put(searchSongsSuccess(searchResponse.data.songs.toArray()));
+			yield put(searchSongsSuccessAction(searchResponse.data.songs.toArray()));
 		} else {
-			yield put(searchSongsFailure(searchResponse.message));
+			yield put(searchSongsFailureAction(searchResponse.message));
 		}
 
 	} catch (err) {
 		console.log(err);
-		yield put(searchSongsFailure('Error'));
+		yield put(searchSongsFailureAction('Error'));
 	}
 }
 

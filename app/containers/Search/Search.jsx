@@ -12,7 +12,7 @@ import Utilities from 'utils/utilities/Utilities';
 // redux
 import store from 'store/index';
 import {
-	searchSongsFetching
+	searchSongsFetching as searchSongsFetchingAction
 } from 'actions/search';
 
 // styles
@@ -44,7 +44,7 @@ class Searches extends React.Component {
 		const inputText = this.input.value;
 
 		if (event.key === 'Enter' && inputText.length > 2 && this.state.status !== 'FETCHING') {
-			store.dispatch(searchSongsFetching(inputText));
+			store.dispatch(searchSongsFetchingAction(inputText));
 		}
 	}
 

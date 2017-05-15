@@ -4,12 +4,12 @@ import {
 	render
 } from 'react-dom';
 
-// react components
-import RootContainer from 'containers/Root/Root';
-
 // styles
 import 'styles/base.less';
 import 'styles/util.less';
+
+// react components
+import RootContainer from 'containers/Root/Root';
 
 const target = document.getElementById('parent-container');
 const environment = APP_SETTINGS.environment;
