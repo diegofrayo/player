@@ -2,7 +2,8 @@
 import React from 'react';
 
 // react components
-import SongsList from 'components/SongsList/SongsList.jsx';
+import SearchSong from 'components/SearchSong/SearchSong.jsx';
+import SongsListInfo from 'components/SongsListInfo/SongsListInfo.jsx';
 import Spinner from 'components/Spinner/Spinner.jsx';
 
 // js utils
@@ -47,6 +48,28 @@ class Searches extends React.Component {
 		}
 	}
 
+	renderSongs(songs) {
+
+		let songsOutput;
+
+		if (songs.length === 0) {
+			songsOutput = null;
+		} else {
+			songsOutput = songs.map(song => <SearchSong song={song} key={song.source_id} />);
+		}
+
+		return (
+			<div>
+				<SongsListInfo>
+					{songs.length} results for <strong>{this.state.query}</strong>
+				</SongsListInfo>
+				<div>
+					{songsOutput}
+				</div>
+			</div>
+		);
+	}
+
 	render() {
 
 		return (
@@ -55,16 +78,10 @@ class Searches extends React.Component {
 					<input type="text" placeholder="Search songs, artists, albums..." className={`form-control`} onKeyPress={this.search} ref={(input) => { this.input = input; }} defaultValue={this.state.query} autoFocus />
 				</div>
 				{
-					this.state.status === 'SUCCESS' &&
-					(
-						<SongsList type="search" songsList={this.state.songs}>
-							{this.state.songs.length} results for <strong>{this.state.query}</strong>
-						</SongsList>
-					)
+					this.state.status === 'SUCCESS' && this.renderSongs(this.state.songs)
 				}
 				{
-					this.state.status === 'FETCHING' &&
-					<Spinner />
+					this.state.status === 'FETCHING' &&	<Spinner />
 				}
 				{
 					this.state.status === 'FAILURE' &&

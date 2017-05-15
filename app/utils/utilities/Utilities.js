@@ -160,8 +160,8 @@ const Utilities = {
 		return ({}).toString.call(object).match(/\s([a-z|A-Z]+)/)[1].toLowerCase();
 	},
 
-	cloneObject(object) {
-		return Object.assign({}, object);
+	cloneObject(source, dest, newData) {
+		return Object.assign({}, dest, newData);
 	},
 
 	createFavoriteSong(song) {
@@ -255,6 +255,54 @@ const Utilities = {
 	updatePageTitle(page) {
 		document.title = `player | ${page}`;
 		document.getElementById('header-title').innerHTML = page;
+	},
+
+	structureFavoritesList(favorites) {
+
+		const list = {
+			number_of_songs: favorites.length,
+			songs: {}
+		};
+
+		const others = {
+			is_opened: false,
+			songs: [],
+			title: 'Others'
+		};
+
+		favorites.forEach((song) => {
+
+			const title = song.title;
+			const words = title.split('-');
+
+			if (words.length >= 2) {
+
+				const artist = words[0].trim();
+
+				if (!list.songs[artist]) {
+					list.songs[artist] = {
+						title: artist,
+						is_opened: true,
+						songs: []
+					};
+				}
+
+				const newSong = this.cloneObject({}, song, {
+					customTitle: words[1].trim()
+				});
+
+				list.songs[artist].songs.push(newSong);
+
+			} else {
+				others.songs.push(song);
+			}
+		});
+
+		if (others.songs.length > 0) {
+			list.songs.Others = others;
+		}
+
+		return list;
 	}
 
 };

@@ -63,6 +63,10 @@ export class FirebaseImplementationClass {
 					songs = Utilities.jsonToArray(snapshot.val());
 				}
 
+				if (listName === 'favorites') {
+					songs = Utilities.structureFavoritesList(songs.sort(Utilities.sortByTitle));
+				}
+
 				store.dispatch(action(songs));
 			});
 
@@ -210,7 +214,7 @@ export class FirebaseImplementationClass {
 	}
 
 	editFavorite(username, song, newAttrs) {
-		const newSong = Object.assign(Utilities.createFavoriteSong(song), newAttrs);
+		const newSong = Utilities.cloneObject({}, Utilities.createFavoriteSong(song), newAttrs);
 		return this.reference.child(this.routes.favorites(username)).child(newSong.source_id).update(newSong);
 	}
 

@@ -47,6 +47,7 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
+    "classnames": "^2.2.5",
     "firebase": "^3.7.2",
     "immutability-helper": "^2.1.2",
     "immutable-js": "^0.3.1-6",

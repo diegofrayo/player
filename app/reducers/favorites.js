@@ -43,7 +43,7 @@ export default function favorites(state = {}, action = {}) {
 					$set: '',
 				},
 				songs: {
-					$set: action.songs.sort(Utilities.sortByTitle)
+					$set: action.songs
 				},
 				status: {
 					$set: 'SUCCESS',

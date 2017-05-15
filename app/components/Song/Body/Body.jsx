@@ -2,6 +2,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+// js utils
+import Utilities from 'utils/utilities/Utilities';
+
 // react components
 import SongTitle from 'components/Song/Title/Title.jsx';
 
@@ -18,7 +21,7 @@ function updateChildClassName(child, index) {
 		customProps.className = `${styles.button} ${(customProps.className ? customProps.className : '')}`.trim();
 	}
 
-	const props = Object.assign({}, child.props, customProps);
+	const props = Utilities.cloneObject({}, child.props, customProps);
 
 	return React.cloneElement(child, props);
 }

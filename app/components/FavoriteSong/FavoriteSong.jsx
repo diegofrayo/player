@@ -97,7 +97,7 @@ class FavoriteSong extends Song {
 		} = this.props;
 
 		const titleComponent = (
-			<Title onClickTitle={this.onClickTitle} showInput={this.state.showInput} title={song.title}>
+			<Title onClickTitle={this.onClickTitle} showInput={this.state.showInput} title={song.customTitle || song.title}>
 				<input type="text" onKeyPress={this.onEditTitle} style={this.state.showInput === true ? { display: 'block' } : { display: 'none' }} ref={(input) => { this.input = input; }} />
 			</Title>
 		);
