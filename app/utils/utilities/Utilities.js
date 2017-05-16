@@ -265,7 +265,7 @@ const Utilities = {
 			return songTitleWords[1].trim();
 		}
 
-		return songTitle[0].trim();
+		return songTitleWords[0].trim();
 	},
 
 	getFavoritesGroupSongsByTitle(groups, songTitle) {

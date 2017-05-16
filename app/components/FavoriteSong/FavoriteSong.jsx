@@ -1,4 +1,5 @@
 // npm libs
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -7,34 +8,7 @@ import APP from 'utils/app';
 
 // react components
 import Song from 'components/Song/Song.jsx';
-
-// styles
-import styles from 'components/Song/Title/Title.less';
-
-const Title = ({
-	children,
-	onClickTitle,
-	showInput,
-	title
-}) => (
-	<div>
-		<p className={`${styles.title} u-cut-text`} title={title} onClick={onClickTitle} style={showInput === false ? { display: 'block', cursor: 'pointer' } : { display: 'none', cursor: 'pointer' }}>
-			{title}
-		</p>
-		{children}
-	</div>
-);
-
-Title.propTypes = {
-	children: PropTypes.element.isRequired,
-	onClickTitle: PropTypes.func.isRequired,
-	showInput: PropTypes.bool,
-	title: PropTypes.string.isRequired
-};
-
-Title.defaultProps = {
-	showInput: false
-};
+import Title from './components/Title/Title.jsx';
 
 class FavoriteSong extends Song {
 
@@ -98,20 +72,20 @@ class FavoriteSong extends Song {
 
 		const titleComponent = (
 			<Title onClickTitle={this.onClickTitle} showInput={this.state.showInput} title={song.customTitle || song.title}>
-				<input type="text" onKeyPress={this.onEditTitle} style={this.state.showInput === true ? { display: 'block' } : { display: 'none' }} ref={(input) => { this.input = input; }} />
+				<input type="text" onKeyPress={this.onEditTitle} className={classnames({ 'u-hide': !this.state.showInput }, { 'u-display-block': this.state.showInput })} ref={(input) => { this.input = input; }} />
 			</Title>
 		);
 
 		return (
 			<Song song={song} hideButtons={this.state.showInput} titleComponent={titleComponent}>
 				<button onClick={this.addSongToPlaylist}>
-					<i className="material-icons">&#xE05C;</i>
+					<i className={classnames('material-icons')}>&#xE05C;</i>
 				</button>
 				<button onClick={this.addSongToTop}>
-					<i className="material-icons">&#xE066;</i>
+					<i className={classnames('material-icons')}>&#xE066;</i>
 				</button>
 				<button onClick={this.removeSongFromFavorites}>
-					<i className="material-icons">&#xE14C;</i>
+					<i className={classnames('material-icons')}>&#xE14C;</i>
 				</button>
 			</Song>
 		);
