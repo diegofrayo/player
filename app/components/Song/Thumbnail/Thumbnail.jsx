@@ -11,9 +11,9 @@ const Thumbnail = ({
 }) => (
 	<div className={styles.thumbnailWrapper}>
 		<img src={thumbnailUrl} alt="song-thumbnail" className={styles.thumbnailImg} />
-		<p className={`u-text-right u-position-right-bottom u-gradient ${styles.thumbnailDuration}`}>
+		<span className={`u-text-right u-position-right-bottom ${styles.thumbnailDuration}`}>
 			{duration}
-		</p>
+		</span>
 	</div>
 );
 

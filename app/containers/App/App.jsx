@@ -1,4 +1,5 @@
 // npm libs
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -13,11 +14,11 @@ import styles from './App.less';
 const App = ({
 	children
 }) => (
-	<div className={`container-fluid ${styles.parentContainer} u-box-shadow`}>
-		<div className={styles.parentContainerChild}>
+	<div className={classnames('u-box-shadow', styles.parentContainer)}>
+		<div className={classnames(styles.parentContainerChild)}>
 			<MainMenu />
 			<Header />
-			<div className={styles.content} id="content-wrapper">
+			<div className={classnames(styles.content)} id="content-wrapper">
 				{children}
 			</div>
 			<Player />

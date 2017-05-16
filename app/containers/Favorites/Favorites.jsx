@@ -1,5 +1,6 @@
 // npm libs
 import React from 'react';
+import classnames from 'classnames';
 
 // js utils
 import APP from 'utils/app';
@@ -12,7 +13,7 @@ import Spinner from 'components/Spinner/Spinner.jsx';
 
 // redux
 import {
-	updateFavoriteOpenedGroup as 	updateFavoriteOpenedGroupAction
+	updateFavoriteOpenedGroup as updateFavoriteOpenedGroupAction
 } from 'actions/favorites';
 import store from 'store/index';
 
@@ -53,18 +54,19 @@ class Favorites extends React.Component {
 			const groupOfSongs = songs.groups[key];
 
 			return (
-				<div className={`${styles.artistContainer} u-box-shadow`} key={key}>
+				<div className={classnames('u-box-shadow', styles.artistContainer)} key={key}>
 					<h2 className={styles.artistContainerTitle} onClick={() => { this.openGroupOfSongs(groupOfSongs.title); }}>
-						{groupOfSongs.title}
-						{groupOfSongs.is_opened === true &&
-							(<i className={`material-icons u-material-icons--28 u-position-right-top ${styles.expandButton}`}>&#xE316;</i>)
+
+						{ groupOfSongs.title } ({ groupOfSongs.songs.length })
+
+						{ groupOfSongs.is_opened === true ?
+							(<i className={classnames('material-icons u-material-icons--28 u-position-right-top', styles.expandButton)}>&#xE316;</i>) :
+							(<i className={classnames('material-icons u-material-icons--28 u-position-right-top', styles.expandButton)}>&#xE313;</i>)
 						}
-						{groupOfSongs.is_opened !== true &&
-							(<i className={`material-icons u-material-icons--28 u-position-right-top ${styles.expandButton}`}>&#xE313;</i>)
-						}
+
 					</h2>
 
-					<div className={styles.artistContainerSongs} style={{ display: groupOfSongs.is_opened === true ? 'block' : 'none' }}>
+					<div className={classnames(styles.artistContainerSongs, { 'u-display-block': groupOfSongs.is_opened })}>
 						{
 							groupOfSongs.songs.map(song => <FavoriteSong song={song} key={song.source_id} />)
 						}

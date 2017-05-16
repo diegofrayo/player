@@ -1,4 +1,5 @@
 // npm libs
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -29,7 +30,7 @@ class Playlist extends React.Component {
 
 			if (songs.length <= 1) {
 				return (
-					<div className={styles.noSongsFound}>
+					<div className={classnames(styles.noSongsFound)}>
 						<p>
 							There are not songs in queue
 						</p>
@@ -45,17 +46,17 @@ class Playlist extends React.Component {
 
 			return (
 				<div>
-					<div className={`${styles.nextSongContainer} u-box-shadow`}>
-						<p className={styles.playlistInfoTitle}>
+					<div className={classnames('u-box-shadow', styles.nextSongContainer)}>
+						<p className={classnames(styles.playlistInfoTitle)}>
 							Next to play
 						</p>
 						<PlaylistSong song={songs[1]} key={songs[1].source_id} />
 					</div>
-					<div className={`${styles.queueSongsContainer} u-box-shadow`} style={songs.length > 2 ? { display: 'block' } : { display: 'none' }}>
-						<p className={styles.playlistInfoTitle}>
+					<div className={classnames('u-box-shadow', styles.queueSongsContainer, { 'u-display-block': songs.length > 2 })}>
+						<p className={classnames(styles.playlistInfoTitle)}>
 							Queue
 						</p>
-						<div className={styles.songsOutputContainer} style={{ boxShadow: 'none' }}>
+						<div className={classnames(styles.songsOutputContainer)} style={{ boxShadow: 'none' }}>
 							{songsOutput}
 						</div>
 					</div>

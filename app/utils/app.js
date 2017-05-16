@@ -21,7 +21,7 @@ const APP = {
 };
 
 if (APP.environment === 'development') {
-	// APP.searcher = new SearcherFactory().createInstance('LocalSearcher', {});
+	APP.searcher = new SearcherFactory().createInstance('LocalSearcher', {});
 }
 
 if (APP.username === 'guest' && APP.environment === 'production' && window.location.href.indexOf('diegofrayo.com') !== -1) {

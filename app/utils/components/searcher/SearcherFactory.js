@@ -1,5 +1,5 @@
 import YoutubeSearcher from 'utils/components/searcher/YoutubeSearcher';
-// import LocalSearcher from 'utils/components/searcher/LocalSearcher';
+import LocalSearcher from 'utils/components/searcher/LocalSearcher';
 
 export default class SearcherFactory {
 
@@ -7,10 +7,9 @@ export default class SearcherFactory {
 
 		if (className === 'YoutubeSearcher') {
 			this.searcherInstance = new YoutubeSearcher(configuration);
+		} else if (className === 'LocalSearcher') {
+			this.searcherInstance = new LocalSearcher(configuration);
 		}
-		// else if (className === 'LocalSearcher') {
-		// 	this.searcherInstance = new LocalSearcher(configuration);
-		// }
 
 		return this.searcherInstance;
 	}
