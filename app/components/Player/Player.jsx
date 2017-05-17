@@ -31,7 +31,7 @@ class Player extends React.Component {
 		super();
 
 		this.state = {
-			isOpened: true,
+			isOpened: false,
 			muteState: false,
 			playerPosition: 0,
 			playerState: 'PAUSED',
@@ -239,10 +239,10 @@ class Player extends React.Component {
 					</button>
 				</div>
 				<div className={classnames(styles.contentWrapper)}>
-					<div className={classnames('u-text-center', styles.noPlayingSongContainer, { 'u-display-flex': this.props.playerReducer.status !== 'READY' }, { 'u-hide': this.props.playerReducer.status === 'READY' })}>
+					<div className={classnames('u-text-center', styles.noPlayingSongContainer, { 'u-hide': this.props.playerReducer.status === 'READY' })}>
 						<Spinner />
 					</div>
-					<div className={classnames('u-text-center', styles.noPlayingSongContainer, { 'u-display-flex': (this.props.playlistReducer.status === 'SUCCESS' && this.props.playlistReducer.songs.length === 0) }, { 'u-hide': !(this.props.playlistReducer.status === 'SUCCESS' && this.props.playlistReducer.songs.length === 0) })}>
+					<div className={classnames('u-text-center', styles.noPlayingSongContainer, { 'u-hide': !(this.props.playlistReducer.status === 'SUCCESS' && this.props.playlistReducer.songs.length === 0) })}>
 						There are not songs to play
 					</div>
 					<div className={classnames(styles.playingSongContainer, { 'u-hide': !(this.props.playlistReducer.songs.length > 0) })}>
@@ -269,7 +269,7 @@ class Player extends React.Component {
 						<div className={styles.buttonsWrapper}>
 							<PlayButton changePlayerState={this.changePlayerState} playerState={this.state.playerState} />
 							<i className={classnames('material-icons u-material-icons--28', styles.controlButtons)} onClick={() => this.nextSong()}>&#xE044;</i>
-							<i className={classnames('material-icons u-material-icons--28', styles.controlButtons, { 'u-hide': !this.state.isOpened }, { 'u-display-inline': this.state.isOpened })} onClick={this.addSongToFavorites}>&#xE87D;</i>
+							<i className={classnames('material-icons u-material-icons--28', styles.controlButtons, { 'u-hide': !this.state.isOpened }, { 'u-display-inline-block': this.state.isOpened })} onClick={this.addSongToFavorites}>&#xE87D;</i>
 							<MuteButton changeMuteState={this.changeMuteState} muteState={this.state.muteState} isOpened={this.state.isOpened} />
 						</div>
 					</div>

@@ -15,7 +15,7 @@ const MuteButton = ({
 	const className = classnames('material-icons u-material-icons--28', styles.controlButtons, {
 		'u-hide': !isOpened
 	}, {
-		'u-display-inline': isOpened
+		'u-display-inline-block': isOpened
 	});
 
 	if (muteState === true) {

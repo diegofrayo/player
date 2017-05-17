@@ -31,7 +31,7 @@ const initialState = {
 		status: 'FETCHING'
 	},
 	player: {
-		close: false,
+		close: true,
 		status: 'LOADING'
 	},
 	playlist: {
