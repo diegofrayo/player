@@ -86,7 +86,7 @@ const config = Object.assign({
 						sourceMap: isDevelopment,
 						importLoaders: true,
 						modules: true,
-						localIdentName: isDevelopment ? '[name]_[local]_[hash:base64:3]' : '[hash:base64:4]',
+						localIdentName: isDevelopment ? '[path][name]_[local]_[hash:base64:3]' : '[hash:base64:5]',
 						minimize: !isDevelopment
 					}
 				}, {

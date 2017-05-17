@@ -1,4 +1,5 @@
 // npm libs
+import classnames from 'classnames';
 import React from 'react';
 
 // react components
@@ -75,7 +76,7 @@ class Searches extends React.Component {
 		return (
 			<div>
 				<div style={{ marginBottom: '15px' }}>
-					<input type="text" placeholder="Search songs, artists, albums..." className={`form-control`} onKeyPress={this.search} ref={(input) => { this.input = input; }} defaultValue={this.state.query} autoFocus />
+					<input type="text" placeholder="Search songs, artists, albums..." className={classnames('form-control')} onKeyPress={this.search} ref={(input) => { this.input = input; }} defaultValue={this.state.query} autoFocus />
 				</div>
 				{
 					this.state.status === 'SUCCESS' && this.renderSongs(this.state.songs)
@@ -85,7 +86,7 @@ class Searches extends React.Component {
 				}
 				{
 					this.state.status === 'FAILURE' &&
-					<p className={styles.error}>
+					<p className={classnames(styles.error)}>
 						{this.state.errorMessage}
 					</p>
 				}

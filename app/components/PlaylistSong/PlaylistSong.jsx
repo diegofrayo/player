@@ -1,4 +1,5 @@
 // npm libs
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -39,26 +40,24 @@ class PlaylistSong extends Song {
 		} = this.props;
 
 		return (
-			<Song song={song} customClass={this.props.song.type === 'top' ? styles['song--top'] : ''}>
-				<span className={`badge ${styles.votes}`}>
+			<Song song={song} customClass={classnames({ [styles['song--top']]: this.props.song.type === 'top' })}>
+				<span className={classnames('badge', styles.votes)}>
 					{song.votes}
 				</span>
-				<button onClick={this.addSongToTop} style={this.props.song.type === 'top' ? { color: '#d2a90b' } : {}}>
-					{this.props.song.type === 'top' &&
-						(<i className="material-icons">&#xE067;</i>)
-					}
-					{this.props.song.type !== 'top' &&
-						(<i className="material-icons">&#xE066;</i>)
+				<button onClick={this.addSongToTop} className={classnames({ [styles['button--top']]: this.props.song.type === 'top' })}>
+					{this.props.song.type === 'top' ?
+						(<i className={classnames('material-icons')}>&#xE067;</i>) :
+						(<i className={classnames('material-icons')}>&#xE066;</i>)
 					}
 				</button>
 				<button onClick={this.addVoteToSong}>
-					<i className="material-icons">&#xE800;</i>
+					<i className={classnames('material-icons')}>&#xE800;</i>
 				</button>
 				<button onClick={this.addSongToFavorites}>
-					<i className="material-icons">&#xE87D;</i>
+					<i className={classnames('material-icons')}>&#xE87D;</i>
 				</button>
 				<button onClick={this.removeSongFromPlaylist}>
-					<i className="material-icons">&#xE14C;</i>
+					<i className={classnames('material-icons')}>&#xE14C;</i>
 				</button>
 			</Song>
 		);

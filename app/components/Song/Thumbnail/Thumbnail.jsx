@@ -1,4 +1,5 @@
 // npm libs
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -9,9 +10,9 @@ const Thumbnail = ({
 	duration,
 	thumbnailUrl
 }) => (
-	<div className={styles.thumbnailWrapper}>
-		<img src={thumbnailUrl} alt="song-thumbnail" className={styles.thumbnailImg} />
-		<span className={`u-text-right u-position-right-bottom ${styles.thumbnailDuration}`}>
+	<div className={classnames(styles.thumbnailWrapper)}>
+		<img src={thumbnailUrl} alt="song-thumbnail" className={classnames(styles.thumbnailImg)} />
+		<span className={classnames('u-text-right u-position-right-bottom', styles.thumbnailDuration)}>
 			{duration}
 		</span>
 	</div>

@@ -1,4 +1,5 @@
 // npm libs
+import classnames from 'classnames';
 import React from 'react';
 import {
 	browserHistory
@@ -61,27 +62,27 @@ class MainMenu extends React.Component {
 	render() {
 
 		return (
-			<div className={styles.menuContainer} id="menu-container">
-				<div className={styles.menuContainerInner}>
-					<div className={styles.username}>
+			<div className={classnames(styles.menuContainer)} id="menu-container">
+				<div className={classnames(styles.menuContainerInner)}>
+					<div className={classnames(styles.username)}>
 						@{APP.username}
 					</div>
-					<ul className={styles.menu}>
-						<li className={styles.menuItem}>
-							<a onClick={this.onClickLink} data-link={routerUrls.PLAYLIST} className={styles.menuItemLink}>
-								<i className={`material-icons ${styles.menuItemIcon}`}>&#xE030;</i>
+					<ul className={classnames(styles.menu)}>
+						<li className={classnames(styles.menuItem)}>
+							<a onClick={this.onClickLink} data-link={routerUrls.PLAYLIST} className={classnames(styles.menuItemLink)}>
+								<i className={classnames('material-icons', styles.menuItemIcon)}>&#xE030;</i>
 								<span>Playlist</span>
 							</a>
 						</li>
-						<li className={styles.menuItem}>
-							<a onClick={this.onClickLink} data-link={routerUrls.SEARCH} className={styles.menuItemLink}>
-								<i className={`material-icons ${styles.menuItemIcon}`}>&#xE8B6;</i>
+						<li className={classnames(styles.menuItem)}>
+							<a onClick={this.onClickLink} data-link={routerUrls.SEARCH} className={classnames(styles.menuItemLink)}>
+								<i className={classnames('material-icons', styles.menuItemIcon)}>&#xE8B6;</i>
 								<span>Search</span>
 							</a>
 						</li>
-						<li className={styles.menuItem}>
-							<a onClick={this.onClickLink} data-link={routerUrls.FAVORITES} className={styles.menuItemLink}>
-								<i className={`material-icons ${styles.menuItemIcon}`}>&#xE8D0;</i>
+						<li className={classnames(styles.menuItem)}>
+							<a onClick={this.onClickLink} data-link={routerUrls.FAVORITES} className={classnames(styles.menuItemLink)}>
+								<i className={classnames('material-icons', styles.menuItemIcon)}>&#xE8D0;</i>
 								<span>Favorites</span>
 							</a>
 						</li>

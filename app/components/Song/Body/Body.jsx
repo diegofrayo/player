@@ -1,4 +1,5 @@
 // npm libs
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -18,7 +19,9 @@ function updateChildClassName(child, index) {
 	};
 
 	if (child.type === 'button') {
-		customProps.className = `${styles.button} ${(customProps.className ? customProps.className : '')}`.trim();
+		customProps.className = classnames(styles.button, {
+			[child.props.className]: child.props.className
+		});
 	}
 
 	const props = Utilities.cloneObject({}, child.props, customProps);
@@ -32,10 +35,10 @@ const Body = ({
 	title,
 	titleComponent
 }) => (
-	<div className={styles.wrapper}>
+	<div className={classnames(styles.wrapper)}>
 		{titleComponent && titleComponent}
 		{!titleComponent && <SongTitle title={title} />}
-		<div className="u-text-center" style={{ margin: '5px 0', display: hideButtons === false ? 'block' : 'none' }}>
+		<div className={classnames('u-text-center', styles.body, { 'u-display-block': hideButtons === false })}>
 			{children.map((child, index) => updateChildClassName(child, index))}
 		</div>
 	</div>

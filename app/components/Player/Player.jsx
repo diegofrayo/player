@@ -1,4 +1,5 @@
 // npm libs
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -16,78 +17,12 @@ import APP from 'utils/app.js';
 
 // react components
 import Spinner from 'components/Spinner/Spinner.jsx';
+import MuteButton from './components/MuteButton/MuteButton.jsx';
+import PlayButton from './components/PlayButton/PlayButton.jsx';
+import ProgressBar from './components/ProgressBar/ProgressBar.jsx';
 
 // styles
 import styles from './Player.less';
-
-// -------------------------------------------
-
-const PlayButton = ({
-	changePlayerState,
-	playerState
-}) => {
-
-	const className = `material-icons ${styles.controlButtons} u-material-icons--28}`;
-
-	if (playerState === 'PLAYING') {
-		return <i className={className} onClick={changePlayerState}>&#xE034;</i>;
-	}
-
-	return <i className={className} onClick={changePlayerState}>&#xE037;</i>;
-};
-
-PlayButton.propTypes = {
-	changePlayerState: PropTypes.func.isRequired,
-	playerState: PropTypes.string.isRequired
-};
-
-// -------------------------------------------
-
-const MuteButton = ({
-	changeMuteState,
-	isOpened,
-	muteState
-}) => {
-
-	const className = `material-icons ${styles.controlButtons} u-material-icons--28`;
-	const style = isOpened === true ? {
-		display: 'inline-block'
-	} : {
-		display: 'none'
-	};
-
-	if (muteState === true) {
-		return <i className={className} onClick={changeMuteState} style={style}>&#xE04F;</i>;
-	}
-
-	return <i className={className} onClick={changeMuteState} style={style}>&#xE050;</i>;
-};
-
-MuteButton.propTypes = {
-	changeMuteState: PropTypes.func.isRequired,
-	isOpened: PropTypes.bool.isRequired,
-	muteState: PropTypes.bool.isRequired
-};
-
-// -------------------------------------------
-
-const ProgressBar = ({
-	onClick,
-	progress
-}) => (
-	<div className={`${styles.playerProgressBarContainer}`} onClick={onClick}>
-		<div className={`${styles.playerProgressBarInner}`}>
-			<div className={styles.playerProgressBar} style={{ width: `${progress}%` }}>{''}</div>
-		</div>
-	</div>
-);
-
-ProgressBar.propTypes = {
-	onClick: PropTypes.func.isRequired,
-	progress: PropTypes.number.isRequired
-};
-
-// -------------------------------------------
 
 class Player extends React.Component {
 
@@ -294,29 +229,27 @@ class Player extends React.Component {
 
 	render() {
 		return (
-			<div id="player" className={this.state.isOpened === true ? `${styles['player--opened']} u-position-bottom` : `${styles.player} u-position-bottom`}>
-				<div className={`u-text-center u-position-left-top ${styles.expandButtonContainer}`}>
-					<button onClick={this.openPlayer} className={styles.expandButton}>
-						{this.state.isOpened === true &&
-							(<i className={`material-icons u-material-icons--28`}>&#xE313;</i>)
-						}
-						{this.state.isOpened !== true &&
-							(<i className={`material-icons u-material-icons--28}`}>&#xE316;</i>)
+			<div id="player" className={classnames('u-position-bottom', { [styles['player--opened']]: this.state.isOpened }, { [styles.player]: !this.state.isOpened })}>
+				<div className={classnames('u-text-center u-position-left-top', styles.expandButtonContainer)}>
+					<button onClick={this.openPlayer} className={classnames(styles.expandButton)}>
+						{this.state.isOpened === true ?
+							(<i className={classnames('material-icons u-material-icons--28')}>&#xE313;</i>) :
+							(<i className={classnames('material-icons u-material-icons--28')}>&#xE316;</i>)
 						}
 					</button>
 				</div>
-				<div className={`${styles.contentWrapper}`}>
-					<div className={`${styles.noPlayingSongContainer} u-text-center`} style={this.props.playerReducer.status !== 'READY' ? { display: 'flex' } : { display: 'none' }}>
+				<div className={classnames(styles.contentWrapper)}>
+					<div className={classnames('u-text-center', styles.noPlayingSongContainer, { 'u-display-flex': this.props.playerReducer.status !== 'READY' }, { 'u-hide': this.props.playerReducer.status === 'READY' })}>
 						<Spinner />
 					</div>
-					<div className={`${styles.noPlayingSongContainer} u-text-center`} style={this.props.playlistReducer.status === 'SUCCESS' && this.props.playlistReducer.songs.length === 0 ? { display: 'flex' } : { display: 'none' }}>
+					<div className={classnames('u-text-center', styles.noPlayingSongContainer, { 'u-display-flex': (this.props.playlistReducer.status === 'SUCCESS' && this.props.playlistReducer.songs.length === 0) }, { 'u-hide': !(this.props.playlistReducer.status === 'SUCCESS' && this.props.playlistReducer.songs.length === 0) })}>
 						There are not songs to play
 					</div>
-					<div className={styles.playingSongContainer} style={this.props.playlistReducer.songs.length > 0 ? { display: 'flex' } : { display: 'none' }}>
-						<div className={styles.playerWrapper}>
-							<div className={styles.playerWrapperInner}>
-								<img src={this.state.playingSong.thumbnail} alt="thumbnail" className={styles.songThumbnail} />
-								<div className={styles.playerPluginContainer}>
+					<div className={classnames(styles.playingSongContainer, { 'u-hide': !(this.props.playlistReducer.songs.length > 0) })}>
+						<div className={classnames(styles.playerWrapper)}>
+							<div className={classnames(styles.playerWrapperInner)}>
+								<img src={this.state.playingSong.thumbnail} alt="thumbnail" className={classnames(styles.songThumbnail)} />
+								<div className={classnames(styles.playerPluginContainer)}>
 									<div id={styles.playerPluginContainer}>{''}</div>
 									{/*
 										<div id={styles.playerPluginContainer} data-video-id="aP_-P_BS6KY" data-type="youtube">{''}</div>
@@ -325,8 +258,8 @@ class Player extends React.Component {
 								<ProgressBar progress={this.state.playerPosition} onClick={this.progressBarOnClick} />
 							</div>
 						</div>
-						<div className={styles.detailsWrapper}>
-							<p className={`${styles.songTitle} u-cut-text`} title={this.state.playingSong.title}>
+						<div className={classnames(styles.detailsWrapper)}>
+							<p className={classnames('u-cut-text', styles.songTitle)} title={this.state.playingSong.title}>
 								{this.state.playingSong.title}
 							</p>
 							<p className={styles.songDetail}>
@@ -335,8 +268,8 @@ class Player extends React.Component {
 						</div>
 						<div className={styles.buttonsWrapper}>
 							<PlayButton changePlayerState={this.changePlayerState} playerState={this.state.playerState} />
-							<i className={`material-icons ${styles.controlButtons} u-material-icons--28}`} onClick={() => this.nextSong()}>&#xE044;</i>
-							<i className={`material-icons ${styles.controlButtons} u-material-icons--28}`} style={this.state.isOpened === true ? { display: 'inline-block' } : { display: 'none' }} onClick={this.addSongToFavorites}>&#xE87D;</i>
+							<i className={classnames('material-icons u-material-icons--28', styles.controlButtons)} onClick={() => this.nextSong()}>&#xE044;</i>
+							<i className={classnames('material-icons u-material-icons--28', styles.controlButtons, { 'u-hide': !this.state.isOpened }, { 'u-display-inline': this.state.isOpened })} onClick={this.addSongToFavorites}>&#xE87D;</i>
 							<MuteButton changeMuteState={this.changeMuteState} muteState={this.state.muteState} isOpened={this.state.isOpened} />
 						</div>
 					</div>

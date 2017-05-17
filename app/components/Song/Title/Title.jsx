@@ -1,4 +1,5 @@
 // npm libs
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -9,7 +10,7 @@ const Title = ({
 	title
 }) => (
 	<div>
-		<p className={`${styles.title} u-cut-text`} title={title}>
+		<p className={classnames('u-cut-text', styles.title)} title={title}>
 			{title}
 		</p>
 	</div>

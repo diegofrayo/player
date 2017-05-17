@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 // styles
-import styles from './Title.less';
+import styles from './FavoriteSongTitle.less';
 
-const Title = ({
+const FavoriteSongTitle = ({
 	children,
 	onClickTitle,
 	showInput,
@@ -20,15 +20,15 @@ const Title = ({
 	</div>
 );
 
-Title.propTypes = {
+FavoriteSongTitle.propTypes = {
 	children: PropTypes.element.isRequired,
 	onClickTitle: PropTypes.func.isRequired,
 	showInput: PropTypes.bool,
 	title: PropTypes.string.isRequired
 };
 
-Title.defaultProps = {
+FavoriteSongTitle.defaultProps = {
 	showInput: false
 };
 
-export default Title;
+export default FavoriteSongTitle;

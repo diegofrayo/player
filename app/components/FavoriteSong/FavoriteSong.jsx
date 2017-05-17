@@ -8,7 +8,7 @@ import APP from 'utils/app';
 
 // react components
 import Song from 'components/Song/Song.jsx';
-import Title from './components/Title/Title.jsx';
+import FavoriteSongTitle from './components/FavoriteSongTitle/FavoriteSongTitle.jsx';
 
 class FavoriteSong extends Song {
 
@@ -71,9 +71,9 @@ class FavoriteSong extends Song {
 		} = this.props;
 
 		const titleComponent = (
-			<Title onClickTitle={this.onClickTitle} showInput={this.state.showInput} title={song.customTitle || song.title}>
+			<FavoriteSongTitle onClickTitle={this.onClickTitle} showInput={this.state.showInput} title={song.customTitle || song.title}>
 				<input type="text" onKeyPress={this.onEditTitle} className={classnames({ 'u-hide': !this.state.showInput }, { 'u-display-block': this.state.showInput })} ref={(input) => { this.input = input; }} />
-			</Title>
+			</FavoriteSongTitle>
 		);
 
 		return (

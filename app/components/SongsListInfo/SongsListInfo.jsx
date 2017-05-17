@@ -1,4 +1,5 @@
 // npm libs
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -8,8 +9,8 @@ import styles from './SongsListInfo.less';
 const SongsListInfo = ({
 	children
 }) => (
-	<p className={styles.songsListInfo}>
-		<i className={`material-icons ${styles.infoIcon}`}>&#xE88E;</i>
+	<p className={classnames(styles.songsListInfo)}>
+		<i className={classnames('material-icons', styles.infoIcon)}>&#xE88E;</i>
 		<span>
 			{children}
 		</span>

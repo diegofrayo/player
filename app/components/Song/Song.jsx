@@ -1,4 +1,5 @@
 // npm libs
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -44,7 +45,7 @@ class Song extends React.Component {
 		} = this.props;
 
 		return (
-			<div className={`${styles.songWrapper} ${customClass}`}>
+			<div className={classnames(styles.songWrapper, customClass)}>
 				<SongThumbnail duration={song.duration} thumbnailUrl={song.thumbnail} />
 				<SongBody hideButtons={hideButtons} title={song.title} titleComponent={titleComponent}>
 					{children.map(child => child)}
