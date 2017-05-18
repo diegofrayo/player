@@ -2,11 +2,11 @@
 import firebase from 'firebase';
 
 // js utils
-import APP from 'utils/app.js';
+import APP from 'utils/app';
 import Utilities from 'utils/utilities/Utilities';
 
 // redux
-import store from 'store/index';
+import store from 'store';
 import {
 	addSongToFavorites as addSongToFavoritesAction,
 	fetchFavorites as fetchFavoritesAction,

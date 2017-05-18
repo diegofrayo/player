@@ -14,7 +14,7 @@ import playlist from 'reducers/playlist';
 import searches from 'reducers/search';
 
 // sagas
-import mySagas from 'sagas/root';
+import mySagas from 'sagas';
 
 const initialState = {
 	favorites: {

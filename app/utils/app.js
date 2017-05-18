@@ -4,7 +4,7 @@ import PlayerFactory from 'utils/components/player/PlayerFactory';
 import PromiseFactory from 'utils/components/promise/PromiseFactory';
 import SearcherFactory from 'utils/components/searcher/SearcherFactory';
 import SongsStorageFactory from 'utils/components/songs-storage/SongsStorageFactory';
-import Utilities from 'utils/utilities/Utilities.js';
+import Utilities from 'utils/utilities/Utilities';
 
 const environment = APP_SETTINGS.environment;
 

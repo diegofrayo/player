@@ -8,10 +8,10 @@ import {
 } from 'react-router';
 
 // react components
-import AppView from 'containers/App/App.jsx';
-import FavoritesView from 'containers/Favorites/Favorites.jsx';
-import PlaylistView from 'containers/Playlist/Playlist.jsx';
-import SearchView from 'containers/Search/Search.jsx';
+import AppView from 'containers/App';
+import FavoritesView from 'containers/Favorites';
+import PlaylistView from 'containers/Playlist';
+import SearchView from 'containers/Search';
 
 // js utils
 import routerUrls from 'utils/routerUrls';

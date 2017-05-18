@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 // react components
-import Song from 'components/Song/Song.jsx';
+import Song from 'components/Song';
 
 // js libs
 import APP from 'utils/app';

@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import React from 'react';
 
 // react components
-import Song from 'components/Song/Song.jsx';
+import Song from 'components/Song';
 
 class SearchSong extends Song {
 

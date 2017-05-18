@@ -3,21 +3,21 @@ import classnames from 'classnames';
 import React from 'react';
 
 // react components
-import SearchSong from 'components/SearchSong/SearchSong.jsx';
-import SongsListInfo from 'components/SongsListInfo/SongsListInfo.jsx';
-import Spinner from 'components/Spinner/Spinner.jsx';
+import SearchSong from 'components/SearchSong';
+import SongsListInfo from 'components/SongsListInfo';
+import Spinner from 'components/Spinner';
 
 // js utils
 import Utilities from 'utils/utilities/Utilities';
 
 // redux
-import store from 'store/index';
+import store from 'store';
 import {
 	searchSongsFetching as searchSongsFetchingAction
 } from 'actions/search';
 
 // styles
-import styles from './Search.less';
+import styles from './Searches.less';
 
 class Searches extends React.Component {
 

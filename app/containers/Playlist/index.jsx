@@ -10,8 +10,8 @@ import {
 import Utilities from 'utils/utilities/Utilities';
 
 // react components
-import PlaylistSong from 'components/PlaylistSong/PlaylistSong.jsx';
-import Spinner from 'components/Spinner/Spinner.jsx';
+import PlaylistSong from 'components/PlaylistSong';
+import Spinner from 'components/Spinner';
 
 // styles
 import styles from './Playlist.less';

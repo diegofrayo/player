@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 // styles
-import styles from './Title.less';
+import styles from './SongTitle.less';
 
-const Title = ({
+const SongTitle = ({
 	title
 }) => (
 	<div>
@@ -16,8 +16,8 @@ const Title = ({
 	</div>
 );
 
-Title.propTypes = {
+SongTitle.propTypes = {
 	title: PropTypes.string.isRequired
 };
 
-export default Title;
+export default SongTitle;

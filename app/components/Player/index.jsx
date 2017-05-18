@@ -8,18 +8,18 @@ import {
 
 // redux
 import {
-	closePlayer,
-	updatePlayerStatus
+	closePlayer as closePlayerAction,
+	updatePlayerStatus as updatePlayerStatusAction
 } from 'actions/player';
 
 // js utils
-import APP from 'utils/app.js';
+import APP from 'utils/app';
 
 // react components
-import Spinner from 'components/Spinner/Spinner.jsx';
-import MuteButton from './components/MuteButton/MuteButton.jsx';
-import PlayButton from './components/PlayButton/PlayButton.jsx';
-import ProgressBar from './components/ProgressBar/ProgressBar.jsx';
+import Spinner from 'components/Spinner';
+import MuteButton from './components/MuteButton';
+import PlayButton from './components/PlayButton';
+import ProgressBar from './components/ProgressBar';
 
 // styles
 import styles from './Player.less';
@@ -239,10 +239,10 @@ class Player extends React.Component {
 					</button>
 				</div>
 				<div className={classnames(styles.contentWrapper)}>
-					<div className={classnames('u-text-center', styles.noPlayingSongContainer, { 'u-hide': this.props.playerReducer.status === 'READY' })}>
+					<div className={classnames('u-text-center', styles.noPlayingSongContainer, { 'u-display-flex': this.props.playerReducer.status === 'LOADING' && this.props.playlistReducer.status === 'FETCHING' })}>
 						<Spinner />
 					</div>
-					<div className={classnames('u-text-center', styles.noPlayingSongContainer, { 'u-hide': !(this.props.playlistReducer.status === 'SUCCESS' && this.props.playlistReducer.songs.length === 0) })}>
+					<div className={classnames('u-text-center', styles.noPlayingSongContainer, { 'u-display-flex': this.props.playlistReducer.status === 'SUCCESS' && this.props.playlistReducer.songs.length === 0 })}>
 						There are not songs to play
 					</div>
 					<div className={classnames(styles.playingSongContainer, { 'u-hide': !(this.props.playlistReducer.songs.length > 0) })}>
@@ -285,9 +285,9 @@ const mapStateToProps = state => ({
 	playlistReducer: state.playlist
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-	closePlayerAction: close => dispatch(closePlayer(close)),
-	updatePlayerStatusAction: () => dispatch(updatePlayerStatus())
+const mapDispatchToProps = dispatch => ({
+	closePlayerAction: close => dispatch(closePlayerAction(close)),
+	updatePlayerStatusAction: () => dispatch(updatePlayerStatusAction())
 });
 
 Player.propTypes = {

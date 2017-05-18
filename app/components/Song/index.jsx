@@ -7,8 +7,8 @@ import React from 'react';
 import APP from 'utils/app';
 
 // react components
-import SongBody from 'components/Song/Body/Body.jsx';
-import SongThumbnail from 'components/Song/Thumbnail/Thumbnail.jsx';
+import SongBody from './components/Body';
+import SongThumbnail from './components/Thumbnail';
 
 // styles
 import styles from './Song.less';
@@ -71,6 +71,7 @@ Song.propTypes = {
 Song.defaultProps = {
 	customClass: '',
 	hideButtons: false,
+	titleComponent: null
 };
 
 export default Song;

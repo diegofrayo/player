@@ -7,7 +7,7 @@ import React from 'react';
 import Utilities from 'utils/utilities/Utilities';
 
 // react components
-import SongTitle from 'components/Song/Title/Title.jsx';
+import SongTitle from 'components/Song/components/SongTitle';
 
 // styles
 import styles from './Body.less';
@@ -52,7 +52,8 @@ Body.propTypes = {
 };
 
 Body.defaultProps = {
-	hideButtons: false
+	hideButtons: false,
+	titleComponent: null
 };
 
 export default Body;

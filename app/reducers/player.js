@@ -1,4 +1,3 @@
-/* eslint consistent-return: "off" */
 /* eslint indent: "off" */
 
 // npm libs

@@ -27,8 +27,8 @@ export function removeSongFromFavorites(song) {
 }
 
 export function updateFavoriteOpenedGroup(groupTitle) {
-    return {
-        type: UPDATE_FAVORITE_OPENED_GROUP,
-        groupTitle
-    };
+	return {
+		type: UPDATE_FAVORITE_OPENED_GROUP,
+		groupTitle
+	};
 }

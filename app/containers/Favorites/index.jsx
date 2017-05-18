@@ -7,15 +7,15 @@ import APP from 'utils/app';
 import Utilities from 'utils/utilities/Utilities';
 
 // react components
-import FavoriteSong from 'components/FavoriteSong/FavoriteSong.jsx';
-import SongsListInfo from 'components/SongsListInfo/SongsListInfo.jsx';
-import Spinner from 'components/Spinner/Spinner.jsx';
+import FavoriteSong from 'components/FavoriteSong';
+import SongsListInfo from 'components/SongsListInfo';
+import Spinner from 'components/Spinner';
 
 // redux
 import {
 	updateFavoriteOpenedGroup as updateFavoriteOpenedGroupAction
 } from 'actions/favorites';
-import store from 'store/index';
+import store from 'store';
 
 // styles
 import styles from './Favorites.less';
@@ -43,8 +43,8 @@ class Favorites extends React.Component {
 		this.setState(store.getState().favorites);
 	}
 
-	openGroupOfSongs(groupTitle) {
-		store.dispatch(updateFavoriteOpenedGroupAction(groupTitle));
+	openGroupOfSongs(event) {
+		store.dispatch(updateFavoriteOpenedGroupAction(event.currentTarget.getAttribute('data-title')));
 	}
 
 	renderFavorites(songs) {
@@ -55,7 +55,7 @@ class Favorites extends React.Component {
 
 			return (
 				<div className={classnames('u-box-shadow', styles.artistContainer)} key={key}>
-					<h2 className={styles.artistContainerTitle} onClick={() => { this.openGroupOfSongs(groupOfSongs.title); }}>
+					<h2 className={styles.artistContainerTitle} onClick={this.openGroupOfSongs} data-title={groupOfSongs.title}>
 
 						{ groupOfSongs.title } ({ groupOfSongs.songs.length })
 

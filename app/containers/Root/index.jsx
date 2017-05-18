@@ -9,10 +9,10 @@ import {
 } from 'react-hot-loader';
 
 // react components
-import App from 'routes.jsx';
+import App from 'routes';
 
 // redux
-import store from 'store/index';
+import store from 'store';
 
 const RootContainer = ({
 	environment

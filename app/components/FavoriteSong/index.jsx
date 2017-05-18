@@ -1,14 +1,13 @@
 // npm libs
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 // js utils
 import APP from 'utils/app';
 
 // react components
-import Song from 'components/Song/Song.jsx';
-import FavoriteSongTitle from './components/FavoriteSongTitle/FavoriteSongTitle.jsx';
+import Song from 'components/Song';
+import FavoriteSongTitle from './components/FavoriteSongTitle';
 
 class FavoriteSong extends Song {
 

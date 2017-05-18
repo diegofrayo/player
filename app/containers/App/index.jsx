@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 // react components
-import Header from 'components/Header/Header.jsx';
-import MainMenu from 'components/MainMenu/MainMenu.jsx';
-import Player from 'components/Player/Player.jsx';
+import Header from 'components/Header';
+import MainMenu from 'components/MainMenu';
+import Player from 'components/Player';
 
 // styles
 import styles from './App.less';

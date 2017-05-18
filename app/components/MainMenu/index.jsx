@@ -13,7 +13,7 @@ import routerUrls from 'utils/routerUrls';
 import {
 	closePlayer as closePlayerAction
 } from 'actions/player';
-import store from 'store/index';
+import store from 'store';
 
 // styles
 import styles from './MainMenu.less';
