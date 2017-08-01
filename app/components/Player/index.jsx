@@ -227,6 +227,7 @@ class Player extends React.Component {
 		APP.songs_storage.addSongToFavorites(APP.username, this.state.playingSong);
 	}
 
+	// GET STORE FROM CONTEXT => this.context.store.getState();
 	render() {
 		return (
 			<div id="player" className={classnames('u-position-bottom', { [styles['player--opened']]: this.state.isOpened }, { [styles.player]: !this.state.isOpened })}>
@@ -295,6 +296,10 @@ Player.propTypes = {
 	playlistReducer: PropTypes.object.isRequired,
 	closePlayerAction: PropTypes.func.isRequired,
 	updatePlayerStatusAction: PropTypes.func.isRequired
+};
+
+Player.contextTypes = {
+	store: PropTypes.object
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Player);

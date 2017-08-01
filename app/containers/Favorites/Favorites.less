@@ -12,7 +12,14 @@
 	}
 
 	&Songs{
-		display: none;
+		&Content{
+			transition: opacity 500ms ease-in-out;
+			opacity: 0;
+
+			&--visible{
+				opacity: 1;
+			}
+		}
 	}
 
 	&:last-child{

@@ -1,6 +1,9 @@
 // npm libs
 import classnames from 'classnames';
 import React from 'react';
+import {
+	Transition as CSSTransitionGroup
+} from 'react-transition-group';
 
 // js utils
 import APP from 'utils/app';
@@ -45,9 +48,15 @@ class Favorites extends React.Component {
 
 	openGroupOfSongs(event) {
 		store.dispatch(updateFavoriteOpenedGroupAction(event.currentTarget.getAttribute('data-title')));
+		document.querySelector('#content-wrapper > div').scrollTop = event.currentTarget.offsetParent.offsetTop - 10;
 	}
 
 	renderFavorites(songs) {
+
+		const transitionStyles = {
+			entering: styles['artistContainerSongsContent--visible'],
+			entered: styles['artistContainerSongsContent--visible']
+		};
 
 		const songsOutput = Object.keys(songs.groups).sort().map((key) => {
 
@@ -66,10 +75,14 @@ class Favorites extends React.Component {
 
 					</h2>
 
-					<div className={classnames(styles.artistContainerSongs, { 'u-display-block': groupOfSongs.is_opened })}>
-						{
-							groupOfSongs.songs.map(song => <FavoriteSong song={song} key={song.source_id} />)
-						}
+					<div className={classnames(styles.artistContainerSongs)}>
+						<CSSTransitionGroup in={groupOfSongs.is_opened} timeout={500}>
+							{state => (
+								<div className={classnames(styles.artistContainerSongsContent, transitionStyles[state])}>
+									{ groupOfSongs.is_opened && groupOfSongs.songs.map(song => <FavoriteSong song={song} key={song.source_id} />) }
+								</div>
+							)}
+						</CSSTransitionGroup>
 					</div>
 				</div>
 			);
