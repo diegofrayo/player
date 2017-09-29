@@ -22,13 +22,13 @@ class SearchSong extends Song {
 
 		return (
 			<Song song={song}>
-				<button onClick={this.addSongToPlaylist}>
+				<button onClick={this.addSongToPlaylist} id={`addSongToPlaylist-btn-${song.source_id}`}>
 					<i className={classnames('material-icons')}>&#xE05C;</i>
 				</button>
-				<button onClick={this.addSongToTop}>
+				<button onClick={this.addSongToTop} id={`addSongToTop-btn-${song.source_id}`}>
 					<i className={classnames('material-icons')}>&#xE066;</i>
 				</button>
-				<button onClick={this.addSongToFavorites}>
+				<button onClick={this.addSongToFavorites} id={`addSongToFavorites-btn-${song.source_id}`}>
 					<i className={classnames('material-icons')}>&#xE87D;</i>
 				</button>
 			</Song>

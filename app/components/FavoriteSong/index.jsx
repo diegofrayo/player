@@ -77,10 +77,10 @@ class FavoriteSong extends Song {
 
 		return (
 			<Song song={song} hideButtons={this.state.showInput} titleComponent={titleComponent}>
-				<button onClick={this.addSongToPlaylist}>
+				<button onClick={this.addSongToPlaylist} id={`addSongToPlaylist-btn-${song.source_id}`}>
 					<i className={classnames('material-icons')}>&#xE05C;</i>
 				</button>
-				<button onClick={this.addSongToTop}>
+				<button onClick={this.addSongToTop} id={`addSongToTop-btn-${song.source_id}`}>
 					<i className={classnames('material-icons')}>&#xE066;</i>
 				</button>
 				<button onClick={this.removeSongFromFavorites}>

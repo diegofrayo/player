@@ -28,9 +28,9 @@ class PlaylistSong extends Song {
 		APP.songs_storage.removeSongFromPlaylist(APP.username, this.props.song);
 	}
 
-	addSongToTop() {
+	addSongToTop(event) {
 		document.querySelector('#content-wrapper > div').scrollTop = 0;
-		super.addSongToTop();
+		super.addSongToTop(event);
 	}
 
 	render() {
@@ -44,7 +44,7 @@ class PlaylistSong extends Song {
 				<span className={classnames('badge', styles.votes)}>
 					{song.votes}
 				</span>
-				<button onClick={this.addSongToTop} className={classnames({ [styles['button--top']]: this.props.song.type === 'top' })}>
+				<button onClick={this.addSongToTop} className={classnames({ [styles['button--top']]: this.props.song.type === 'top' })} data-dont-animate="true">
 					{this.props.song.type === 'top' ?
 						(<i className={classnames('material-icons')}>&#xE067;</i>) :
 						(<i className={classnames('material-icons')}>&#xE066;</i>)
@@ -53,11 +53,11 @@ class PlaylistSong extends Song {
 				<button onClick={this.addVoteToSong}>
 					<i className={classnames('material-icons')}>&#xE800;</i>
 				</button>
-				<button onClick={this.addSongToFavorites}>
-					<i className={classnames('material-icons')}>&#xE87D;</i>
-				</button>
 				<button onClick={this.removeSongFromPlaylist}>
 					<i className={classnames('material-icons')}>&#xE14C;</i>
+				</button>
+				<button onClick={this.addSongToFavorites} id={`addSongToFavorites-btn-${song.source_id}`}>
+					<i className={classnames('material-icons')}>&#xE87D;</i>
 				</button>
 			</Song>
 		);

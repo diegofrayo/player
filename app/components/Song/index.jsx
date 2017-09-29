@@ -22,16 +22,29 @@ class Song extends React.Component {
 		this.addSongToTop = this.addSongToTop.bind(this);
 	}
 
-	addSongToFavorites() {
+	animate(event, eventName) {
+		if (event.currentTarget.getAttribute('data-dont-animate')) return;
+		let elementClicked = event.currentTarget.querySelectorAll('i')[0];
+		elementClicked.classList.add(styles[`${eventName}Animation`]);
+		setTimeout(() => {
+			elementClicked.classList.remove(styles[`${eventName}Animation`]);
+			elementClicked = null;
+		}, 2000);
+	}
+
+	addSongToFavorites(event) {
 		APP.songs_storage.addSongToFavorites(APP.username, this.props.song);
+		this.animate(event, 'addSongToFavorites');
 	}
 
-	addSongToPlaylist() {
+	addSongToPlaylist(event) {
 		APP.songs_storage.addSongToPlaylist(APP.username, this.props.song);
+		this.animate(event, 'addSongToPlaylist');
 	}
 
-	addSongToTop() {
+	addSongToTop(event) {
 		APP.songs_storage.addSongToTop(APP.username, this.props.song);
+		this.animate(event, 'addSongToTop');
 	}
 
 	render() {

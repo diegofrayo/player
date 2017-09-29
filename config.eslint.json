@@ -45,7 +45,7 @@
 		"react/jsx-indent": [1, "tab"],
 		"react/require-default-props": 1,
 		"react/forbid-prop-types": [1, {
-			"forbid": ["any", "object"]
+			"forbid": ["any"]
 		}],
 		"react/no-unused-prop-types": [1, {
 			"skipShapeProps": true

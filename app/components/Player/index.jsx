@@ -223,8 +223,14 @@ class Player extends React.Component {
 		}
 	}
 
-	addSongToFavorites() {
+	addSongToFavorites(event) {
 		APP.songs_storage.addSongToFavorites(APP.username, this.state.playingSong);
+		let elementClicked = event.currentTarget;
+		elementClicked.classList.add(styles.favoriteButtonAnimated);
+		setTimeout(() => {
+			elementClicked.classList.remove(styles.favoriteButtonAnimated);
+			elementClicked = null;
+		}, 2000);
 	}
 
 	// GET STORE FROM CONTEXT => this.context.store.getState();

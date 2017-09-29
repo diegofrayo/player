@@ -3,54 +3,16 @@
 @base-color: #FFFFFF;
 
 .menuContainer{
-	height: 100%;
+	bottom: 0;
 	left: 0;
-	overflow: hidden;
-	pointer-events: none;
+	pointer-events: auto;
 	position: absolute;
+	right: 0;
 	top: 0;
-	width: 100%;
-	z-index: 150;
-
-	&:after{
-		content: '';
-		display: block;
-		height: 100%;
-		left: 0;
-		opacity: 0;
-		pointer-events: none;
-		position: absolute;
-		top: 0;
-		transition: opacity 0.3s cubic-bezier(0,0,0.3,1);
-		width: 100%;
-		will-change: opacity;
-	}
-
-	&--visible{
-		pointer-events: auto;
-
-		&:after{
-			opacity: 1;
-			pointer-events: auto;
-		}
-
-		.menuContainerInner{
-			-webkit-transform: none;
-			transform: none;
-		}
-	}
-
-	&--animatable{
-		.menuContainerInner{
-			transition: all 200ms ease-in;
-		}
-	}
-
-	&--visible&--animatable{
-		.menuContainerInner{
-			transition: all 330ms ease-out;
-		}
-	}
+	transform: translateX(-500px);
+	transition: all .3s linear;
+	will-change: transform;
+	z-index: 160;
 
 	&Inner{
 		background-color: @base-color;
@@ -58,13 +20,11 @@
 		flex-direction: column;
 		height: 100%;
 		max-width: 400px;
-		pointer-events: auto;
-		position: relative;
-		transform: translateX(-103%);
-		-webkit-transform: translateX(-103%);
 		width: 90%;
-		will-change: transform;
-		z-index: 160;
+	}
+
+	&--visible{
+		transform: translateX(0px);
 	}
 }
 

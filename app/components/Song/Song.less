@@ -13,3 +13,82 @@
 		border: 0;
 	}
 }
+
+.animation1{
+	animation-direction: alternate;
+	animation-duration: 1s;
+	animation-name: animation1;
+	animation-timing-function: linear;
+	color: #f9ff00;
+}
+
+@keyframes animation1{
+	25%{
+		transform: translateY(5px);
+	}
+	50%{
+		transform: translateY(0px);
+	}
+	75%{
+		transform: translateY(5px);
+	}
+	100%{
+		transform: translateY(0px);
+	}
+}
+
+.addSongToPlaylistAnimation{
+	animation-direction: alternate;
+	animation-duration: 1s;
+	animation-name: animation1;
+	animation-timing-function: linear;
+	color: #f9ff00;
+}
+
+.addSongToTopAnimation{
+	color: #077fff;
+	transform: scale(1.5) rotate(360deg);
+	transition-duration: 1s;
+	transition-property: all;
+	transition-timing-function: ease-in;
+}
+
+.addSongToFavoritesAnimation{
+	animation-duration: 1s;
+	animation-fill-mode: forwards;
+	animation-name: animation2;
+	animation-timing-function: steps(28);
+	background-image: url('/assets/player/images/favorite-sprite.png');
+	background-size: 1450px 50px;
+	color: transparent;
+	height: 50px;
+	left: -15px;
+	position: absolute;
+	top: -28px;
+	transition: none;
+	width: 50px;
+}
+
+@keyframes animation1{
+	25%{
+		transform: translateY(5px);
+	}
+	50%{
+		transform: translateY(0px);
+	}
+	75%{
+		transform: translateY(5px);
+	}
+	100%{
+		transform: translateY(0px);
+	}
+}
+
+@keyframes animation2{
+	0% {
+		background-position: 0 0;
+	}
+	100% {
+		background-position: right;
+	}
+}

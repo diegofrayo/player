@@ -262,7 +262,7 @@ const Utilities = {
 		const songTitleWords = songTitle.split('-');
 
 		if (songTitleWords.length >= 2) {
-			return songTitleWords[1].trim();
+			return songTitleWords.slice(1).join('-').trim();
 		}
 
 		return songTitleWords[0].trim();

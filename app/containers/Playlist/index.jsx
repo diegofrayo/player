@@ -38,7 +38,7 @@ class Playlist extends React.Component {
 				);
 			}
 
-			const songsOutput = songs.map((song, index) => {
+			const songsOutput = songs.map((song, index) => { // eslint-disable-line
 				if (index > 1) {
 					return <PlaylistSong song={song} key={song.source_id} />;
 				}
