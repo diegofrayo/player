@@ -276,7 +276,7 @@ class Player extends React.Component {
 						<div className={styles.buttonsWrapper}>
 							<PlayButton changePlayerState={this.changePlayerState} playerState={this.state.playerState} />
 							<i className={classnames('material-icons u-material-icons--28', styles.controlButtons)} onClick={() => this.nextSong()}>&#xE044;</i>
-							<i className={classnames('material-icons u-material-icons--28', styles.controlButtons, { 'u-hide': !this.state.isOpened }, { 'u-display-inline-block': this.state.isOpened })} onClick={this.addSongToFavorites}>&#xE87D;</i>
+							<i className={classnames('material-icons u-material-icons--28', styles.controlButtons, styles['controlButtons--favorite'], { 'u-hide': !this.state.isOpened }, { 'u-display-inline-block': this.state.isOpened })} onClick={this.addSongToFavorites}>&#xE87D;</i>
 							<MuteButton changeMuteState={this.changeMuteState} muteState={this.state.muteState} isOpened={this.state.isOpened} />
 						</div>
 					</div>
