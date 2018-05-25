@@ -69,11 +69,10 @@ gulp.task('build-html', () => {
 		.pipe(g.htmlhint('./config.htmlhint.json'))
 		.pipe(g.htmlhint.reporter());
 
-	let cssSources, jsSources = ['/assets/player/js/vendor/jwplayer.min.js'];
+	let cssSources = [], jsSources = ['https://cdn.plyr.io/3.3.7/plyr.polyfilled.js'];
 
 	if (environment === 'development') {
 
-		cssSources = [];
 		jsSources.push('/assets/player/bundle.js');
 
 		return stream
@@ -83,7 +82,7 @@ gulp.task('build-html', () => {
 
 	} else {
 
-		cssSources = [`/assets/player/css/styles.css?${timestamp}`];
+		cssSources.push(`/assets/player/css/styles.css?${timestamp}`);
 		jsSources.push(`/assets/player/js/bundle.js?${timestamp}`);
 
 		return stream

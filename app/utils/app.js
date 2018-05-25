@@ -11,7 +11,7 @@ const environment = APP_SETTINGS.environment;
 const APP = {
 	environment,
 	http: new HttpFactory().createInstance('HttpFetchImplementation', {}),
-	player: new PlayerFactory().createInstance('JWPlayerImplementation'),
+	player: new PlayerFactory().createInstance('PlyrImplementation'),
 	promise: new PromiseFactory().createInstance('PromiseImplementation', {}),
 	searcher: new SearcherFactory().createInstance('YoutubeSearcher', {
 		api_key: APP_SETTINGS.youtube_api_key

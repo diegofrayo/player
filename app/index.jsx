@@ -2,9 +2,7 @@
 
 // npm libs
 import React from 'react';
-import {
-	render
-} from 'react-dom';
+import { render } from 'react-dom';
 
 // styles
 import 'styles/base.less';

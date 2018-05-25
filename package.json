@@ -53,7 +53,7 @@
     "immutability-helper": "^2.1.2",
     "jquery": "^3.2.0",
     "lodash": "^4.17.4",
-    "plyr": "^2.0.12",
+    "plyr": "^2.0.18",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.3",
