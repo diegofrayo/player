@@ -80,6 +80,8 @@ class Player extends React.Component {
         });
       },
     });
+
+    setTimeout(() => APP.player.play(), 2000);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -116,9 +118,7 @@ class Player extends React.Component {
       APP.player.loadSong(playingSong);
 
       if (this.isFirstSong !== true) {
-        setTimeout(() => {
-          APP.player.play();
-        }, 1000);
+        setTimeout(() => APP.player.play(), 2000);
       }
 
       this.isFirstSong = false;

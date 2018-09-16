@@ -65,15 +65,13 @@ gulp.task('build-html', () => {
 
 	const timestamp = +new Date();
 
-	let stream = gulp.src('./app/index.html')
-		.pipe(g.htmlhint('./config.htmlhint.json'))
-		.pipe(g.htmlhint.reporter());
+	let stream = gulp.src('./app/index.html');
 
 	let cssSources = [], jsSources = ['https://cdn.plyr.io/3.3.7/plyr.polyfilled.js'];
 
 	if (environment === 'development') {
 
-		jsSources.push('/assets/player/bundle.js');
+		jsSources.push('/player/bundle.js');
 
 		return stream
 			.pipe(g.replace('<!-- INJECT:css -->', createCSSTags(cssSources)))
@@ -82,15 +80,14 @@ gulp.task('build-html', () => {
 
 	} else {
 
-		cssSources.push(`/assets/player/css/styles.css?${timestamp}`);
-		jsSources.push(`/assets/player/js/bundle.js?${timestamp}`);
+		cssSources.push(`/player/css/styles.css?tm=${timestamp}`);
+		jsSources.push(`/player/js/bundle.js?tm=${timestamp}`);
 
 		return stream
 			.pipe(g.replace('<!-- INJECT:css -->', createCSSTags(cssSources)))
 			.pipe(g.replace('<!-- INJECT:js -->', createJSTags(jsSources)))
-			.pipe(g.rename('player.html'))
 			.pipe(g.htmlmin(htmlminOpts))
-			.pipe(gulp.dest(destPath.replace('/assets/player', '') + '/templates'));
+			.pipe(gulp.dest(destPath));
 
 	}
 
@@ -103,7 +100,7 @@ gulp.task('build-html', () => {
 gulp.task('copy-assets', () => {
 
 	gulp.src('./assets/**/*')
-		.pipe(gulp.dest(destPath + ''));
+		.pipe(gulp.dest(destPath));
 
 	gulp.src('./app/vendor/**/*')
 		.pipe(gulp.dest(destPath + '/js/vendor'));
