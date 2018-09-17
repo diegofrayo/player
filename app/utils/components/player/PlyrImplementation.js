@@ -73,7 +73,6 @@ export default class PlyrImplementation {
    }
 
    setPosition(position) {
-      // this.player.forward(position);
       this.player.currentTime = position;
    }
 

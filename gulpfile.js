@@ -44,7 +44,7 @@ function createJSTags(jsSources) {
 //----------------------------------------------------
 //------------------- JS Tasks -----------------------
 gulp.task('build-js', () => {
-	return gulp.src('./build/assets/player/bundle.js')
+	return gulp.src('./build/player/bundle.js')
 		.pipe(gulp.dest(destPath + '/js'));
 });
 
@@ -53,7 +53,7 @@ gulp.task('build-js', () => {
 //----------------------------------------------------
 //------------------- CSS Tasks -----------------------
 gulp.task('build-css', () => {
-	return gulp.src('./build/assets/player/styles.css')
+	return gulp.src('./build/player/styles.css')
 		.pipe(gulp.dest(destPath + '/css'));
 });
 

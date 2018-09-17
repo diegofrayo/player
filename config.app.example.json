@@ -1,6 +1,6 @@
 {
 	"development": {
-		"dest_path": "./build/assets/player",
+		"dest_path": "./build/player",
 		"environment": "development",
 		"firebase_api_key": "",
 		"firebase_auth_domain": "",
@@ -8,7 +8,7 @@
 		"youtube_api_key": ""
 	},
 	"production": {
-		"dest_path": "./../some-path/assets/player",
+		"dest_path": "./../some-path/player",
 		"environment": "production",
 		"firebase_api_key": "",
 		"firebase_auth_domain": "",
