@@ -4,3 +4,4 @@ config.app.json
 *.log
 package-lock.json
 .DS_Store
+tests.html
